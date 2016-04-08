@@ -1,0 +1,234 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Terrasoft.Web.Common</name>
+    </assembly>
+    <members>
+        <member name="M:Terrasoft.Web.Common.AuthHelper.CreateUserAuthDataSelect(Terrasoft.Core.UserConnection,System.String)">
+            <summary>
+            Возвращает запрос на выборку аутентификационных данных пользователя.
+            </summary>
+            <param name="userConnection">Пользовательское подключение.</param>
+            <param name="userName">Имя пользователя.</param>
+            <returns>Запрос на выборку аутентификационных данных пользователя.
+            </returns>
+        </member>
+        <member name="M:Terrasoft.Web.Common.BaseViewModule.SpecifyPageTitle">
+            <summary>
+            Установка заголовка страницы из системной настройки
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Web.Common.EmailUtilities.SendMail(Terrasoft.Core.UserConnection,System.String,System.String,System.String)">
+            <summary>
+            Отправлет электронное письмо.
+            </summary>
+            <param name="userConnection">Пользовательское подключение.</param>
+            <param name="recipient">Электронный адрес получателя.</param>
+            <param name="subject">Заголовок электронного письма.</param>
+            <param name="bodyHtml">Тело электронного письма в формате Html.</param>
+        </member>
+        <member name="M:Terrasoft.Web.Common.LoginUtilities.RewriteRedirectUrlToWorkspace(Terrasoft.Web.Common.WorkspaceManager,System.String,System.String)">
+            <summary>
+            Возвращает ссылку на главную страницу приложения для рабочего пространства <paramref name="workspaceName"/>.
+            </summary>
+            <param name="workspaceManager">Менеджер рабочих пространств пользователя.</param>
+            <param name="workspaceName">Имя рабочего пространства пользователя.</param>
+            <param name="redirectUrl">Ссылка на главную страницу приложения.</param>
+            <returns>Ссылка на главную страницу приложения для рабочего пространства пользователя.</returns>
+        </member>
+        <member name="M:Terrasoft.Web.Common.LoginUtilities.GetRecoveryPasswordLink(Terrasoft.Core.UserConnection,System.String,System.String)">
+            <summary>
+            Возвращает ссылку на страницу для восстановления пароля пользователя.
+            </summary>
+            <param name="userConnection">Пользовательское подключение.</param>
+            <param name="userName">Имя пользователя.</param>
+            <param name="baseApplicationUrl">Строка URL-адреса текущего приложения.</param>
+        </member>
+        <member name="M:Terrasoft.Web.Common.LoginUtilities.InitializeAuthData(Terrasoft.Core.UserConnection,Terrasoft.Core.AuthData,System.String)">
+            <summary>
+            Заполняет аутентификационные данные данными пользователя.
+            </summary>
+            <param name="userConnection">Пользовательское подключение.</param>
+            <param name="authData">Аутентификационные данные.</param>
+            <param name="userName">Имя пользователя.</param>
+        </member>
+        <member name="M:Terrasoft.Web.Common.LoginUtilities.InitializeAuthData(Terrasoft.Core.UserConnection,Terrasoft.Core.AuthData,System.Guid,Terrasoft.Core.Configuration.LinkType)">
+            <summary>
+            Заполняет аутентификационные данные данными пользователя.
+            </summary>
+            <param name="userConnection">Пользовательское подключение.</param>
+            <param name="authData">Аутентификационные данные.</param>
+            <param name="linkId">Идентификатор ссылки.</param>
+            <param name="linkType">Тип ссылки.</param>
+        </member>
+        <member name="M:Terrasoft.Web.Common.LoginUtilities.CreateRegistrationLink(Terrasoft.Core.UserConnection,System.Guid,System.String,System.String)">
+            <summary>
+            Создает ссылку на страницу для регистрации пользователя.
+            </summary>
+            <param name="userConnection">Пользовательское подключение.</param>
+            <param name="contactId">Идентификатор контакта.</param>
+            <param name="password">Пароль.</param>
+            <param name="baseApplicationUrl">Строка URL-адреса текущего приложения.</param>
+            <returns>
+            Cсылка на страницу для регистрации пользователя.
+            </returns>
+            <exception cref="T:System.Security.SecurityException"> Если значение системной настройки "Срок хранения 
+            регистрационных ссылок, дней" не установлено или равно 0.
+            Если информация о ссылке не добавлена в базу данных.
+            </exception>
+        </member>
+        <member name="M:Terrasoft.Web.Common.NtlmAuthModule.SetUnauthorizedResponse(System.Web.HttpContextBase)">
+            <summary>Переписать стандартный ответ Forms аутентификации</summary>
+            <remarks>В случае, если аутентификация не удалась, на клиент отправляется ответ с кодом 401 (не
+            авторизирован) и заголовок WWW-Authenticate, который указывает на способ передачи аутентификационных данных.
+            Но тут возникает проблема с Forms аутентифкацией, которая перехватывает все ответы с кодом 401, заменяет их
+            на 302 и добавляет RedirectLocation на страницу логина.
+            Для обхода столь не желательного нам поведения, мы на событие EndRequest в объекте HttpContext
+            перезаписываем ответ нужным нам.</remarks>
+        </member>
+        <member name="F:Terrasoft.Web.Common.AuthModule._statusCode">
+            <summary>
+            // По умолчанию при ошибке авторизации возвращается код не авторизиован, если не указана другая ошибка
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Web.Common.AuthModule.IsRequireSslForEntityDataService">
+            <summary>
+            По умолчанию требовать SSL соединение, если не указано обратное
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Web.Common.AuthModule.RewriteUnauthorizedResponse(System.Web.HttpContextBase,Terrasoft.Web.Common.LocationConfig)">
+            <summary>
+            Переписать стандартный ответ Forms аутентификации отправив запрос кастомной аутентификации
+            </summary>
+            <remarks>
+            В случае если аутентификация неудалась на клиент отправляется ответ 
+            с кодом 401 (не авторизирован) и заголовок WWW-Authenticate,
+            который указывает на способ передачи аутентификационных данных.
+            Но тут возникает проблема с Forms аутентифкацией, которая перехватывает все ответы с кодом 401, 
+            заменяет их на 302 и добавляет RedirectLocation на страницу логина. 
+            Для обхода столь не желательного нам поведения, мы на событие EndRequest в объекте HttpContext.
+            Responce делаем следующие:
+            	Устанавливаем Response.RedirectLocation = null;
+            	Заново устанавливаем нужный код ошибки 401;
+            	Добавляем заголовок "WWW-Authenticate";
+            	Очищаем тело ответа, Response.Clear();
+            	Устанавливаем Response.ContentType = "text/html".
+            </remarks>
+        </member>
+        <member name="M:Terrasoft.Web.Common.AuthModule.InitializeSessionId">
+            <summary>
+            Метод реализован для тестов
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Web.Common.WebUtilities.GetUrlByAbsolutePath(System.Web.HttpRequest)">
+            <summary>
+            Возвращает URL строку, полный путь к странице в текущем приложении.
+            </summary>
+            <remarks>
+            Из HttpRequest используются ServerVariables установленые балансировщиком
+            и значения свойств ApplicationPath, AbsolutePath.
+            </remarks>
+            <param name="request">Текущий HttpRequest</param>
+            <returns>Полная URL строка</returns>
+        </member>
+        <member name="M:Terrasoft.Web.Common.WebUtilities.GetUrlByAbsolutePath(System.Web.HttpRequestBase)">
+            <summary>
+            Метод для тестирования.
+            Возвращает URL строку, полный путь к странице в текущем приложении.
+            </summary>
+            <remarks>
+            Из HttpRequest используются ServerVariables установленые балансировщиком
+            и значения свойств ApplicationPath, AbsolutePath.
+            </remarks>
+            <param name="request">Параметр типа HttpRequestBase</param>
+            <returns>Полная URL строка</returns>
+        </member>
+        <member name="M:Terrasoft.Web.Common.WebUtilities.GetUrlByRequest(System.Web.HttpRequest)">
+            <summary>
+            Возвращает URL, полный путь к странице в текущем приложении.
+            </summary>
+            <remarks>
+            Из HttpRequest используются ServerVariables установленые балансировщиком
+            и значения свойств ApplicationPath, Path, QueryString.
+            </remarks>
+            <param name="request">Текущий HttpRequest</param>
+            <returns>Полная URL строка</returns>
+        </member>
+        <member name="M:Terrasoft.Web.Common.WebUtilities.GetUrlByRequest(System.Web.HttpRequestBase)">
+            <summary>
+            Метод для тестирования.
+            Возвращает URL строку, полный путь к странице в текущем приложении.
+            </summary>
+            <remarks>
+            Из HttpRequest используются ServerVariables установленые балансировщиком
+            и значения свойств ApplicationPath, Path, QueryString.
+            </remarks>
+            <param name="request">Параметр типа HttpRequestBase</param>
+            <returns>Полная URL строка</returns>
+        </member>
+        <member name="M:Terrasoft.Web.Common.WebUtilities.GetParentUrlByRequest(System.Web.HttpRequest)">
+            <summary>
+            Возвращает URL строку, путь к родительсткому каталогу запрошенного ресурса в текущем приложении.
+            </summary>
+            <param name="request">Параметр типа HttpRequest</param>
+            <returns>Полная URL строка</returns>
+        </member>
+        <member name="M:Terrasoft.Web.Common.WebUtilities.GetUrl(System.Web.HttpRequest,System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Возвращает URL строку, полный путь к странице в текущем приложении.
+            </summary>
+            <remarks>
+            Из HttpRequest используются ServerVariables установленые балансировщиком и
+            значение свойства ApplicationPath.
+            </remarks>
+            <param name="request">Текущий HttpRequest</param>
+            <param name="pagePath">Пути к странице в приложении,
+            может содержать корневой путь текущего приложения</param>
+            <param name="queryString">Коллекция параметров передаваемых на страницу, тип HttpValueCollection</param>
+            <returns>Полная URL строка</returns>
+        </member>
+        <member name="M:Terrasoft.Web.Common.WebUtilities.GetUrl(System.Web.HttpRequestBase,System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Метод для тестирования.
+            Возвращает URL строку, полный путь к странице в текущем приложении.
+            </summary>
+            <remarks>
+            Из HttpRequest используются ServerVariables установленые балансировщиком
+            и значение свойства ApplicationPath.
+            </remarks>
+            <param name="requestBase">Параметр типа HttpRequestBase</param>
+            <param name="pagePath">Пути к странице в приложении,
+            может содержать корневой путь текущего приложения</param>
+            <param name="queryString">Коллекция параметров передаваемых на страницу, тип HttpValueCollection</param>
+            <returns>Полная URL строка</returns>
+        </member>
+        <member name="M:Terrasoft.Web.Common.WebUtilities.GetUrlToLoaderPage(System.Web.HttpRequest,System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Возвращает URL строку, полный путь к странице в приложении Загрузчика (WebApp.Loader).
+            </summary>
+            <remarks>
+            Из HttpRequest используются ServerVariables установленые балансировщиком и
+            значение свойства ApplicationPath из которого получают корневой путь приложения Загрузчика (WebApp.Loader).
+            </remarks>
+            <param name="request">Текущий HttpRequest</param>
+            <param name="pagePath">Пути к странице в приложении Загрузчика (WebApp.Loader),
+            может содержать корневой путь приложения Загрузчика</param>
+            <param name="queryString">Коллекция параметров передаваемых на страницу, тип HttpValueCollection</param>
+            <returns>Полная URL строка</returns>
+        </member>
+        <member name="M:Terrasoft.Web.Common.WebUtilities.GetUrlToLoaderPage(System.Web.HttpRequestBase,System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Возвращает URL строку, полный путь к странице в приложении Загрузчика (WebApp.Loader).
+            </summary>
+            <remarks>
+            Из HttpRequest используются ServerVariables установленые балансировщиком и
+            значение свойства ApplicationPath из которого получают корневой путь приложения Загрузчика (WebApp.Loader).
+            </remarks>
+            <param name="requestBase">Текущий HttpRequest</param>
+            <param name="pagePath">Пути к странице в приложении Загрузчика (WebApp.Loader),
+            может содержать корневой путь приложения Загрузчика</param>
+            <param name="queryString">Коллекция параметров передаваемых на страницу, тип HttpValueCollection</param>
+            <returns>Полная URL строка</returns>
+        </member>
+    </members>
+</doc>

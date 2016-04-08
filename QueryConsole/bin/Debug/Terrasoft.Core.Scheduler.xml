@@ -1,0 +1,249 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Terrasoft.Core.Scheduler</name>
+    </assembly>
+    <members>
+        <member name="T:Terrasoft.Core.Scheduler.AppSchedulerWraper">
+            <summary>
+            Вспомогательный класс-обертка для интеграции планировщика Quartz.NET с таймером бизнес-процесса.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Core.Scheduler.AppSchedulerWraper.CreateIntermediateTimerJob(System.String,System.String,System.String,System.String,System.String)">
+            <summary>Создание задания для регистрации промежуточного обрабатывающего таймера
+            бизнес-процесса.</summary>
+            <param name="jobName">Название задания.</param>
+            <param name="jobGroup">Название группы, к которой относится задание.</param>
+            <param name="processElementUId">Идентификатор элемента "Таймер" процесса.</param>
+            <param name="workspaceName">Рабочее пространство, в котором необходимо запустить процесс.</param>
+            <param name="userName">Пользователь, от имени которого будет запускаться процесс.</param>
+            <exception cref="T:Terrasoft.Common.ArgumentNullOrEmptyException">Если в качестве одного из 
+            параметров <paramref name="jobName"/>, 
+            <paramref name="jobGroup"/>, <paramref name="processElementUId"/>, <paramref name="workspaceName"/>, 
+            <paramref name="userName"/> передано пустое значение или <c>null</c>.</exception>
+        </member>
+        <member name="M:Terrasoft.Core.Scheduler.AppSchedulerWraper.RemoveJob(System.String,System.String)">
+            <summary>Удаление указанного задания из заданной группы.</summary>
+            <param name="jobName">Название задания.</param>
+            <param name="jobGroup">Название группы, к которой относится задание.</param>
+            <returns><c>true</c>, если задание <paramref name="jobName"/> было удалено из группы 
+            <paramref name="jobGroup"/>, иначе - <c>false</c>.</returns>
+            <exception cref="T:System.ArgumentException">Если в качестве одного из параметров <paramref name="jobName"/>, 
+            <paramref name="jobGroup"/> передано пустое значение или <c>null</c>.</exception>
+        </member>
+        <member name="P:Terrasoft.Core.Scheduler.AppSchedulerWraper.Instance">
+            <summary>
+            Экземпляр планировщика.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Core.Scheduler.CrossAppDomainJobFactory">
+            <summary>Фабрика для создания задач планировщика, которые должны будут выполняться в другом домене</summary>
+        </member>
+        <member name="M:Terrasoft.Core.Scheduler.CrossAppDomainJobFactory.NewJob(Quartz.Spi.TriggerFiredBundle,Quartz.IScheduler)">
+            <summary>Создает задачу. Если это задача для выполнения бизнес-процесса, то создается специальная 
+            "заглушечная" задача, которая выполнит бизнес-процесс в нужном домене приложения</summary>
+            <param name="bundle"></param>
+            <param name="scheduler">Планировщик</param>
+            <returns>Созданный экземпляр задачи либо задачу-"заглушку" для выполнения процесса в другом домене</returns>
+        </member>
+        <member name="T:Terrasoft.Core.Scheduler.ProcessJobProxy">
+            <summary>Прокси-класс, предназначенный для запуска бизнес-процессов из других доменов</summary>
+        </member>
+        <member name="M:Terrasoft.Core.Scheduler.ProcessJobProxy.Execute(Terrasoft.Core.Scheduler.IWebAppJob,Quartz.IJobExecutionContext)">
+            <summary>Выполняет указанную задачу</summary>
+            <param name="job">Задача</param>
+            <param name="context">Контекст задачи</param>
+        </member>
+        <member name="P:Terrasoft.Core.Scheduler.ProcessJobProxy.AppConnection">
+            <summary>AppConnection используется для создания требуемых бизнес-процессов</summary>
+        </member>
+        <member name="T:Terrasoft.Core.Scheduler.ProcessJobStub">
+            <summary>Задача-"заглушка", предназначенная для выполнения бизнес-процесса в другом домене</summary>
+        </member>
+        <member name="M:Terrasoft.Core.Scheduler.ProcessJobStub.#ctor(Terrasoft.Core.Scheduler.IWebAppJob,Terrasoft.Core.IWorkspaceManager,System.Uri)">
+            <summary>Конструктор</summary>
+            <param name="job">Задача по запуску бизнес-процесса, которую требуется выполнить</param>
+            <param name="workspaceManager">Менеджер рабоичх пространств, с помощью которого производится поиск 
+            рабочего пространства для требуемой (для запуска процесса) конфигурации</param>
+            <param name="pingWorkspaceBaseUri">Адрес корневого приложения (используется для построения веб-запроса, с 
+            помощью которого запускается требуемое приложение, если оно еще не было запущено)</param>
+        </member>
+        <member name="M:Terrasoft.Core.Scheduler.ProcessJobStub.FindWorkspaceAppDomain(System.String)">
+            <summary>Среди всех доменов приложения находит домен, соответствующий указанному рабочему пространству
+            (workspace)</summary>
+            <param name="workspaceName">Имя рабочего пространства</param>
+            <returns>Домен приложения или null, если не найдено</returns>
+        </member>
+        <member name="M:Terrasoft.Core.Scheduler.ProcessJobStub.PersistentlyFindWorkspaceAppDomain(System.String)">
+            <summary>Среди всех доменов приложения находит домен, соответствующий указанному рабочему пространству
+            (workspace). Если домен приложения не найден, делается попытка с помощью веб-запроса к дочернему приложению 
+            запустить это приложение. После этого опять делается попытка найти домен приложения.</summary>
+            <param name="workspaceNumber">Номер рабочего пространства</param>
+            <returns>Домен приложения или null, если не найдено</returns>
+        </member>
+        <member name="M:Terrasoft.Core.Scheduler.ProcessJobStub.Execute(Quartz.IJobExecutionContext)">
+            <summary>Выполняет задачу (запуск бизнес-процесса) в контексте нужного домена</summary>
+            <param name="context">Контекст задачи</param>
+        </member>
+        <member name="T:Terrasoft.Core.Scheduler.AppScheduler">
+            <summary>Вспомогательный класс для интеграции планировщика Quartz.NET с веб-приложением.</summary>
+        </member>
+        <member name="M:Terrasoft.Core.Scheduler.AppScheduler.CreateJobDataMap(System.String,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Boolean)">
+            <summary>
+            Создает объект параметров задания планировщика.
+            </summary>
+            <param name="processName">Название процесса.</param>
+            <param name="workspaceName">Рабочее пространство, в котором необходимо запустить процесс.</param>
+            <param name="userName">Пользователь, от имени которого будет запускаться процесс.</param>
+            <param name="parameters">Параметры, которые будут передаваться в процесс.</param>
+            <param name="isSystemUser">Признак системного пользователя. Если значение <c>true</c>, планировщик будет
+            запускаться от имени пользователя, полученного из системной настройки <c>"Пользователь для выполнения
+            системных операций"</c>.</param>
+            <returns>Объект параметров задания планировщика.</returns>
+        </member>
+        <member name="M:Terrasoft.Core.Scheduler.AppScheduler.CreateIntermediateTimerJobDataMap(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Создает объект параметров задания планировщика для промежуточного ожидающего таймера.
+            </summary>
+            <param name="processElementUId">Идентификатор элемента процесса.</param>
+            <param name="workspaceName">Рабочее пространство, в котором необходимо запустить процесс.</param>
+            <param name="userName">Пользователь, от имени которого будет запускаться процесс.</param>
+            <param name="isSystemUser">Признак системного пользователя. Если значение <c>true</c>, планировщик будет
+            запускаться от имени пользователя, полученного из системной настройки <c>"Пользователь для выполнения
+            системных операций"</c>.</param>
+            <returns>Объект параметров задания планировщика.</returns>
+        </member>
+        <member name="M:Terrasoft.Core.Scheduler.AppScheduler.CreateCalendarIntervalJob(Quartz.JobKey,Quartz.TriggerKey,Quartz.JobDataMap,System.Int32,System.Boolean)">
+            <summary>
+            Создает новое периодическое задание.
+            </summary>
+            <param name="jobKey">Идентификатор задания.</param>
+            <param name="triggerKey">Идентификатор триггера задания.</param>
+            <param name="jobDataMap">Параметры задания.</param>
+            <param name="periodInMinutes">Интервал запуска процесса в минутах.</param>
+            <param name="useMisfireInstructionFireOnceNow">Если признак <c>true</c>> тогда сразу же запускается
+            первое просроченное задание планировщика, но только одно из пула, остальные в контексте планировщика
+            отменяются. Если признак <c>false</c> тогда используются стандартые механизмы контроля выполнения
+            заданий.</param>
+            <remarks>Если задание и/или триггер с заданными ключами уже существуют, то они будут замещены новым
+            заданием и триггером.</remarks>
+        </member>
+        <member name="M:Terrasoft.Core.Scheduler.AppScheduler.UpdateCalendarIntervalJob(Quartz.IJobDetail,Quartz.Impl.Triggers.CalendarIntervalTriggerImpl,Quartz.JobDataMap,System.Int32,System.Boolean)">
+            <summary>
+            Обновляет существующее периодическое задание.
+            </summary>
+            <param name="oldJob">Существующее задание.</param>
+            <param name="oldTrigger">Существующий триггер задания.</param>
+            <param name="jobDataMap">Новые параметры задания.</param>
+            <param name="periodInMinutes">Новый интервал запуска процесса в минутах.</param>
+            <param name="useMisfireInstructionFireOnceNow">Если признак <c>true</c>> тогда сразу же запускается
+            первое просроченное задание планировщика, но только одно из пула, остальные в контексте планировщика
+            отменяются. Если признак <c>false</c> тогда используются стандартые механизмы контроля выполнения
+            заданий.</param>
+            <remarks>Если интервал запуска задания не поменялся, то триггер задания не будет запланирован повторно.
+            </remarks>
+        </member>
+        <member name="M:Terrasoft.Core.Scheduler.AppScheduler.CreateProcessJob(System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Boolean)">
+            <summary>Создание задания для запуска процесса.</summary>
+            <param name="jobName">Название задания.</param>
+            <param name="jobGroup">Название группы, к которой относится задание.</param>
+            <param name="processName">Название процесса.</param>
+            <param name="workspaceName">Рабочее пространство, в котором необходимо запустить процесс.</param>
+            <param name="userName">Пользователь, от имени которого будет запускаться процесс.</param>
+            <param name="parameters">Параметры, которые будут передаваться в процесс.</param>
+            <param name="isSystemUser">Признак системного пользователя. Если значение <c>true</c>, задания будет
+            запускаться от имени пользователя, полученного из системной настройки <c>"Пользователь для выполнения
+            системных операций"</c>.</param>
+            <returns>Созданное задание для запуска процесса.</returns>
+            <exception cref="T:System.ArgumentException">Если в качестве одного из параметров <paramref name="jobName"/>, 
+            <paramref name="jobGroup"/>, <paramref name="processName"/>, <paramref name="workspaceName"/>, 
+            <paramref name="userName"/> передано пустое значение или <c>null</c>.</exception>
+        </member>
+        <member name="M:Terrasoft.Core.Scheduler.AppScheduler.ScheduleMinutelyProcessJob(System.String,System.String,System.String,System.String,System.String,System.Int32,System.Collections.Generic.IDictionary{System.String,System.Object},System.Boolean,System.Boolean)">
+            <summary>Планирование задания для запуска процесса с определенным интервалом.</summary>
+            <param name="jobName">Название задания.</param>
+            <param name="jobGroup">Название группы, к которой относится задание.</param>
+            <param name="processName">Название процесса.</param>
+            <param name="workspaceName">Рабочее пространство, в котором необходимо запустить процесс.</param>
+            <param name="userName">Пользователь, от имени которого будет запускаться процесс.</param>
+            <param name="periodInMinutes">Интервал запуска процесса в минутах.</param>
+            <param name="parameters">Параметры, которые будут передаваться в процесс.</param>
+            <param name="isSystemUser">Признак системного пользователя. Если значение <c>true</c>, задание будет
+            запускаться от имени пользователя, полученного из системной настройки <c>"Пользователь для выполнения
+            системных операций"</c>.</param>
+            <param name="useMisfireInstructionFireOnceNow">Если признак <c>true</c>&gt; тогда сразу же запускается
+            первое просроченное задание планировщика, но только одно из пула, остальные в контексте планировщика
+            отменяются. Если признак <c>false</c> тогда используются стандартые механизмы контроля выполнения
+            заданий.</param>
+            <exception cref="T:System.ArgumentException">Если в качестве одного из параметров <paramref name="jobName"/>, 
+            <paramref name="jobGroup"/>, <paramref name="processName"/>, <paramref name="workspaceName"/>, 
+            <paramref name="userName"/> передано пустое значение или <c>null</c>.</exception>
+            <remarks>Если задание с именем <paramref name="jobName"/> и триггером типа
+            <c>CalendarIntervalTriggerImpl</c> уже существует в группе
+            <paramref name="jobGroup"/>, оно будет обновлено, иначе - оно будет пересоздано заново.</remarks>
+        </member>
+        <member name="M:Terrasoft.Core.Scheduler.AppScheduler.ScheduleImmediateProcessJob(System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Boolean)">
+            <summary>Планирует задачу для немедленного однократного запуска процесса.</summary>
+            <param name="jobName">Название задачи.</param>
+            <param name="jobGroup">Название группы, к которой относится задача.</param>
+            <param name="processName">Название процесса.</param>
+            <param name="workspaceName">Рабочее пространство, в котором следует запустить процесс.</param>
+            <param name="userName">Пользователь, от имени которого будет запускаться процесс.</param>
+            <param name="parameters">Параметры, которые будут передаваться в процесс.</param>
+            <param name="isSystemUser">Признак системного пользователя. Если значение <c>true</c>, задания будет
+            запускаться от имени пользователя, полученного из системной настройки <c>"Пользователь для выполнения
+            системных операций"</c>.</param>
+            <remarks>Если задача с таким именем в данной группе уже существует, она пересоздается заново. Если
+            процесс не может быть запущен в текущий момент, он будет запущен как только это станет возможно.</remarks>
+        </member>
+        <member name="M:Terrasoft.Core.Scheduler.AppScheduler.CreateIntermediateTimerJob(System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>Создание задания для регистрации промежуточного обрабатывающего таймера
+            бизнес-процесса.</summary>
+            <param name="jobName">Название задания.</param>
+            <param name="jobGroup">Название группы, к которой относится задание.</param>
+            <param name="processElementUId">Идентификатор элемента "Таймер" процесса.</param>
+            <param name="workspaceName">Рабочее пространство, в котором необходимо запустить процесс.</param>
+            <param name="userName">Пользователь, от имени которого будет запускаться процесс.</param>
+            <param name="isSystemUser">Признак системного пользователя. Если значение <c>true</c>, процесс будет
+            запускаться от имени пользователя, полученного из системной настройки <c>"Пользователь для выполнения
+            системных операций"</c>.</param>
+            <exception cref="T:Terrasoft.Common.ArgumentNullOrEmptyException">Если в качестве одного из 
+            параметров <paramref name="jobName"/>, 
+            <paramref name="jobGroup"/>, <paramref name="processElementUId"/>, <paramref name="workspaceName"/>, 
+            <paramref name="userName"/> передано пустое значение или <c>null</c>.</exception>
+        </member>
+        <member name="M:Terrasoft.Core.Scheduler.AppScheduler.RemoveJob(System.String,System.String)">
+            <summary>Удаление указанного задания из заданной группы.</summary>
+            <param name="jobName">Название задания.</param>
+            <param name="jobGroup">Название группы, к которой относится задание.</param>
+            <returns><c>true</c>, если задание <paramref name="jobName"/> было удалено из группы
+            <paramref name="jobGroup"/>, иначе - <c>false</c>.</returns>
+            <exception cref="T:System.ArgumentException">Если в качестве одного из параметров <paramref name="jobName"/>,
+            <paramref name="jobGroup"/> передано пустое значение или <c>null</c>.</exception>
+        </member>
+        <member name="M:Terrasoft.Core.Scheduler.AppScheduler.DoesJobExist(System.String,System.String)">
+            <summary>Проверка существования задания в заданной группе.</summary>
+            <param name="jobName">Название задания.</param>
+            <param name="jobGroup">Название группы, к которой относится задание.</param>
+            <returns><c>true</c>, если задание <paramref name="jobName"/> существует в группе 
+            <paramref name="jobGroup"/>, иначе - <c>false</c>.</returns>
+        </member>
+        <member name="M:Terrasoft.Core.Scheduler.AppScheduler.TriggerJob(System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Boolean)">
+            <summary>Создает задачу для немедленного однократного запуска процесса.</summary>
+            <param name="jobName">Название задачи.</param>
+            <param name="jobGroup">Название группы, к которой относится задача.</param>
+            <param name="processName">Название процесса.</param>
+            <param name="workspaceName">Рабочее пространство, в котором следует запустить процесс.</param>
+            <param name="userName">Пользователь, от имени которого будет запускаться процесс.</param>
+            <param name="parameters">Параметры, которые будут передаваться в процесс.</param>
+            <param name="isSystemUser">Признак системного пользователя. Если значение <c>true</c>, задание будет
+            запущено от имени пользователя, полученного из системной настройки <c>"Пользователь для выполнения
+            системных операций"</c>.</param>
+            <remarks>Если задача с таким именем в данной группе уже существует, она пересоздается заново. Если
+            процесс не может быть запущен в текущий момент, он будет запущен как только это станет возможно.</remarks>
+        </member>
+        <member name="P:Terrasoft.Core.Scheduler.AppScheduler.Instance">
+            <summary>Экземпляр планировщика.</summary>
+        </member>
+    </members>
+</doc>

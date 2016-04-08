@@ -1,0 +1,906 @@
+﻿//	public static string ToJson(this Entity obj, TRequstMethod method) {
+	//		if(obj is Contact) {
+	//			return ((Contact)obj).ToJson(method);
+	//		} else if(obj is Account) {
+	//			return ((Account)obj).ToJson(method);
+	//		} else if(obj is TsAutomobile) {
+	//			return ((TsAutomobile)obj).ToJson(method);
+	//		} else if(obj is Case) {
+	//			return ((Case)obj).ToJson(method);
+	//		} else if(obj is SysAdminUnit) {
+	//			return ((SysAdminUnit)obj).ToJson(method);
+	//		} else if(obj is Relationship) {
+	//			return ((Relationship)obj).ToJson(method);
+	//		} else if(obj is ContactCareer) {
+	//			return ((ContactCareer)obj).ToJson(method);
+	//		} else if(obj is TsContactNotifications) {
+	//			return ((TsContactNotifications)obj).ToJson(method);
+	//		} else if(obj is TsAutoTechService) {
+	//			return ((TsAutoTechService)obj).ToJson(method);
+	//		} else if(CsConstant.clientserviceDict.ContainsKey(obj.GetType())) {
+	//			return obj.ToDictJson(method, CsConstant.clientserviceDict[obj.GetType()]);
+	//		} else if(obj is TsAutoOwnerHistory) {
+	//			return ((TsAutoOwnerHistory)obj).ToJson(method);
+	//		} else if(obj is TsAutoOwnerInfo) {
+	//			return ((TsAutoOwnerInfo)obj).ToJson(method);
+	//		} else if(obj is TsAutoTechHistory) {
+	//			return ((TsAutoTechHistory)obj).ToJson(method);
+	//		}
+	//		return "";
+	//	}
+
+	//	#region Contact
+	//	public static string ToJsonContact(this Entity contact, TRequstMethod method) {
+	//		IntegrationUtilities.Info("Method [Contact.ToJson] start with parametr: method = {0}", method.ToString());
+	//		var personProfile = new ExpandoObject() as IDictionary<string, object>;
+	//		EntitySetter(contact, personProfile, new Dictionary<string, string>() {
+	//			{ "name", "Name" },
+	//			{ "b2b", "TsBpB2B" },
+	//			{ "b2c", "TsBpB2C" },
+	//			{ "b2s", "TsBpB2S" },
+	//			{ "scenarioType", "TsOrderScenarioTypeName" },
+	//			{ "status", "TsClientStatusName" },
+	//			{ "firstName", "GivenName" },
+	//			{ "middleName", "MiddleName" },
+	//			{ "lastName", "Surname" },
+	//			{ "type", "TypeName" },
+	//			{ "salutation", "SalutationTypeName" },
+	//			{ "salutation", "SalutationTypeName" },
+	//			{ "dear", "Dear" },
+	//			{ "gender", "GenderName" },
+	//			{ "salutation", "SalutationTypeName" },
+	//			{ "salutation", "SalutationTypeName" },
+	//			{ "salutation", "SalutationTypeName" },
+	//		});
+	//		//Required 
+	//		personProfile.Add("contact", GetContactInfoObj(contact));
+	//		//optional
+	//		//personProfile.Add("relationships", contact.GetContactRelationshipRef());
+	//		personProfile.Add("company", GetAccountRef(contact.UserConnection, contact.AccountId));
+	//		personProfile.Add("assignedManager", GetContactManagerRef(contact));
+	//		personProfile.Add("assignedChiefManager", GetContactManagerGroupRef(contact));
+	//		personProfile.Add("notificationProfiles", contact.GetContactNotification());
+	//		personProfile.Add("anniversaryDates", contact.GetContactAnniversaryDateJson());
+
+	//		if(method == TRequstMethod.PUT) {
+	//			personProfile.Add("id", contact.TsExternalId);
+	//		}
+	//		string resultJson = new {
+	//			PersonProfile = personProfile
+	//		}.SerializeToJson();
+	//		IntegrationUtilities.Info("Method [Contact.ToJson] finish with result: resultJson = {0}", resultJson);
+	//		return resultJson;
+	//	}
+
+	//	public static object GetContactCommunicationObj(this Contact contact) {
+	//		IntegrationUtilities.Info("Method [Contact.GetContactCommunicationObj] start");
+	//		var userConnection = contact.UserConnection;
+	//		var esq = new EntitySchemaQuery(userConnection.EntitySchemaManager, "ContactCommunication");
+	//		esq.AddAllSchemaColumns();
+	//		var comTypeNameColumn = esq.AddColumn("CommunicationType.Name");
+	//		var extIdColumn = esq.AddColumn("CommunicationType.TsExternalId");
+	//		var primaryColumn = esq.AddColumn("NonActual");
+	//		esq.Filters.Add(esq.CreateFilterWithParameters(FilterComparisonType.Equal, "Contact", contact.Id));
+	//		IntegrationUtilities.Info("Method [Contact.GetContactCommunicationObj] finish");
+	//		return esq.GetEntityCollection(userConnection).Select(x => new {
+	//			ContactRecord = new {
+	//				value = x.GetTypedColumnValue<string>("Number"),
+	//				name = x.GetTypedColumnValue<string>(comTypeNameColumn.Name),
+	//				type = CsReference.Create(x.GetTypedColumnValue<int>(extIdColumn.Name), CsConstant.ContactRecordEntityName),
+	//				primary = x.GetTypedColumnValue<bool>(primaryColumn.Name)
+	//			}
+	//		}).ToList();
+	//	}
+
+	//	public static object GetContactAddressInfoObj(this Contact contact) {
+	//		IntegrationUtilities.Info("Method [Contact.GetContactAddressInfoObj] start");
+	//		var userConnection = contact.UserConnection;
+	//		var esq = new EntitySchemaQuery(userConnection.EntitySchemaManager, "ContactAddress");
+	//		esq.AddAllSchemaColumns();
+	//		var extIdColumn = esq.AddColumn("AddressType.TsExternalId");
+	//		esq.Filters.Add(esq.CreateFilterWithParameters(FilterComparisonType.Equal, "Contact", contact.Id));
+	//		IntegrationUtilities.Info("Method [Contact.GetContactAddressInfoObj] finish");
+	//		return esq.GetEntityCollection(userConnection).Select(x => {
+	//			var entity = (ContactAddress)x;
+	//			return new {
+	//				AddressInfo = new {
+	//					name = entity.AddressTypeName,
+	//					country = entity.CountryName,
+	//					region = entity.RegionName,
+	//					settlement = entity.CityName,
+	//					address = entity.Address,
+	//					main = entity.Primary,
+	//					zipCode = entity.Zip,
+	//					type = CsReference.Create(entity.GetTypedColumnValue<int>(extIdColumn.Name), CsConstant.AddressTypeEntityName)
+	//				}
+	//			};
+	//		}).ToList();
+	//	}
+
+	//	public static object GetContactRelationshipRef(this Contact contact) {
+	//		IntegrationUtilities.Info("Method [Contact.GetContactRelationshipRef] start");
+	//		var userConnection = contact.UserConnection;
+	//		var esq = new EntitySchemaQuery(userConnection.EntitySchemaManager, "Relationship");
+	//		esq.AddAllSchemaColumns();
+	//		esq.AddColumn("ContactB.TsExternalId");
+	//		esq.AddColumn("AccountB.TsExternalId");
+	//		esq.Filters.Add(esq.CreateFilterWithParameters(FilterComparisonType.Equal, "ContactA", contact.Id));
+	//		IntegrationUtilities.Info("Method [Contact.GetContactRelationshipRef] finish");
+	//		return esq.GetEntityCollection(userConnection).Select(x => {
+	//			var entity = (Relationship)x;
+	//			return CsReference.Create(entity.TsExternalId, CsConstant.RelationshipEntityName);
+	//		});
+	//	}
+
+	//	public static int GetAccountExternalId(UserConnection userConnection, Guid id) {
+	//		IntegrationUtilities.Info("Method [Contact.GetAccountExternalId] start with parametr: id = {0}", id.ToString());
+	//		var esq = new EntitySchemaQuery(userConnection.EntitySchemaManager, "Account");
+	//		esq.AddColumn("TsExternalId");
+	//		Entity entity = esq.GetEntity(userConnection, id);
+	//		int resultId = entity != null ? entity.GetTypedColumnValue<int>("TsExternalId") : 0;
+	//		IntegrationUtilities.Info("Method [Contact.GetAccountExternalId] finish with parametr: id = {0} result id = {1}", id.ToString(), resultId);
+	//		return resultId;
+	//	}
+
+	//	public static object GetContactAnniversaryDateJson(this Contact contact) {
+	//		IntegrationUtilities.Info("Method [Contact.GetContactAnniversaryDateJson] start");
+	//		var resultList = new List<object>();
+	//		var select = new Select(contact.UserConnection)
+	//						.Column("at", "Name")
+	//						.Column("ca", "Date")
+	//						.From("ContactAnniversary").As("ca")
+	//						.InnerJoin("AnniversaryType").As("at").On("at", "Id").IsEqual("ca", "AnniversaryTypeId")
+	//						.Where("ca", "ContactId").IsEqual(Column.Parameter(contact.Id)) as Select;
+	//		using(DBExecutor dbExecutor = contact.UserConnection.EnsureDBConnection()) {
+	//			using(IDataReader reader = select.ExecuteReader(dbExecutor)) {
+	//				while(reader.Read()) {
+	//					var result = new {
+	//						type = reader.GetColumnValue<string>("Name"),
+	//						date = reader.GetColumnValue<DateTime>("Date")
+	//					};
+	//					resultList.Add(result);
+	//				}
+	//			}
+	//		}
+	//		IntegrationUtilities.Info("Method [Contact.GetContactAnniversaryDateJson] finish");
+	//		return resultList.Any() ? resultList : null;
+	//	}
+
+	//	public static object GetContactNotification(this Contact contact) {
+	//		IntegrationUtilities.Info("Method [Contact.GetContactAnniversaryDateJson] start");
+	//		var select = new Select(contact.UserConnection)
+	//						.Column("TsExternalId")
+	//						.From("TsContactNotifications").As("tcn")
+	//						.Where("tcn", "TsContactId").IsEqual(Column.Parameter(contact.Id)) as Select;
+	//		var resultList = new List<object>();
+	//		using(DBExecutor dbExecutor = contact.UserConnection.EnsureDBConnection()) {
+	//			using(IDataReader reader = select.ExecuteReader(dbExecutor)) {
+	//				while(reader.Read()) {
+	//					var result = CsReference.Create(reader.GetColumnValue<int>("TsExternalId"), CsConstant.ContactNotificationProfileEntityName);
+	//					if(result != null)
+	//						resultList.Add(result);
+	//				}
+	//			}
+	//		}
+	//		IntegrationUtilities.Info("Method [Contact.GetContactAnniversaryDateJson] finish");
+	//		return resultList.Any() ? resultList : null;
+	//	}
+	//	#endregion
+
+	//	#region Account
+	//	public static string ToJson(this Account account, TRequstMethod method) {
+	//		IntegrationUtilities.Info("Method [Acount.ToJson] start");
+	//		var companyProfile = new ExpandoObject() as IDictionary<string, object>;
+	//		var primaryContact = GetContactEntity(account.UserConnection, account.PrimaryContactId);
+	//		var ownerContact = GetContactEntity(account.UserConnection, account.OwnerId);
+	//		var headOwnerContact = GetContactEntity(account.UserConnection, account.TsHeadOwnerId);
+	//		companyProfile.Add("name", account.Name);
+	//		companyProfile.Add("type", account.TypeName);
+	//		companyProfile.Add("subtype", account.TsSubTypeName);
+	//		companyProfile.Add("alternativeName", account.AlternativeName);
+	//		companyProfile.Add("mainPerson", GetContactRef(account.UserConnection, account.PrimaryContactId));
+	//		companyProfile.Add("externalId", account.Code);
+	//		companyProfile.Add("b2b", account.TsB2B);
+	//		companyProfile.Add("b2s", account.TsB2S);
+	//		companyProfile.Add("taxRegistrationNumber", account.TsINN);
+	//		companyProfile.Add("taxRegistrationNumberName", "ИНН");
+	//		companyProfile.Add("companyRegistrationNumber", account.TsKPP);
+	//		companyProfile.Add("companyRegistrationNumberName", "КПП");
+	//		companyProfile.Add("scenario", account.TsServiceScenarioName);
+	//		companyProfile.Add("bankrupt", account.TsBankrucyFact);
+	//		companyProfile.Add("liquidation", false);
+	//		//companyProfile.Add("ownerAgentId", account.TsLocalMarket);
+	//		companyProfile.Add("additionalInfo", account.GetAdditionalInfoJson());
+	//		companyProfile.Add("mainContactInfo", GetContactInfoObj(primaryContact));
+	//		companyProfile.Add("anniversaryDates", account.GetAccountAnniversaryJson());
+	//		companyProfile.Add("billingInfos", account.GetAccountBillingInfosObj());
+	//		companyProfile.Add("notificationProfiles", account.GetTsAccountNotificationObj());
+	//		companyProfile.Add("specialization", account.GetSpeciazliationObj());
+	//		companyProfile.Add("parentCompany", GetAccountRef(account.UserConnection, account.ParentId));
+	//		companyProfile.Add("assignedManager", GetContactManagerRef(ownerContact));
+	//		companyProfile.Add("assignedChiefManager", GetContactManagerRef(headOwnerContact));
+	//		companyProfile.Add("assignedGroup", GetContactManagerGroupRef(ownerContact));
+	//		companyProfile.Add("relationships", account.GetAccountRelationshipObj());
+	//		string resultJson = new {
+	//			CompanyProfile = companyProfile
+	//		}.SerializeToJson();
+	//		IntegrationUtilities.Info("Method [Acount.ToJson] finish with result: result json = {0}", resultJson);
+	//		return resultJson;
+	//	}
+
+
+	//	public static object GetAdditionalInfoJson(this Account account) {
+	//		IntegrationUtilities.Info("Method [Acount.GetAdditionalInfoJson] start and finish");
+	//		return new {
+	//			category = account.AccountCategoryName,
+	//			scoring = account.TsCategoryScoringName,
+	//			employeesNumber = account.EmployeesNumberName,
+	//			ownership = account.OwnershipName,
+	//			annualRevenue = account.AnnualRevenueName,
+	//			industry = account.IndustryName,
+	//			typology = account.TsTypologyName,
+	//			accountFormat = account.TsClientFormatName,
+	//			accountPositioning = account.TsPositioningName,
+	//			retailMarkup = account.TsRetailMarkUpPercent,
+	//			wolesaleMakup = account.TsWholesaleMarkUpPercent
+	//		};
+	//	}
+
+	//	public static object GetAccountBillingInfosObj(this Account account) {
+	//		IntegrationUtilities.Info("Method [Acount.GetAccountBillingInfosObj] start");
+	//		var esq = new EntitySchemaQuery(account.UserConnection.EntitySchemaManager, "AccountBillingInfo");
+	//		esq.AddAllSchemaColumns();
+	//		esq.Filters.Add(esq.CreateFilterWithParameters(FilterComparisonType.Equal, "Account", account.Id));
+	//		var resultList = esq.GetEntityCollection(account.UserConnection).Select(x => {
+	//			var entity = (AccountBillingInfo)x;
+	//			return new {
+	//				name = entity.Name,
+	//				companyName = entity.AccountName,
+	//				companyAddress = entity.TsLegalAddress,
+	//				bankName = entity.TsBankName,
+	//				bankAddress = entity.TsBankAddress,
+	//				bankTaxRegistrationNumber = entity.TsBankINN,
+	//				bankTaxRegistrationNumberName = "ИНН",
+	//				companyBankAccoun = entity.TsBankAccountNumber,
+	//				correspondentBankAccount = entity.TsCorrespondentNumber,
+	//				correspondentBankName = entity.TsCorrespondentBank,
+	//				bic = entity.TsBIK,
+	//				description = entity.Description
+	//			};
+	//		});
+	//		IntegrationUtilities.Info("Method [Acount.GetAccountBillingInfosObj] finish");
+	//		return resultList.Any() ? resultList : null;
+	//	}
+	//	public static object GetAccountAnniversaryJson(this Account account) {
+	//		IntegrationUtilities.Info("Method [Acount.GetAccountAnniversaryJson] start");
+	//		var esq = new EntitySchemaQuery(account.UserConnection.EntitySchemaManager, "AccountAnniversary");
+	//		esq.AddAllSchemaColumns();
+	//		esq.Filters.Add(esq.CreateFilterWithParameters(FilterComparisonType.Equal, "Account", account.Id));
+	//		var resultList = esq.GetEntityCollection(account.UserConnection).Select(x => {
+	//			var entity = (AccountAnniversary)x;
+	//			return new {
+	//				type = entity.AnniversaryTypeName,
+	//				date = entity.Date.ToUniversalTime()
+	//			}.SerializeToJson();
+	//		});
+	//		IntegrationUtilities.Info("Method [Acount.GetAccountAnniversaryJson] finish");
+	//		return resultList.Any() ? resultList : null;
+	//	}
+	//	public static object GetTsAccountNotificationObj(this Account account) {
+	//		IntegrationUtilities.Info("Method [Acount.GetTsAccountNotificationObj] start");
+	//		var userConnection = account.UserConnection;
+	//		var esq = new EntitySchemaQuery(userConnection.EntitySchemaManager, "TsAccountNotification");
+	//		esq.AddAllSchemaColumns();
+	//		esq.Filters.Add(esq.CreateFilterWithParameters(FilterComparisonType.Equal, "TsAccount", account.Id));
+	//		IntegrationUtilities.Info("Method [Acount.GetTsAccountNotificationObj] finish");
+	//		return esq.GetEntityCollection(userConnection).Select(x => {
+	//			var entity = (TsAccountNotification)x;
+	//			return new {
+	//				NotificationProfile = new {
+	//					person = CsReference.Create(GetContactExtId(userConnection, entity.TsContactId), CsConstant.ContactEntityName),
+	//					type = entity.TsTypeName,
+	//					disabled = entity.TsDisabled,
+	//					notifyOnHolidays = entity.TsWeekendNotify,
+	//					timeFrom = entity.TsStartTime.ToUniversalTime().Ticks,
+	//					timeTo = entity.TsDueTime.ToUniversalTime().Ticks,
+	//					notificationChannel = entity.TsChannelName,
+	//					communicationType = entity.TsCommunicationNumber,
+	//					timezone = entity.TsTimeZoneName
+	//				}
+	//			};
+	//		});
+	//	}
+
+	//	public static object GetSpeciazliationObj(this Account account) {
+	//		IntegrationUtilities.Info("Method [Acount.GetSpeciazliationObj] start");
+	//		var userConnection = account.UserConnection;
+	//		var esq = new EntitySchemaQuery(userConnection.EntitySchemaManager, "TsAccountSpec");
+	//		esq.AddAllSchemaColumns();
+	//		esq.Filters.Add(esq.CreateFilterWithParameters(FilterComparisonType.Equal, "TsAccount", account.Id));
+	//		var entity = (TsAccountSpec)esq.GetEntityCollection(userConnection).OrderByDescending(x => ((TsAccountSpec)x).CreatedOn).FirstOrDefault();
+	//		IntegrationUtilities.Info("Method [Acount.GetSpeciazliationObj] finish");
+	//		return entity != null ? entity.TsSpecializationName : null;
+	//	}
+
+		//public static object GetAccountRelationshipObj(this Account account) {
+		//	IntegrationUtilities.Info("Method [Acount.GetAccountRelationshipObj] start");
+		//	var userConnection = account.UserConnection;
+		//	var esq = new EntitySchemaQuery(userConnection.EntitySchemaManager, "Relationship");
+		//	esq.AddAllSchemaColumns();
+		//	esq.AddColumn("ContactB.TsExternalId");
+		//	esq.AddColumn("AccountB.TsExternalId");
+		//	esq.Filters.Add(esq.CreateFilterWithParameters(FilterComparisonType.Equal, "AccountA", account.Id));
+		//	IntegrationUtilities.Info("Method [Acount.GetAccountRelationshipObj] finish");
+		//	return esq.GetEntityCollection(userConnection).Where(x => x.GetTypedColumnValue<int>("TsExternalId") > 0).Select(x => {
+		//		var entity = (Relationship)x;
+		//		return CsReference.Create(entity.TsExternalId, CsConstant.RelationshipEntityName);
+		//	});
+		//}
+
+	//	#endregion
+
+	//	#region TsAutomobile
+	//	public static string ToJson(this TsAutomobile automobile, TRequstMethod method) {
+	//		IntegrationUtilities.Info("Method [TsAutomobile.GetAccountRelationshipObj] start with parametrs: method = {0}", method.ToString());
+	//		var vehicleProfile = new ExpandoObject() as IDictionary<string, object>;
+	//		vehicleProfile.Add("vin", automobile.TsVehVin);
+	//		vehicleProfile.Add("engineNo", automobile.TsEngineNo);
+	//		vehicleProfile.Add("chassisNo", automobile.TsChassisNo);
+	//		vehicleProfile.Add("frameNo", automobile.TsFrameNo);
+	//		vehicleProfile.Add("notes", automobile.TsNotes);
+	//		vehicleProfile.Add("manufacturerName", automobile.TsManufactNameName);
+	//		vehicleProfile.Add("modelName", automobile.TsModelNameName);
+	//		vehicleProfile.Add("modificationName", automobile.TsModificationName);
+	//		vehicleProfile.Add("type", automobile.TsVehTypeName);
+	//		vehicleProfile.Add("category", automobile.TsVehCatName);
+	//		vehicleProfile.Add("manufacturedYear", automobile.TsVehYear.ToUniversalTime().Ticks);
+	//		vehicleProfile.Add("engineModelName", automobile.TsEngineModel);
+	//		vehicleProfile.Add("color", automobile.TsVehColor);
+	//		vehicleProfile.Add("enginePowerHP", automobile.TsEnginePower);
+	//		vehicleProfile.Add("engineVolumeL", automobile.TsEngineVolumeL);
+	//		vehicleProfile.Add("maxWeightKg", automobile.TsMaxWeightKg);
+	//		vehicleProfile.Add("maxEmptyWeightKg", automobile.TsmaxEmptyWeightKg);
+	//		vehicleProfile.Add("engineType", automobile.TsEngineTypeName);
+	//		vehicleProfile.Add("transmission", automobile.TsTransmissionName);
+	//		vehicleProfile.Add("driveType", automobile.TsDriveTypeName);
+	//		vehicleProfile.Add("rightSteering", automobile.TsRightSteering);
+	//		vehicleProfile.Add("bodyType", automobile.TsBodyTypeName);
+	//		vehicleProfile.Add("mileageToServiceKm", automobile.TsServiceMileage);
+	//		vehicleProfile.Add("monthlyMileageKm", automobile.TsMonthlyMileage);
+	//		vehicleProfile.Add("currentPassport", automobile.GetAutomobileCurrentPassportRef());
+	//		vehicleProfile.Add("currentOwner", automobile.GetAutomobileRelationshipRef());
+	//		vehicleProfile.Add("additionalInfo", automobile.GetAutomobileAdditionalInfoJson().SerializeToJson());
+	//		string resultJson = new {
+	//			VehicleProfile = vehicleProfile
+	//		}.SerializeToJson();
+	//		IntegrationUtilities.Info("Method [TsAutomobile.GetAccountRelationshipObj] start with parametrs: result json = {0}", resultJson.ToString());
+	//		return resultJson;
+	//	}
+
+	//	public static object GetAutomobileCurrentPassportObj(this TsAutomobile automobile) {
+	//		IntegrationUtilities.Info("Method [TsAutomobile.GetAutomobileCurrentPassportObj] start");
+	//		var vehiclePassport = new ExpandoObject() as IDictionary<string, object>;
+	//		vehiclePassport.Add("vin", automobile.TsVehVin);
+	//		vehiclePassport.Add("engineNo", automobile.TsEngineNo);
+	//		vehiclePassport.Add("chassisNo", automobile.TsChassisNo);
+	//		vehiclePassport.Add("frameNo", automobile.TsFrameNo);
+	//		vehiclePassport.Add("notes", automobile.TsNotes);
+	//		vehiclePassport.Add("documentNo", automobile.TsCertificateNumber);
+	//		vehiclePassport.Add("issuedBy", automobile.TsTrafficPoliceGiven);
+	//		vehiclePassport.Add("registrationPlate", automobile.TsRegistrationSign);
+	//		vehiclePassport.Add("vehiclePassportNo", automobile.TsPassportSeries);
+	//		vehiclePassport.Add("notes", automobile.TsSpecialMarks);
+	//		vehiclePassport.Add("additionalInfo", automobile.GetAutomovilePassportAdditionalInfoJson());
+	//		IntegrationUtilities.Info("Method [TsAutomobile.GetAutomobileCurrentPassportObj] finish");
+	//		return vehiclePassport;
+	//	}
+
+	//	public static object GetAutomobileCurrentPassportRef(this TsAutomobile automobile) {
+	//		IntegrationUtilities.Info("Method [TsAutomobile.GetAutomobileCurrentPassportRef] start and finish");
+	//		return CsReference.Create(automobile.TsPassportExternalId, CsConstant.AutomobilePassportEntityName);
+	//	}
+
+	//	public static object GetAutomovilePassportAdditionalInfoJson(this TsAutomobile automobile) {
+	//		IntegrationUtilities.Info("Method [TsAutomobile.GetAutomovilePassportAdditionalInfoJson] start and finish");
+	//		return new {
+	//			nextServDate = automobile.TsNextTechDate,
+	//			endOil = automobile.TsEngineOilInfo,
+	//			breakBrand = automobile.TsBreakBrandInfo,
+	//			filtBrand = automobile.TsFilterBrandInfo
+	//		};
+	//	}
+
+	//	public static object GetAutomobileRelationshipRef(this TsAutomobile automobile) {
+	//		IntegrationUtilities.Info("Method [TsAutomobile.GetAutomobileRelationshipRef] start");
+	//		var select = new Select(automobile.UserConnection)
+	//						.Top(1)
+	//						.Column("TsExternalId")
+	//						.From("TsAutoTechService").As("ts")
+	//						.Where("ts", "TsAutomobileId").IsEqual(Column.Parameter(automobile.Id))
+	//						.OrderByDesc("ts", "CreatedOn") as Select;
+	//		using(DBExecutor dbExecutor = automobile.UserConnection.EnsureDBConnection()) {
+	//			using(IDataReader reader = select.ExecuteReader(dbExecutor)) {
+	//				while(reader.Read()) {
+	//					int extId = reader.GetColumnValue<int>("TsExternalId");
+	//					IntegrationUtilities.Info("Method [Acount.GetAutomobileRelationshipRef] finish with result: ext id = {0}", extId.ToString());
+	//					return CsReference.Create(extId, CsConstant.AutomobileRelationshipEntityName);
+	//				}
+	//			}
+	//		}
+	//		IntegrationUtilities.Info("Method [TsAutomobile.GetAutomobileRelationshipRef] finish without result");
+	//		return null;
+	//	}
+
+	//	public static object GetAutomobileAdditionalInfoJson(this TsAutomobile automobile) {
+	//		IntegrationUtilities.Info("Method [TsAutomobile.GetAutomobileAdditionalInfoJson] start and finish");
+	//		return new {
+	//			NextServDate = automobile.TsNextTechDate.Ticks,
+	//			EngOil = automobile.TsEngineOilInfo,
+	//			BreakBrand = automobile.TsBreakBrandInfo,
+	//			FiltBrand = automobile.TsFilterBrandInfo
+	//		};
+	//	}
+	//	#endregion
+
+	//	#region VehicleRelationship TsAutoTechService
+	//	public static string ToJson(this TsAutoTechService autoServ, TRequstMethod method) {
+	//		IntegrationUtilities.Info("Method [VehicleRelationship.ToJson] start with params: method = {0}", method.ToString());
+	//		var vehicleRelationship = new ExpandoObject() as IDictionary<string, object>;
+	//		vehicleRelationship.Add("casual", false);
+	//		vehicleRelationship.Add("active", false);
+	//		vehicleRelationship.Add("dateFrom", DateTime.Now.Ticks);
+	//		vehicleRelationship.Add("dateTo", DateTime.Now.Ticks);
+	//		vehicleRelationship.Add("companyProfile", GetAccountRef(autoServ.UserConnection, autoServ.TsTechServiceAccountId));
+	//		vehicleRelationship.Add("personProfile", GetContactRef(autoServ.UserConnection, autoServ.TsTechServiceContactId));
+	//		vehicleRelationship.Add("type", CsReference.Create(CsConstant.VehicleRelationshipType.Service, CsConstant.AutomobileRelTypeEntityName));
+	//		string resultJson = new {
+	//			VehicleRelationship = vehicleRelationship
+	//		}.SerializeToJson();
+	//		IntegrationUtilities.Info("Method [VehicleRelationship.ToJson] finish with params: result json = {0}", resultJson);
+	//		return resultJson;
+	//	}
+	//	#endregion
+
+	//	#region TsAutoOwnerHistory
+	//	public static string ToJson(this TsAutoOwnerHistory history, TRequstMethod method) {
+	//		IntegrationUtilities.Info("Method [TsAutoOwnerHistory.ToJson] start with params: method = {0}", method.ToString());
+	//		var vehicleRelationship = new ExpandoObject() as IDictionary<string, object>;
+	//		vehicleRelationship.Add("casual", false);
+	//		vehicleRelationship.Add("active", false);
+	//		vehicleRelationship.Add("dateFrom", history.TsStartDate);
+	//		vehicleRelationship.Add("dateTo", history.TsDueDate);
+	//		vehicleRelationship.Add("companyProfile", GetAccountRef(history.UserConnection, history.TsAccountOwnerId));
+	//		vehicleRelationship.Add("personProfile", GetContactRef(history.UserConnection, history.TsContactOwnerId));
+	//		vehicleRelationship.Add("type", history.GetHistoryTypeRef());
+	//		string resultJson = new {
+	//			VehicleRelationship = vehicleRelationship
+	//		}.SerializeToJson();
+	//		IntegrationUtilities.Info("Method [TsAutoOwnerHistory.ToJson] finish with result: result json = {0}", resultJson);
+	//		return resultJson;
+	//	}
+
+	//	public static object GetHistoryTypeRef(this TsAutoOwnerHistory history) {
+	//		IntegrationUtilities.Info("Method [TsAutoOwnerHistory.GetHistoryTypeRef] start");
+	//		var select = new Select(history.UserConnection)
+	//					.Top(1)
+	//					.Column("TsExternalId")
+	//					.From("TsOwnershipType").As("ot")
+	//					.Where("ot", "Id").IsEqual(Column.Parameter(history.Id)) as Select;
+	//		using(DBExecutor dbExecutor = history.UserConnection.EnsureDBConnection()) {
+	//			using(IDataReader reader = select.ExecuteReader(dbExecutor)) {
+	//				while(reader.Read()) {
+	//					IntegrationUtilities.Info("Method [TsAutoOwnerHistory.GetHistoryTypeRef] finish with result");
+	//					return CsReference.Create(reader.GetColumnValue<int>("TsExternalId"), CsConstant.AutomobileRelTypeEntityName);
+	//				}
+	//			}
+	//		}
+	//		IntegrationUtilities.Info("Method [TsAutoOwnerHistory.GetHistoryTypeRef] finish witout result");
+	//		return null;
+	//	}
+	//	#endregion
+	//	#region TsAutoOwnerInfo
+	//	public static string ToJson(this TsAutoOwnerInfo history, TRequstMethod method) {
+	//		IntegrationUtilities.Info("Method [TsAutoOwnerInfo.ToJson] start with param: method = {0}", method.ToString());
+	//		var vehicleRelationship = new ExpandoObject() as IDictionary<string, object>;
+	//		vehicleRelationship.Add("casual", false);
+	//		vehicleRelationship.Add("active", true);
+	//		vehicleRelationship.Add("companyProfile", GetAccountRef(history.UserConnection, history.TsAccountOwnerId));
+	//		vehicleRelationship.Add("personProfile", GetContactRef(history.UserConnection, history.TsContactOwnerId));
+	//		vehicleRelationship.Add("type", history.GetHistoryTypeRef());
+	//		string resultJson = new {
+	//			VehicleRelationship = vehicleRelationship
+	//		}.SerializeToJson();
+	//		IntegrationUtilities.Info("Method [TsAutoOwnerInfo.ToJson] finish with param: result json = {0}", resultJson);
+	//		return resultJson;
+	//	}
+
+	//	public static object GetHistoryTypeRef(this TsAutoOwnerInfo history) {
+	//		IntegrationUtilities.Info("Method [TsAutoOwnerInfo.GetHistoryTypeRef] start");
+	//		var select = new Select(history.UserConnection)
+	//					.Top(1)
+	//					.Column("TsExternalId")
+	//					.From("TsOwnershipType").As("ot")
+	//					.Where("ot", "Id").IsEqual(Column.Parameter(history.Id)) as Select;
+	//		using(DBExecutor dbExecutor = history.UserConnection.EnsureDBConnection()) {
+	//			using(IDataReader reader = select.ExecuteReader(dbExecutor)) {
+	//				while(reader.Read()) {
+	//					IntegrationUtilities.Info("Method [TsAutoOwnerInfo.GetHistoryTypeRef] finish with result");
+	//					return CsReference.Create(reader.GetColumnValue<int>("TsExternalId"), CsConstant.AutomobileRelTypeEntityName);
+	//				}
+	//			}
+	//		}
+	//		IntegrationUtilities.Info("Method [TsAutoOwnerInfo.GetHistoryTypeRef] finish without result");
+	//		return null;
+	//	}
+	//	#endregion
+	//	#region TsAutoTechHistory
+	//	public static string ToJson(this TsAutoTechHistory history, TRequstMethod method) {
+	//		IntegrationUtilities.Info("Method [TsAutoTechHistory.ToJson] start with param: method = {0}", method.ToString());
+	//		var vehicleRelationship = new ExpandoObject() as IDictionary<string, object>;
+	//		vehicleRelationship.Add("casual", false);
+	//		vehicleRelationship.Add("active", false);
+	//		vehicleRelationship.Add("dateFrom", history.TsStartDate);
+	//		vehicleRelationship.Add("dateTo", history.TsDueDate);
+	//		vehicleRelationship.Add("companyProfile", GetAccountRef(history.UserConnection, history.TsTechServiceAccountId));
+	//		vehicleRelationship.Add("personProfile", GetContactRef(history.UserConnection, history.TsTechServiceContactId));
+	//		vehicleRelationship.Add("type", history.GetHistoryTypeRef());
+	//		string resultJson = new {
+	//			VehicleRelationship = vehicleRelationship
+	//		}.SerializeToJson();
+	//		IntegrationUtilities.Info("Method [TsAutoTechHistory.ToJson] finish with result: result json= {0}", resultJson);
+	//		return resultJson;
+	//	}
+
+	//	public static object GetHistoryTypeRef(this TsAutoTechHistory history) {
+	//		IntegrationUtilities.Info("Method [TsAutoTechHistory.GetHistoryTypeRef] start");
+	//		var select = new Select(history.UserConnection)
+	//					.Top(1)
+	//					.Column("TsExternalId")
+	//					.From("TsSto").As("ot")
+	//					.Where("ot", "Id").IsEqual(Column.Parameter(history.Id)) as Select;
+	//		using(DBExecutor dbExecutor = history.UserConnection.EnsureDBConnection()) {
+	//			using(IDataReader reader = select.ExecuteReader(dbExecutor)) {
+	//				while(reader.Read()) {
+	//					IntegrationUtilities.Info("Method [TsAutoTechHistory.GetHistoryTypeRef] finish with result");
+	//					return CsReference.Create(reader.GetColumnValue<int>("TsExternalId"), CsConstant.AutomobileRelTypeEntityName);
+	//				}
+	//			}
+	//		}
+	//		IntegrationUtilities.Info("Method [TsAutoTechHistory.GetHistoryTypeRef] finish without result");
+	//		return null;
+	//	}
+	//	#endregion
+	//	#region Case
+	//	public static string ToJson(this Case caseReq, TRequstMethod method) {
+	//		IntegrationUtilities.Info("Method [Case.ToJson] start with param");
+	//		var clientRequest = new ExpandoObject() as IDictionary<string, object>;
+	//		clientRequest.Add("number", caseReq.Number);
+	//		clientRequest.Add("state", caseReq.StatusName);
+	//		clientRequest.Add("priority", caseReq.PriorityName);
+	//		clientRequest.Add("origin", caseReq.OriginName);
+	//		clientRequest.Add("requestDate", caseReq.RegisteredOn.Ticks);
+	//		clientRequest.Add("subject", caseReq.Subject);
+	//		clientRequest.Add("comment", caseReq.SatisfactionLevelComment);
+	//		clientRequest.Add("category", caseReq.CategoryName);
+	//		clientRequest.Add("service", caseReq.ServiceItemName);
+	//		clientRequest.Add("planReactionAt", caseReq.ResponseDate.Ticks);
+	//		clientRequest.Add("planResolutionAt", caseReq.SolutionDate.Ticks);
+	//		clientRequest.Add("factReactionAt", caseReq.RespondedOn.Ticks);
+	//		clientRequest.Add("factFirstResolutionAt", caseReq.FirstSolutionProvidedOn.Ticks);
+	//		clientRequest.Add("factResolutionAt", caseReq.SolutionProvidedOn.Ticks);
+	//		//requester
+	//		clientRequest.Add("requester", caseReq.GetCaseRequesterRef());
+	//		//company
+	//		clientRequest.Add("company", caseReq.GetCaseCompanyRef());
+	//		string resultJson = new {
+	//			ClientRequest = clientRequest
+	//		}.SerializeToJson();
+	//		IntegrationUtilities.Info("Method [Case.ToJson] finish: result json = {0}", resultJson);
+	//		return resultJson;
+	//	}
+
+	//	public static object GetCaseRequesterRef(this Case caseReq) {
+	//		IntegrationUtilities.Info("Method [Case.GetCaseRequesterRef] start");
+	//		int externalId = GetContactExtId(caseReq.UserConnection, caseReq.ContactId);
+	//		IntegrationUtilities.Info("Method [Case.GetCaseRequesterRef] finish");
+	//		return CsReference.Create(externalId, CsConstant.ContactEntityName);
+	//	}
+
+	//	public static object GetCaseCompanyRef(this Case caseReq) {
+	//		IntegrationUtilities.Info("Method [Case.GetCaseCompanyRef] start");
+	//		int externalId = GetAccountExternalId(caseReq.UserConnection, caseReq.AccountId);
+	//		IntegrationUtilities.Info("Method [Case.GetCaseCompanyRef] finish");
+	//		return CsReference.Create(externalId, CsConstant.AccountEntityName);
+	//	}
+
+	//	#endregion
+
+	//	#region SysAdminUnit
+	//	public static string ToJson(this SysAdminUnit adminUnit, TRequstMethod method) {
+	//		IntegrationUtilities.Info("Method [SysAdminUnit.ToJson] start");
+	//		if((int)adminUnit.SysAdminUnitTypeValue == (int)CsConstant.TSysAdminUnitType.User) {
+	//			return GetManagerObj(adminUnit, method).SerializeToJson();
+	//		}
+	//		if((int)adminUnit.SysAdminUnitTypeValue == 1) {
+	//			return GetManagerGroupObj(adminUnit, method).SerializeToJson();
+	//		}
+	//		IntegrationUtilities.Info("Method [SysAdminUnit.ToJson] finish without result");
+	//		return String.Empty;
+	//	}
+	//	#region Manager
+	//	public static object GetManagerObj(this SysAdminUnit adminUnit, TRequstMethod method) {
+	//		IntegrationUtilities.Info("Method [Manager.ToJson] start with param: method = {0}", method.ToString());
+	//		var manager = new ExpandoObject() as IDictionary<string, object>;
+	//		manager.Add("chief", adminUnit.GetManagerChiefRef());
+	//		manager.Add("company", GetAccountRef(adminUnit.UserConnection, adminUnit.AccountId));
+	//		manager.Add("person", GetContactRef(adminUnit.UserConnection, adminUnit.ContactId));
+	//		IntegrationUtilities.Info("Method [Manager.ToJson] finish with param: method = {0}", method.ToString());
+	//		return manager;
+	//	}
+
+	//	public static object GetManagerChiefRef(this SysAdminUnit manager) {
+	//		IntegrationUtilities.Info("Method [Manager.GetManagerChiefRef] start");
+	//		IntegrationUtilities.Info("Method [Manager.GetManagerChiefRef] finish");
+	//		return null;
+	//	}
+	//	#endregion
+
+	//	#region GroupManager
+	//	public static object GetManagerGroupObj(this SysAdminUnit adminUnit, TRequstMethod method) {
+	//		IntegrationUtilities.Info("Method [GroupManager.GetManagerGroupObj] start with param: method = {0}", method);
+	//		var managerGroup = new ExpandoObject() as IDictionary<string, object>;
+	//		managerGroup.Add("name", adminUnit.Name);
+	//		managerGroup.Add("head", adminUnit.GetManagerGroupHeadRef(method));
+	//		managerGroup.Add("workers", adminUnit.GetManagerGroupWorkers(method));
+	//		IntegrationUtilities.Info("Method [GroupManager.GetManagerGroupObj] finish");
+	//		return managerGroup;
+	//	}
+
+	//	public static object GetManagerGroupHeadRef(this SysAdminUnit adminUnit, TRequstMethod method) {
+	//		IntegrationUtilities.Info("Method [GroupManager.GetManagerGroupHeadRef] start with param: method = {0}", method);
+	//		var esq = new EntitySchemaQuery(adminUnit.UserConnection.EntitySchemaManager, "SysAdminUnit");
+	//		esq.AddColumn("TsExternalId");
+	//		esq.Filters.Add(esq.CreateFilterWithParameters(FilterComparisonType.Equal, "ParentRole", adminUnit.Id));
+	//		esq.Filters.Add(esq.CreateFilterWithParameters(FilterComparisonType.Equal, "SysAdminUnitTypeValue", CsConstant.TSysAdminUnitType.Head));
+	//		esq.RowCount = 1;
+	//		var collection = esq.GetEntityCollection(adminUnit.UserConnection);
+	//		if(collection.Any()) {
+	//			var group = collection.First();
+	//			IntegrationUtilities.Info("Method [GroupManager.GetManagerGroupHeadRef] finish with result");
+	//			return CsReference.Create(group.GetTypedColumnValue<int>("TsExternalId"), CsConstant.ManagerGroupEntityName);
+	//		}
+	//		IntegrationUtilities.Info("Method [GroupManager.GetManagerGroupHeadRef] finish without result");
+	//		return null;
+	//	}
+
+	//	public static object GetManagerGroupWorkers(this SysAdminUnit adminUnit, TRequstMethod method) {
+	//		IntegrationUtilities.Info("Method [GroupManager.GetManagerGroupWorkers] start with param");
+	//		var resultList = new List<CsReference>();
+	//		Select select = new Select(adminUnit.UserConnection)
+	//						.Column("sr", "SysAdminUnitId")
+	//						.Column("su", "TsExternalId")
+	//						.From("SysAdminUnitInRole").As("sr")
+	//						.InnerJoin("SysAdminUnit").As("su").On("su", "Id").IsEqual("sr", "SysAdminUnitId")
+	//						.Where("sr", "SysAdminUnitRoleId").IsEqual(Column.Parameter(adminUnit.Id))
+	//						.And("su", "SysAdminUnitTypeValue").IsEqual(Column.Parameter(CsConstant.TSysAdminUnitType.User)) as Select;
+	//		using(DBExecutor dbExecutor = adminUnit.UserConnection.EnsureDBConnection()) {
+	//			using(IDataReader reader = select.ExecuteReader(dbExecutor)) {
+	//				while(reader.Read()) {
+	//					var result = reader.GetColumnValue<int>("TsExternalId");
+	//					IntegrationUtilities.Info("Method [GroupManager.GetManagerGroupWorkers] finish with result");
+	//					resultList.Add(CsReference.Create(result, CsConstant.ManagerGroupEntityName));
+	//				}
+	//			}
+	//		}
+	//		IntegrationUtilities.Info("Method [GroupManager.GetManagerGroupWorkers] finish with result");
+	//		return resultList.Any() ? resultList : null;
+	//	}
+	//	#endregion
+
+	//	#endregion
+
+	//	#region Relationship
+	//	public static string ToJson(this Relationship relationship, TRequstMethod method) {
+	//		IntegrationUtilities.Info("Method [GroupManager.GetManagerGroupWorkers] finish with result");
+	//		var select = GetRelationshipSelect(relationship);
+	//		select.RowCount = 1;
+	//		var resultList = new List<object>();
+	//		using(DBExecutor dbExecutor = relationship.UserConnection.EnsureDBConnection()) {
+	//			using(IDataReader reader = select.ExecuteReader(dbExecutor)) {
+	//				while(reader.Read()) {
+	//					var typeExtId = reader.GetColumnValue<int>("typeExtId");
+	//					var revTypeExtId = reader.GetColumnValue<int>("revTypeExtId");
+	//					var accountAExtId = reader.GetColumnValue<int>("extId1");
+	//					var contactAExtId = reader.GetColumnValue<int>("extId2");
+	//					var accountBExtId = reader.GetColumnValue<int>("extId3");
+	//					var contactBExtId = reader.GetColumnValue<int>("extId4");
+	//					var resultJson = new {
+	//						Relationship = new {
+	//							type = CsReference.Create(typeExtId, CsConstant.RelationshipTypeEntityName),
+	//							reverseType = CsReference.Create(revTypeExtId, CsConstant.RelationshipTypeEntityName),
+	//							personProfileA = CsReference.Create(contactAExtId, CsConstant.ContactEntityName),
+	//							personProfileB = CsReference.Create(contactBExtId, CsConstant.ContactEntityName),
+	//							companyProfileA = CsReference.Create(accountAExtId, CsConstant.AccountEntityName),
+	//							companyProfileB = CsReference.Create(accountBExtId, CsConstant.AccountEntityName),
+	//							//active = reader.GetColumnValue<bool>("Active"),
+	//							description = reader.GetColumnValue<string>("Description"),
+	//							name = "Relationship"
+	//						}
+	//					}.SerializeToJson();
+	//					IntegrationUtilities.Info("Method [GroupManager.GetManagerGroupWorkers] finish with result: result json = {0}", resultJson);
+	//					return resultJson;
+	//				}
+	//			}
+	//		}
+	//		return null;
+	//	}
+
+	//	public static Select GetRelationshipSelect(Relationship relationship) {
+	//		IntegrationUtilities.Info("Method [GroupManager.GetRelationshipSelect] start and finish");
+	//		return new Select(relationship.UserConnection)
+	//						.Column("rt", "TsExternalId").As("typeExtId")
+	//						.Column("rt2", "TsExternalId").As("revTypeExtId")
+	//						.Column("aa", "TsExternalId").As("extId1")
+	//						.Column("ca", "TsExternalId").As("extId2")
+	//						.Column("ab", "TsExternalId").As("extId3")
+	//						.Column("cb", "TsExternalId").As("extId4")
+	//						.Column("r", "Active")
+	//						.Column("r", "Description")
+	//						.From("Relationship").As("r")
+	//						.InnerJoin("RelationType").As("rt").On("rt", "Id").IsEqual("r", "RelationTypeId")
+	//						.InnerJoin("RelationType").As("rt2").On("rt2", "Id").IsEqual("r", "ReverseRelationTypeId")
+	//						.LeftOuterJoin("Contact").As("ca").On("ca", "Id").IsEqual("r", "ContactAId")
+	//						.LeftOuterJoin("Contact").As("cb").On("cb", "Id").IsEqual("r", "ContactBId")
+	//						.LeftOuterJoin("Account").As("aa").On("aa", "Id").IsEqual("r", "AccountAId")
+	//						.LeftOuterJoin("Account").As("ab").On("ab", "Id").IsEqual("r", "AccountBId")
+	//						.Where("r", "Id").IsEqual(Column.Parameter(relationship.Id)) as Select;
+	//	}
+	//	#endregion
+
+	//	#region Employee
+	//	public static string ToJson(this ContactCareer career, TRequstMethod method) {
+	//		IntegrationUtilities.Info("Method [Employee.ToJson] start with param: method = {0}", method.ToString());
+	//		var employee = new ExpandoObject() as IDictionary<string, object>;
+	//		employee.Add("job", career.JobName);
+	//		employee.Add("jobTitle", career.JobTitle);
+	//		employee.Add("deparment", career.DepartmentName);
+	//		employee.Add("assignmentDate", career.StartDate.ToUniversalTime());
+	//		employee.Add("retirementDate", career.DueDate.ToUniversalTime());
+	//		employee.Add("primary", career.Primary);
+	//		employee.Add("active", career.Current);
+	//		employee.Add("jobChangeReason", career.JobChangeReasonName);
+	//		employee.Add("company", GetAccountRef(career.UserConnection, career.AccountId));
+	//		employee.Add("personProfile", GetContactRef(career.UserConnection, career.ContactId));
+	//		string resultJson = new {
+	//			Employee = employee
+	//		}.SerializeToJson();
+	//		IntegrationUtilities.Info("Method [Employee.ToJson] finish with result: result json = {0}", resultJson);
+	//		return resultJson;
+	//	}
+	//	#endregion
+
+	//	#region TsContactNotifications
+	//	public static string ToJson(this TsContactNotifications notify, TRequstMethod method) {
+	//		IntegrationUtilities.Info("Method [TsContactNotifications.ToJson] start with param: method = {0}", method.ToString());
+	//		var noficationProfile = new ExpandoObject() as IDictionary<string, object>;
+	//		noficationProfile.Add("person", CsReference.Create(GetContactExtId(notify.UserConnection, notify.TsContactId), CsConstant.ContactEntityName));
+	//		noficationProfile.Add("type", notify.TsNotificationType);
+	//		noficationProfile.Add("disabled", notify.TsIsTurnOff);
+	//		noficationProfile.Add("notifyOnHolidays", notify.TsIsWeekendNotification);
+	//		noficationProfile.Add("timeFrom", notify.TsTimeFrom);
+	//		noficationProfile.Add("timeTo", notify.TsTimeFrom);
+	//		noficationProfile.Add("notificationChannel", notify.TsNotificationChanelName);
+	//		noficationProfile.Add("timeZone", notify.TsTimeZoneName);
+	//		string resultJson = new {
+	//			NoficationProfile = noficationProfile
+	//		}.SerializeToJson();
+	//		IntegrationUtilities.Info("Method [TsContactNotifications.ToJson] finish with result: result json = {0}", resultJson);
+	//		return resultJson;
+	//	}
+
+	//	#endregion
+
+	//	#region dictionary
+	//	public static string ToDictJson(this Entity dict, TRequstMethod method, string entityName) {
+	//		var result = new ExpandoObject() as IDictionary<string, object>;
+	//		result.Add(entityName, new {
+	//			name = dict.GetTypedColumnValue<string>("Name")
+	//		});
+	//		return result.SerializeToJson();
+	//	}
+	//	#endregion
+
+	//	#region Helper
+	//	public static int GetContactExtId(UserConnection userConnection, Guid contactId) {
+	//		IntegrationUtilities.Info("Method [GetContactExtId] start with param: contactId = {0}", contactId.ToString());
+	//		if(contactId == Guid.Empty)
+	//			return 0;
+	//		var esq = new EntitySchemaQuery(userConnection.EntitySchemaManager, "Contact");
+	//		esq.AddColumn("TsExternalId");
+	//		IntegrationUtilities.Info("Method [GetContactExtId] finish with param: contactId = {0}", contactId.ToString());
+	//		return esq.GetEntity(userConnection, contactId).GetTypedColumnValue<int>("TsExternalId");
+	//	}
+
+	//	public static Contact GetContactEntity(UserConnection userConnection, Guid id) {
+	//		IntegrationUtilities.Info("Method [GetContactEntity] start with param: contactId = {0}", id.ToString());
+	//		var esq = new EntitySchemaQuery(userConnection.EntitySchemaManager, "Contact");
+	//		esq.AddAllSchemaColumns();
+	//		IntegrationUtilities.Info("Method [GetContactEntity] finish with param: contactId = {0}", id.ToString());
+	//		return esq.GetEntity(userConnection, id) as Contact;
+	//	}
+
+	//	public static object GetContactRef(UserConnection userConnection, Guid contactId) {
+	//		int externalId = GetContactExtId(userConnection, contactId);
+	//		return CsReference.Create(externalId, CsConstant.ContactEntityName);
+	//	}
+	//	public static object GetAccountRef(UserConnection userConnection, Guid accountId) {
+	//		int externalId = GetAccountExternalId(userConnection, accountId);
+	//		return CsReference.Create(externalId, CsConstant.AccountEntityName);
+	//	}
+	//	public static object GetContactInfoObj(Entity contact) {
+	//		if(contact == null)
+	//			return null;
+	//		return new {
+	//			ContactInfo = new {
+	//				name = "ContactInfo",
+	//				emailAllowed = contact.DoNotUseEmail,
+	//				phoneAllowed = contact.DoNotUseCall,
+	//				faxAllowed = contact.DoNotUseFax,
+	//				smsAllowed = contact.DoNotUseSms,
+	//				mailAllowed = contact.DoNotUseMail,
+	//				records = contact.GetContactCommunicationObj(),
+	//				addresses = contact.GetContactAddressInfoObj()
+	//			}
+	//		};
+	//	}
+	//	public static object GetContactManagerRef(Contact contact) {
+	//		IntegrationUtilities.Info("Method [GetContactEntity] start");
+	//		if(contact != null) {
+	//			var select = new Select(contact.UserConnection)
+	//						.Column("su", "TsExternalId")
+	//						.From("SysAdminUnit").As("su")
+	//						.Where("su", "ContactId").IsEqual(Column.Parameter(contact.Id))
+	//						.And("su", "SysAdminUnitTypeValue").IsEqual(Column.Parameter(CsConstant.TSysAdminUnitType.User)) as Select;
+	//			using(DBExecutor dbExecutor = contact.UserConnection.EnsureDBConnection()) {
+	//				using(IDataReader reader = select.ExecuteReader(dbExecutor)) {
+	//					while(reader.Read()) {
+	//						var result = reader.GetColumnValue<int>("TsExternalId");
+	//						if(result != 0) {
+	//							IntegrationUtilities.Info("Method [GetContactEntity] finish with result: id = {0}", result.ToString());
+	//							return CsReference.Create(result, CsConstant.ManagerEntityName);
+	//						}
+	//					}
+	//				}
+	//			}
+	//		}
+	//		IntegrationUtilities.Info("Method [GetContactEntity] finish without result");
+	//		return null;
+	//	}
+	//	public static object GetContactManagerGroupRef(Contact contact) {
+	//		if(contact != null) {
+	//			var select = new Select(contact.UserConnection)
+	//						.Column("su", "TsExternalId")
+	//						.From("SysAdminUnitInRole").As("sur")
+	//						.InnerJoin("SysAdminUnit").As("su").On("sur", "SysAdminUnitRoleId").IsEqual("su", "Id")
+	//						.InnerJoin("SysAdminUnit").As("su2").On("sur", "SysAdminUnitId").IsEqual("su2", "Id")
+	//						.Where("su2", "ContactId").IsEqual(Column.Parameter(contact.Id))
+	//						.And("su2", "SysAdminUnitTypeValue").IsEqual(Column.Parameter(CsConstant.TSysAdminUnitType.Unit)) as Select;
+	//			using(DBExecutor dbExecutor = contact.UserConnection.EnsureDBConnection()) {
+	//				using(IDataReader reader = select.ExecuteReader(dbExecutor)) {
+	//					while(reader.Read()) {
+	//						var result = reader.GetColumnValue<int>("TsExternalId");
+	//						return CsReference.Create(result, CsConstant.ManagerEntityName);
+	//					}
+	//				}
+	//			}
+	//		}
+	//		return null;
+	//	}
+
+	//	public static void EntitySetter(Entity sourceEntity, IDictionary<string, object> destinationDict,  IDictionary<string, string> mapperDictionary) {
+	//		foreach(var mapConfig in mapperDictionary) {
+	//			destinationDict.Add(mapConfig.Key, sourceEntity.GetColumnValue(mapConfig.Value));
+	//		}
+	//	}
+	//	#endregion
+	//}

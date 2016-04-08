@@ -1,0 +1,517 @@
+<xliff version="1.2">
+<file original="options_pages_res.xml" datatype="x-icrm" source-language="en-US" target-language="en-US" category="CRM" product-name="CRMDesktop for Outlook" product-version="3.03.39.04">
+<header>
+</header>
+<body>
+<trans-unit id="page-general-caption">
+<source>&amp;Общие</source><target>&amp;General</target>
+</trans-unit>
+<trans-unit id="page-general-account_groupbox">
+<source>Учетная запись</source><target>Account</target>
+</trans-unit>
+<trans-unit id="page-general-change_dots">
+<source>Изменить...</source><target>Change...</target>
+</trans-unit>
+<trans-unit id="msgbox-change_credentials_ensure">
+<source>Смена пользователя приведет к удалению всех ранее синхронизированных данных и загрузке данных для нового пользователя. Во избежание нежелательной потери информации, необходимо загрузить последние изменения из CRM-системы и выполнить резервное копирование данных $pim_name$ (например, в файл “Personal Folders File”). Чтобы запустить синхронизацию для нового пользователя нажмите на кнопку “Да”.</source><target>Changing the application user will remove all previously synchronized business data and download data accessible to the new user. To avoid unintended data loss, synchronize with the CRM application to upload any recent changes, and back up your existing Outlook data, for example, by exporting items to a Personal Folders file(.pst). When ready to sync as a new user, click Yes to proceed.</target>
+</trans-unit>
+<trans-unit id="page-advanced-caption">
+<source>Дополнительно</source><target>Advanced</target>
+</trans-unit>
+<trans-unit id="page-advanced-integration_caption">
+<source>Интеграция с $pim_name$</source><target>$pim_name$ Integration</target>
+</trans-unit>
+<trans-unit id="page-advanced-integration_label">
+<source>Должны быть доступными для синхронизации новые:</source><target>Always share new:</target>
+</trans-unit>
+<trans-unit id="page-advanced-shared_new_items_checkbox">
+<source>Электронные сообщения, контакты</source><target>Emails, contacts</target>
+</trans-unit>
+<trans-unit id="page-feedback-qr_message">
+<source>Введите информацию об ошибке или вопрос. Прикрепите лог, чтобы специалисты службы поддержки могли в наиболее короткий срок обработать Ваше обращение.</source><target>Use this form to email issues and bug reports. Attaching a log allows better understanding of the issue, and to address it faster. The report does not contain personal information.</target>
+</trans-unit>
+<trans-unit id="page-feedback-subject_format">
+<source>$app_name$: Обратная связь %s</source><target>$app_name$: Feedback from %s</target>
+</trans-unit>
+<trans-unit id="page-feedback-caption">
+<source>&amp;Обратная связь</source><target>&amp;Feedback</target>
+</trans-unit>
+<trans-unit id="page-feedback-qr_label">
+<source>Отчет о работе приложения</source><target>Quality Report</target>
+</trans-unit>
+<trans-unit id="page-feedback-type_label">
+<source>Тип обратной связи:</source><target>Feedback Type:</target>
+</trans-unit>
+<trans-unit id="page-feedback-comments_label">
+<source>Текст сообщения:</source><target>Comments:</target>
+</trans-unit>
+<trans-unit id="page-feedback-attach_log_label">
+<source>Прикрепить данные о логировании</source><target>Attach a Log</target>
+</trans-unit>
+<trans-unit id="page-feedback-view_log_btn">
+<source>Открыть лог</source><target>View Log</target>
+</trans-unit>
+<trans-unit id="page-feedback-send_btn">
+<source>Отправить...</source><target>Send Feedback...</target>
+</trans-unit>
+<trans-unit id="page-feedback-not_logged_user">
+<source>[Неавторизованный пользователь]</source><target>[Unauthorized User]</target>
+</trans-unit>
+<trans-unit id="page-feedback-reason_Installation">
+<source>Установка</source><target>Installation</target>
+</trans-unit>
+<trans-unit id="page-feedback-reason_Equipment_Complexity">
+<source>Информация об оборудовании</source><target>Equipment Information</target>
+</trans-unit>
+<trans-unit id="page-feedback-reason_Performance">
+<source>Характеристики</source><target>Performance</target>
+</trans-unit>
+<trans-unit id="page-feedback-reason_Breakdown">
+<source>Сбой</source><target>Breakdown</target>
+</trans-unit>
+<trans-unit id="page-feedback-reason_Equipment_Design">
+<source>Конфигурация оборудования</source><target>Equipment Configuration</target>
+</trans-unit>
+<trans-unit id="page-feedback-reason_Feedback">
+<source>Отзыв</source><target>Feedback</target>
+</trans-unit>
+<trans-unit id="page-feedback-reason_Bug_Report">
+<source>Отчет об ошибках</source><target>Bug Report</target>
+</trans-unit>
+<trans-unit id="page-feedback-reason_Feature_Request">
+<source>Запрос</source><target>Feature Request</target>
+</trans-unit>
+<trans-unit id="page-feedback-reason_Other">
+<source>Другое</source><target>Other</target>
+</trans-unit>
+<trans-unit id="page-about_caption">
+<source>О приложении</source><target>About</target>
+</trans-unit>
+<trans-unit id="page-about_product_info">
+<source>Информация о приложении</source><target>Product Info</target>
+</trans-unit>
+<trans-unit id="page-about_server_version">
+<source>$remote_app_name$</source><target>$remote_app_name$</target>
+</trans-unit>
+<trans-unit id="page-about_vendor_copyright">
+<source>© 1990-2006 InvisibleCRM. All rights reserved.</source><target>© 1990-2006 InvisibleCRM. All rights reserved.</target>
+</trans-unit>
+<trans-unit id="page-about_vendor_url">
+<source>http://www.workbooks.com</source><target>http://www.workbooks.com</target>
+</trans-unit>
+<trans-unit id="page-about_client_version_fmt">
+<source>$app_name$ Версия %s</source><target>$app_name$ Version %s</target>
+</trans-unit>
+<trans-unit id="page-about_client_copyright">
+<source>invisibleCRM ®</source><target>invisibleCRM ®</target>
+</trans-unit>
+<trans-unit id="page-about_client_url">
+<source>www.invisiblecrm.com</source><target>www.invisiblecrm.com</target>
+</trans-unit>
+<trans-unit id="page-about_bottom_copyright">
+<source>Все права защищены</source><target>All rights reserved</target>
+</trans-unit>
+<trans-unit id="page-connection-caption">
+<source>Настройки соединения</source><target>Connection Settings</target>
+</trans-unit>
+<trans-unit id="page-connection-proxy_group">
+<source>Настройка Proxy</source><target>Proxy Configuration</target>
+</trans-unit>
+<trans-unit id="page-connection-non_proxy">
+<source>Прямое подключение к интернет (без прокси-сервера)</source><target>Direct connection to the Internet (no proxy-server)</target>
+</trans-unit>
+<trans-unit id="page-connection-explorer_proxy">
+<source>Использовать настройки Internet Explorer для прокси-сервера</source><target>Use Internet Explorer settings for proxy-server</target>
+</trans-unit>
+<trans-unit id="page-connection-manual_proxy">
+<source>Ввести настройки прокси-сервера</source><target>Manual proxy-server configuration</target>
+</trans-unit>
+<trans-unit id="page-connection-server">
+<source>Имя сервера:</source><target>Server:</target>
+</trans-unit>
+<trans-unit id="page-connection-authorization">
+<source>Для прокси-сервера необходима авторизация</source><target>Proxy server requires authorization</target>
+</trans-unit>
+<trans-unit id="page-connection-user">
+<source>Имя пользователя:</source><target>Username:</target>
+</trans-unit>
+<trans-unit id="page-connection-password">
+<source>Пароль:</source><target>Password:</target>
+</trans-unit>
+<trans-unit id="page-sync-scheduled_interval_label">
+<source>Автоматически синхронизировать данные:</source><target>Schedule an automatic synchronization interval:</target>
+</trans-unit>
+<trans-unit id="page-sync-scheduled_interval_label">
+<source>Назначить полную синхронизацию данных</source><target>Schedule full automatic synchronization</target>
+</trans-unit>
+<trans-unit id="page-sync-scheduled_interval_label_upstream">
+<source>Синхронизировать последние изменения с сервером автоматически</source><target>Synchronize recent changes to server automatically</target>
+</trans-unit>
+<trans-unit id="page-sync-caption">
+<source>Синхронизация</source><target>Synchronization</target>
+</trans-unit>
+<trans-unit id="page-sync-scheduler_group">
+<source>Автозапуск</source><target>Autorun</target>
+</trans-unit>
+<trans-unit id="page-sync-auto_show_progress">
+<source>Отображать ход выполнения синхронизации</source><target>Show progress during automatic synchronization</target>
+</trans-unit>
+<trans-unit id="page-sync-frequently_label">
+<source>Часто</source><target>Frequent</target>
+</trans-unit>
+<trans-unit id="page-sync-rarely_label">
+<source>Редко</source><target>Rare</target>
+</trans-unit>
+<trans-unit id="page-sync-next_occurence_format">
+<source>Следующая синхронизация планируется %s, %s</source><target>Next synchronization will occur %s at %s</target>
+</trans-unit>
+<trans-unit id="page-sync-filter_group">
+<source>Фильтр</source><target>Filter</target>
+</trans-unit>
+<trans-unit id="page-sync-reduce_text_label">
+<source>Нажмите кнопку Настроить чтобы ввести условия для определения синхронизируемых записей.</source><target>Click the Customize button to enter criteria to define the records to sync.</target>
+</trans-unit>
+<trans-unit id="page-sync-enable_viewlike_filtering">
+<source>Удалять синхронизированные записи MS Outlook, не соответствующие условиям фильтрации</source><target>Remove local records not matching filtering criteria</target>
+</trans-unit>
+<trans-unit id="page-sync-customize_button">
+<source>Настроить...</source><target>Customize...</target>
+</trans-unit>
+<trans-unit id="page-sync-show_control_panel_button">
+<source>Открыть настройки синхронизации</source><target>Show Control Panel</target>
+</trans-unit>
+<trans-unit id="page-sync-records_number_caption_label">
+<source>Количество записей, которые будут синхронизированы:</source><target>Number of records that will sync:</target>
+</trans-unit>
+<trans-unit id="page-sync-records_number_no_label">
+<source>Нет записей</source><target>No records</target>
+</trans-unit>
+<trans-unit id="page-sync-records_number_fmt">
+<source>%d записей</source><target>%d records</target>
+</trans-unit>
+<trans-unit id="page-sync-records_number_too_large">
+<source>Доступное количество записей превышает лимит</source><target>Too many records are accessible</target>
+</trans-unit>
+<trans-unit id="page-sync-records_number_invalid_label">
+<source>Введены некорректные условия фильтрации</source><target>Filter settings are invalid</target>
+</trans-unit>
+<trans-unit id="page-sync-records_number_not_logged_in">
+<source>Вы не вошли в систему</source><target>You are not logged in</target>
+</trans-unit>
+<trans-unit id="page-sync-apply_preset_mnuitem">
+<source>&amp;Восстановить настройки по умолчанию</source><target>&amp;Apply Preset</target>
+</trans-unit>
+<trans-unit id="page-sync-periods-ten_minutes">
+<source>Десять минут</source><target>Ten Minutes</target>
+</trans-unit>
+<trans-unit id="page-sync-periods-fifteen_minutes">
+<source>Пятнадцать минут</source><target>Fifteen Minutes</target>
+</trans-unit>
+<trans-unit id="page-sync-periods-twenty_minutes">
+<source>Двадцать минут</source><target>Twenty Minutes</target>
+</trans-unit>
+<trans-unit id="page-sync-periods-half_hour">
+<source>Полчаса</source><target>Half an Hour</target>
+</trans-unit>
+<trans-unit id="page-sync-periods-once_hour">
+<source>Каждый час</source><target>Once an Hour</target>
+</trans-unit>
+<trans-unit id="page-sync-periods-once_12_hours">
+<source>Дважды в день</source><target>Twice a Day</target>
+</trans-unit>
+<trans-unit id="page-sync-periods-once_day">
+<source>Ежедневно</source><target>Once a Day</target>
+</trans-unit>
+<trans-unit id="page-sync-periods-once_week">
+<source>Еженедельно</source><target>Once a Week</target>
+</trans-unit>
+<trans-unit id="page-sync-changes-few_docs">
+<source>Несколько документов</source><target>A Few Documents</target>
+</trans-unit>
+<trans-unit id="page-sync-changes-dozens_docs">
+<source>Десятки документов</source><target>Dozens of Documents</target>
+</trans-unit>
+<trans-unit id="page-sync-changes-hundreds_docs">
+<source>Сотни документов</source><target>Hundreds of Documents</target>
+</trans-unit>
+<trans-unit id="page-sync-changes-thousands_docs">
+<source>Тысячи документов</source><target>Thousands of Documents</target>
+</trans-unit>
+<bin-unit id="page-general-image" mime-type="image/png; encoding=base64">
+<bin-source>iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAAK/INwWK6QAAABl0RVh0
+U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAOuSURBVHja7FfNTxNBFH+VhfIhLS0YKR8h
+aowhSggQS6LAwcQ/wHjxzMGrXjxrPHjzYGI08eQNOXkhXDioieJHIKiRQDC20vKhWGjp0tL9dt60
+s512d4ssh16c5GXamX2/93u/N2879RiGAdUcx6DKo+oEPGjj4/fbBwauvKyrqx+u9LCqqpDJiB8X
+Fl5dm5h48Mso1M9DhlsMgaw19PWNTl263j8YCB2vyFbJabA8uzqcyexNka+jxLKFLdcYSOCEr6Ul
+70jy0RUyqWTWyGyxGkjvZEAQvIPoR2y1gOsaAwn4GDtdzRs6P7zzzGR96+5NE0DKyiBJEvB+R8FA
+AjWqrOWd5SJTHENDQ3QWmojTTmFPz9cR/TgCrjEEvj7Rzxvwc3HTUrfXk/N07uwJUWdN0xxrjJnz
+BMx1g9vjMEwCmAEGv3zjAjT6vHAVhkoAsmkJ3r34Bh7SuIqiOBLQHQiAzq3rRQyTgCKrkEgkaHBl
+F6iVDi/db2trq6yAVsy0ZF3nyNkpUOsVaAAcy2/WbcFxPxgMsvodrgR6cU/XdRNDyNfHAKG2BnJS
+DhY/fIeVlTULcDQapc/xzqU1Ng4sga4aNHMLAVaPU2d64PG957AvZSEjZkv8UfqxsTEayI4Aw6ik
+AAZH4zEE9nqkLRMeoIFURYO5T/MQCoXoevfZEKh7AO3t7RCLxWzPAMNwIsCyZgqUnAHmHGxthUBL
+K3VGAh0dHXT94mg/JKM5i3x2BOKRDViPWVt5dnohH4OcIccSOLI3dFM+JwKIga2MwZ1aObObg9nJ
+RSsBXj5dMywSl8vnpMBBreyBerrv9XrtCWhqMVM3BP61lfFs2ZaABS8nYOh5VdAJT7DdIUQM2sq5
+yq2MCfAYJQqwLA9SwO5VzDC6uroqtnI4HC7BcEWgUhv29vaC3++nAZaWlsxWPtkThL2EBIFAALa2
+tuwVYMHLa3wYBXw+HzQ1NdHvSIC18vnwaYh9/WPBOMafAXRigezaEC8RTIHm5g4f3gXL34SHxTAV
+2PyRgEx2D2RJoQ+MjIxAd18bPTCyLIMoipBKpbgSGDWFS61xFAwkoG1vr8ffT3/pRvmSv9Pmj048
+HjdPLZsjkQgBSsRFcTPFJegaAwmkZ2aePhLF5G2/v7OLvtEKMpZ/Rud0ei0Si719QvySLPujYKCE
+jcTOEQvjDyK9eTiPfWIRYnPEVghYtvC/wDWGp1DHBmKtxPz8JcXuWk8MX7DbxHL8HxO3GJ7/f06r
+TeCvAAMAcXxAKPGzZuIAAAAASUVORK5CYII=</bin-source>
+</bin-unit>
+<bin-unit id="page-general-user_accounts" mime-type="image/png; encoding=base64">
+<bin-source>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
+QTM+gpWxdgAAAABJRU5ErkJggg==</bin-source>
+</bin-unit>
+<bin-unit id="page-advanced-image" mime-type="image/png; encoding=base64">
+<bin-source>iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAAK/INwWK6QAAABl0RVh0
+U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAjuSURBVHjanFdrUFPpGX5OLiQkJJAQSAIi
+ICjLKkWsMkrXFW91tau7rdbRWWfWdqyz3XY6He2Pre5MZ9q1nXan2um0M63d7tbL7qJlWi+t6FJE
+oYKCyk1BAsg9BCHkQi4kJDl9v5ODgg649sy8OSfnuzzv9fnew/E8j7kujuOk549gk1aF72hU2MHJ
+1MPdA959O36GMlobnppz+qfYnD5P/dGkz2t0e1Hq8uKTtz/EFRoOzwnAFJhN6Iqt/j1uNX+WyI+2
+7+VDgd/xbutBnt7ZaCxh2ryEy7+CzTV4UJgz3LqXr/pjIl96GLfYHnMaOJsHmFXHfoBdm9amnc7d
+/j6CHjvs7bXCmHOgHXdvWY5LOFyI0PLJSWwrKFy0f8kb76Ln2t+gy1wK/cJVuHXiN7hY1rXnyBmU
+zOYJ2RzKySobEChebqdNT8BuqXk8kL5mL/LD2B+JYD/Tn0nm17Zi5F4FPAON8Fkb4eyswtjQCGra
+EBBxXlgB/kINrN973TcaCtQYOO7JgKu3EUu+dXDGZOahvvKLkMsBqUwKPsKht298tLIZVrbXrFbO
+oUCoMBdcjBTy+PSlcPc1Ph5w9jTiXskhhLx2SCQQRKFNhEwWfVbqjHCM+SGTQL4kHdy9XoSemwMs
+5lePYp3bh54330fXgW8j5bUVuJa3aWeW6Svr0fL5IQTHnwDOJjKFErFJixA3vxA+bxilxz7pqm5F
+8WfVsB7ZjSylHBkHT+LqVEgEBQicZfs1nTmt0O+yw+P2tYfDSFi8cacxKbcIA7Vn4eisEQBYKOZS
+INaQBalSTWFQQJOzDX6PBycP/3qYktVpTDPnZH91DSpLS+pIiWLC97PISo9Stq9bmXg6f88vBW/4
+7ANwU6ab8tej/dwHCDj6n2u5YL1KB0VCmqCk0pQPmWYepCoDfC4PVPrt4CSLhf0rPi7G559e3/PX
+qyhhOaCaZ8De1BVbKdNrYb1zEXpWRouKMFR3FiF3v5BYU5bLFCqoTYsQozVBIpML7xGZRMT3CBwi
+9D8ChTEKHk3lfKgN62fEvfitY/jiwrK99HiBKaAz67CB1e6Df/4CEb8dYw8q4LRURAFlTyyUq7TQ
+ZhbB9ciOuvM1GOpzCwqkZmhRsLYA+vmZkHBSSFTJpNwCcModtDBhWl05KbXvQIJW6NTYwLCZAhp/
+AIFHLRUKfsIuWDvdrdMt1y4oQuvN+7ha3u8+fxs19Z3oYPuuynEv3N19vWjzzrA2a/WbtOhVcPIV
+IugEpVsrAd+l+0OhHr1jo5iYFPhBI2U06vRAkxCw5DIjY2IofkpKDGlUmAeYqM2L4XEFcP5sm+vo
+v/CnLhvO09obJM0DdljqO2DLUvXlLV3/Y6VEkU5gDqLICiKIc+BDzRQmB7x2GyrPluHEH/7jL2/C
+aasDVUwB3jIAe2k1ejVKGBakxBiN8w1RcNJGgknhOda8FDcvN+JkeeBMu1Wg1nqSHpIhEpsvAGco
+AtXy+d1LkzLJjYEqIiMa4kOC1cy75WfKcfxUd8vHlfgzgZfR6y4WAjfJHcYv3TYYOak8T5lgpFga
+BfdzLBR0j9EkCzGvbsM5mnufzedFEqEydrJ3ZfU4956l5u2X1ryCyEi9AMxyip0XfIQWjNphc6KK
+Xl9i4CTjMvFIddImnfEqWInfIZU8AZaqEqP3OJOQC3QxanXz004x9kzrmSFWlkMRrw0hnx1T5wQT
+pgTbW6UQ1ncyRn+GinNSkafQJEKVthLS2ESRIUXKVJiQ9+pK7H94c9nxLwSPPXMdegvLFBotwlSS
+gUfNAiAvVQsKQBaHAGVeqh55M6iYEdGxfdhs0OL48tfWmReu3kz0SJkb8kUnxCwDJ32ZsQzCE204
+9d6WnisNWFtShd5pIeD2bUH67g2ozClckZGgoRQfbhQUmBLBC+atuHmtHdVXLUMOL/afvI4y5gFt
+khYlu458qJYqteDDE+An48DFFkaBOWVU1XAzJWMrVm97JSNO/d/ydQU4QLgslvj0MLakJeNogjkt
+Q5ecCH9fFcIhzFCAiUbuwzd/9C427Oo3H973W5bIaUwBAyWIWiI3EHAKOBkBK2eSBx8oJY9QDU88
+QsaSbMRppdkP7zZcqDrmFnhDHqdFcmYO9KZEePtqEPL7ohY/pYC9rQJjnbUU4lVsZzXDZgrEtPah
+JejJyFPEF88MKtUxH7xBm5FXPAOYtDeRR2SgckXB+iLwnDwKFJpEyGODp7sKoYBvptufUiIS9KHp
+UgWoDFsYNlNg/HYXKqtOHcjb+MO7UW/7a2DvOM5IQWglIl4CH2kSNpx0d9O449mNZwMkaWoDTEmA
+Pj76v56gHw6jUihD+nEQK5Wtut6wQ5WwIaWr+Q46upzjchnk3/3J60rjPJ0AzsooHPBS5+OYE+zp
+940EXl5LzBvGZFI8NHEqoG8Y1qYegYgcQhWQZJKsW5GNTTYH3P12DBEn6N/5Onbt2J4Sn7PYICgQ
+GLUgHJx4rsVT75seAJdvwPWPOpR4JzBGyW7Wa6BtHxTaddaUdD9uSOhPKomJkReJhyVIghprv78R
+B7a+kaLKJhWDLuuXdnuLhRDq4Pt7LY6O+wV3j5LEkTA6Y239IGtIZCKT+UmJbnrsFxtI1sOpnV6y
+OoR3kpNjVRPOHkTC+NKxT9ZTyCLwieDs3PCKxMeJ+4dnMKFIyeFp3wXeldR3GHRSg0LiQjAYfgw2
+OAzcbn5Cr+xekAsYE6Pj7GIJR+425GcghuLtFT0bfKHvAn0csuI0Mky4RmdYV0/VeKUerf1j6GX+
+StEjnd6/vHn1zA1YwlHjkSXiBF+0Lecu3UVTii4w6HAiNf8loi0zBXIMsPTDW3EPf6E5D9lEyxAW
+LDDiA9so1MzyPjqFGyj7+0cweO0+mkS3v/h3AUuWjyrw89xUfKOhE/nUJqTTme+/2Y4zNFYtnmrs
+GqzrwBlFDHazxrh3BL0dQ2iivuHfYsLN/l2Aua+p6sgWxST2D7dJGGs5xXmMu5eRLGdniwjaKYqQ
+7f+vAhB5QsUaSLGMgmJJjU9LWjZHw0qX0atYxg7W4T/v8/x/AgwAMfp3kcKe7TkAAAAASUVORK5C
+YII=</bin-source>
+</bin-unit>
+<bin-unit id="page-feedback-image" mime-type="image/png; encoding=base64">
+<bin-source>iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAAK/INwWK6QAAABl0RVh0
+U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAT1SURBVHjaxFdtTFNXGH5oKfTj9gNb+aig
+jDEQGCgMRjQxZW7JNuIPjeHH5j+z+Md/S7afy+b/JcxkyeKW6ZItmYvJMBKM+9BtgDrZgDEEddBC
+0aaFQj+gH7T33u6c0nt3b3vBalh8k7f3nnPPPc/zvOc9b+8pSKVSeJZWKNwUEDt58kx5a+vh74uK
+tJ3/B1giEf99dPT6sfPnP/CSZkpGgJiuuflQ/8Hj+9pKKphtBw94V/Ho75XOePxAP2keIh7NJrDT
+ZLGI4Cme/PAb1xSXuQp9krbSOKX3uIQeK945aDTatu7ud9oHBr4YpDAqCQGTcEPTQpxACs5tAp7d
+L22vjoOf7ILq/qtQxybBcRwIeIS8qcqOgJpNcBsE2I2JnWOeNBm6WsJVvOfl/TnPiRcm7sK21IOm
+N46RHCP8+08hxH0s4PHZBEQTlFW/aH/60FPld3vQ8Nqb0No7wPtHUGVfg8/3Lk44UP/NrxijUIoE
+kJnQNeHJW610HFVuXTqOBocD+vImsN5BsM5vYbMBTXsjcHjwuVUPz9mr+G3TCFDf02CXK1NSm+kT
+2xnl9QdfgqGsFgnvHay7rkCtRnoZKNGODujdfvTS3SAjIBQlAWRu0qOoVqpY2icor++oB1Nahbjv
+L0RcN9Lg1ObngVAI0BSRawR60mWREWBZVhaB3fV2udLNckFY86ke1O6vhHFnKaK+ewjPjYjK3W4g
+GASKioGL/Uj+OIFLOUkoEsgAzE975OvMK0dDUF7baIbZZsaaz4XA/DRUqlzlfT/rcOl27GvXIn4g
+j4IyAnSPyiLwgj23CGUXpozymrpCWKxahH2PsDS/IIZdqrx/UI/ojvfhWvyQVsNJ4pFNI5AdejHU
+0nYiSMC7UL0nipISI4KLy/C6AzLlFLxYB1y7ZYCq+iNwMXOaF/EViqJIQAAfvvrnlvXdiivYX/0K
+mMajWJk+hYfuRI5yCv7THQNsrWcRjpvBrfnTUIqFSJaEG6sBo8kIE3Els/hvg6l8C2prJZIVb4Nz
+XZAp15I8vzFqQGnrJ9AYapCK+f8Tmf13rJSEaRCbEZXPVeTWCjaI5alrsNV+SfKwD2WNB8CS90a+
+u5AG1xHwwQkGZW290DDPi1tcyDPBVFttw/QAkrmFTK4n/X0w7DoKNvkLCouIjtUHsEUvormF/Klo
+gJv3GNS+fk4Ep04+OZ48AgKBbAvO9uHyMAtb2xgq4n1QR2cxdT+F8SlgfJbB3iPnoLfWIeYMQ6vV
+gmEY8DyfJwFpBIgajSGXwPTQZTid5Tjz3nUc2RfDGAHW2B0w7e5C68tdKGYsKKuyQsdaSGKq06HP
+n4AkAnSAVikDVSa07/ASQAf8tsPoPN0NjdYEo1kHxqRHOQGnNjTtEsHpMuQdAUgIFCvgn/gslNen
+GAWmTknkTQD5RCBPE9Q/cQS2i4A0Ao/NAWGP8lwqPbilpQXr6zyGBqPiRNkT5ttHgfOOwNOCbNUX
+i8XyI+D5x4/YmgpckpetnTSTpQBCW8mF96gHAgF5nikQ4IJB78LNgbGqirJdCC2HxcmFSraVP24c
+tZmZGUQiKwsbaZ5LIDw8/FVvKLR02marqdlsYmk732ciQPih0+0e+pTeikdCYQCp0/QbrY54O/Ea
+elTb5tNZjLiT+B/EHwhHMymBgsyOoyWMfjVotplAkjitXsvE48LhtOBZH8//FWAAwUp7jWksesAA
+AAAASUVORK5CYII=</bin-source>
+</bin-unit>
+<bin-unit id="page-about_image" mime-type="image/png; encoding=base64">
+<bin-source>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</bin-source>
+</bin-unit>
+<bin-unit id="page-connection-image" mime-type="image/png; encoding=base64">
+<bin-source>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</bin-source>
+</bin-unit>
+<bin-unit id="page-sync-image" mime-type="image/png; encoding=base64">
+<bin-source>iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAAK/INwWK6QAAABl0RVh0
+U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAoFSURBVHjarJcJcJXVFcd/b03yHnlkIctL
+CCEhCyapUAQkKIsiboh2USjYOkyLtmNXB6eOrbW1Tp1WscM40zLqDFOrdiy2ihVckEIDBAh7wpLN
+ICTkZX0veS9v376e+yVgzJhu0zs58+V797v3/M//LPdcA5MMTdP4b4dBxuZvUBqIMPzz7XjUNv92
+zYR329aNtBmNFE4OjJHvvIxTAAYmKDc/tYb7587J/oProtsfjvFB7zBP/mYHLf8JkCtj5u82Eoz5
+fib7v/i58uJD+maliqHxIiNzywY6At0Pa1p8i+Y6vloTY/y/vp8nZc4ymULzxPc3D/FaxtPPP7jm
+xxswe/ZMti59IvV3zWNuTo6t1FYwB4YbcWa7efC5TfZ/vLr9qc2mrrltLh5+aQ99E9mY6IJMkaW/
+uI+tDz222ukskDfXu1cne3rgTzvyvdrsP3Y5HFk14xcGL25zLazYU7B4wybo2CogToPJBnkraGl0
+s3v7obZDraz48yG6/5VLbM+s4/3m9xePUi5UaqdsmnYcXT75C9rbz6/SgpG4lkhqmvzpQz3D0YT2
+1uZV2qubbFrjNrTksXHSUqE1vFKkyd7KmrTxCk3j6X/sHjYsXTr9RwvXfxcSQWj7LVG/G9PYVx0d
+grBoHbmlS4hHk0QiCaLRBIlEUreponYdxQvu5/De43Q0dzGzGCSg0SJuCqb56Omm4pp8DPubOSDb
+JccDMNw6h5JF5ey49/EfWgxGC1r7ViJDF9m5U7AYs8gpzKL9/AgpznVMyakhmRwNPvVUAKIKUDgu
+v9mpWr4RV/cwp+uPUl5TiCE+orKH6dOh8xLz7Sl8eK4L1/ggtNZW8Ng9G1fYjJY0kq5dJH0f89FH
+ojxzHaeb6nFWlROOubHbitg34GfYVEcwYZAgCpGMOpkaq2VhdgKHWcPvj3Hd3c9xIJDk6Mn3uWHZ
+PBKDJ2UtXFtNWq+bp0TnV1XoGK8EX+5Uvu6sno8W6iPeW8/Zs9A/Mpvi5VuZtXIbu15v5fJIEaey
+DHxheoh7S5azqriMnHQXVtth9nTGePZElLoun7ARZ6DHS+mSZzjXMg13IBdS84UtqK6SFEpj2YJZ
+lCjmlQvMj67mkTvuLl9ZUFlJ7PJuwkMu9u0TVPNewhuykpFTSHfNKkrvWCaKbycnJYM0k51MSx5T
+LA5OeYfo8+UTi3XRY3uW7gEHJSlOOi8Okl9+Dw1/fZzr7lxFbPCMHhPuISyhAO4TF6hXDExRiEpq
+JGISYeJD7Vy6BLHU+fgNlYTFrwPydSJ7Fzfn3I5hXOaq/zXLDA7F7sOR0Uxe4Q6hP5v6xO9xCahg
+MMbAsJGweTHegUFMmVU6C8VFOgtLZAu7ApAuQVFhz3CI8laJ7ghdXRKduV8iFAoRCMTYFTxNhaPi
+M8oZC+N2Ywb9EqQJ0whGSw+GtAtEDEO83FynAwgEAqTl30rziTbM6UUSsJAxVTxioVwZrwDYBE2h
+Nc1OPNCnI/T7hQxrqa7EYrFQ17NaWCj+7Jkgclog/Coq38dgIJCBOxSlL9RLe7+Pg0N7sVqtqkpi
+sJXR7/JhcTj1/TMzxPQU/byxqSxI0XdMhIj5XPoHw8PyPqtCV56amkrziI0tTencWeAR308hToT9
+AuEBg4N+qY6qtmVxmKjhJJ7YCFHzCENGMykpKWJxAi2tjJZDHt3FBrOdRDRAcrQWpigAo5kgkyqf
+FUVj9V23QAHAHaXhQgVL6o5xU8kB2TjIRc1KJPBtUZ6Hyujsst14wlFCsRjheFwoqcE6W76JRCQr
+orphJAWASvNwYPRddH96GMmkJr+qianiI2+gFbNjgW7FtdYoTe4ITecW0NS3hNL8/dyV9xPWxg9y
+2LeBVt8y6k/+AGPyJAnHXvw0kmfKwGw2S9QbiXibKZ/t0I1MJkZ1jDGgW590+xmI+Nz6pGIgRYxO
+BJr1xcoNCx0SfBJMuN1weZi+1kLcIyP4Aj2UZv4So6+T/vZqetvWM9y7SGzRqLEu1Nerahn1tZKT
+axVNEWLhIAOyzbA8lG4FIDLoo9s7KMkpgajQ5UrdiA3u0/2nXLF2hlnyRSB7vVKd+gl0Gmk4v5Ju
+n4+OnlzCLtl8zHcxawOG4Ry+df1KYvGovt7X9Q7XVGfoDERDYSQjGQ7op2JEAQh2DXKm/bxbrDXr
+APIEgMl/EKI9RKJhUoxRHp3vGFWiUsTjwTMY5xNXDucPPH21VRJnQ9M3eSTzLTIkw5X/zdFWbJzD
+OT2doGc0yy50gnRLZ5RuVQlNHj/mPGt01fIVWSav2zeaZAKt41wjubMfIJ6MUeVMwezu5qzQl4gn
+iAiYQMRAwrNwFJgoS3d/wvctzzC1f7uk3FzyCio58c5a1q8xk5llwePqxT8S5e/1RF+pQyFvUwCS
+/jCWWfncWDkzmZueLshDMbKEsd7uXrHUI+X0LsLChCYl+obcKA5TjOBgJkOeMAzaKDL6udbmZ03Z
+JRY63+XuO0zs3SlZ0XuK2QUnuOHGLCJBcXr3IKfPw77THGp18YbovmwaK2hG8YnRoUWX1S5KM/p9
+kjZiVIFkWEfzKYYGByi97svYpqShJaJMt8eZn5vgtkInt5Wbub7ITE2RXQp8C4VyMM2bZ6e3sxtL
+8mPWrskSMhN0XxiQ+pJkVx2xd4/znNSsY6LXd6UfiA8FiFmMlFjisZKaKjMBf1I/OCpmGQl5Gjmy
+ZxfVy7/CjKoypuVnkZ2VibMwB2dBDnnOaZRUFhLzHqEi6wh5OXLCSVovWTIFqyVJT6cXvy/Gzr3w
+0Wne/riXN0XnJVV9rgIQibb34E5Fm1Ocr2VPk2NXxVQyoTFrJlQW9/LethdoPXqA8qVfo7Qsm9Ki
+qcwsTJcUsxMKRzi4/Vlqq7swGxMMueOE5Bzxe6N4h+LUHYX6s7TtaWKL6GoU8U9sSlXrXJJhZ/Wa
+Wp5YuZiMypJPJ1VBLCoy8LcPNV6rWxT0UmtTaZrUi1eSkZF+z7y8D1Jf+GnQZjJpXLr4ad95Svy+
+u4H+1/frLbq0OXSOGf2ZtlyOFLokFva9UY99wMeGL5ZRcnOtHFnSyUgM0dqqcUKSp6HxyNv93iN9
+V8u4sKey6ZaZbHKkGxiUPB8rtfqYNQOcbeQuqya17hy9V5RPbEr1E0FRE4njbummU0p6dk8v+UYD
+xkwpA5dl6YkW3NJeb5bv6vQDcZROJcPS5axfdYtBCqamA1alQYmUFwoloN2DLD3WwQvybXiyi4k2
+5ptm9TzQjEfS5SaXh1sbzjA9Mx3z+cu8J3NNqhXQxl0gpeIZ49KXfu8JLWWynl86NcVUtsjQZBcT
+JsTENJEykaopqcwWURXsQ3lvEN1DE25HqoG4TaR8kn0V7a0i6rp18d8CUMapK9fYRSJ7TJRnlQ89
+Mh+fAMAuj7yxa9vn7avWjoio2AleXfe/XMP/n+OfAgwAgIjht8yZq0oAAAAASUVORK5CYII=</bin-source>
+</bin-unit>
+</body>
+</file>
+</xliff>

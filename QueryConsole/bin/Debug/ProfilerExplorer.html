@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>Performance profiler</title>
+	<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css" rel="stylesheet" />
+	<style>
+		.main-container
+		{
+			background-color: #EEEEEE;
+			border-radius: 6px 6px 6px 6px;
+			margin-bottom: 30px;
+			padding: 60px;
+			box-shadow: 0 0 10px darkgrey;
+			border: 1px solid #E1E1E8;
+		}
+	</style>
+	<script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
+	<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		$(function () {
+			$('#btnStart').click(function () {
+				$.ajax({
+					url: "Profiler.axd?record=1",
+					success: function() {
+						var msgDiv = $("#message");
+						msgDiv.html("<h2>Profiling ...</h2>" +
+							"<div class='progress progress-striped active'>" +
+							"<div class='bar' style='width: 100%;'></div>" +
+							"</div>");
+					},
+					error: function() {
+						$("#message").html("<h2>Something wrong!</h2>");
+					}
+				});
+			});
+			$('#btnStop').click(function () {
+				$.ajax({
+					url: "Profiler.axd?stop=1",
+					success: function (data) {
+						var msgDiv = $("#message");
+						if (data && data.profilingStoped) {
+							msgDiv.html("<h2>Done!</h2> " +
+								"<a class='btn btn-info' href='\Profiler.axd?download=1'>" +
+								"<i class='icon-download-alt'></i>Download snapshot</a>");
+						} else {
+							msgDiv.html("<h2>Click start to profile</h2>");
+						}
+					},
+					error: function () {
+						$("#message").html("<h2>Something wrong!</h2>");
+					}
+				});
+			});
+		});
+	</script>
+</head>
+<body>
+	<div class="container">
+		<div class="row main-container" style="margin-top: 100px;">
+			<div id="message" class="alert alert-block" style="border: 1px solid #E1E1E8;">
+				<h2>Click start to profile</h2>
+			</div>
+			<div class="span3">
+				<button id="btnStart" class="btn btn-success" type="button">Start</button>
+				<button id="btnStop" class="btn btn-danger" type="button">Stop</button>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

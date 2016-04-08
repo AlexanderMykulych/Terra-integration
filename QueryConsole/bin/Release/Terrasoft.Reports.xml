@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Terrasoft.Reports</name>
+    </assembly>
+    <members>
+        <member name="F:Terrasoft.Reports.DefReport.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Reports.DefReport.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Terrasoft.Reports.DefReport.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Reports.ReportSchemaManager.GetGenerator(Terrasoft.Core.UserConnection)">
+            <summary>
+            Возвращает генератор исходных кодов схем менеджера.
+            </summary>
+            <param name="userConnection">Пользовательское подключение.</param>
+            <returns>Генератор исходных кодов схем менеджера.</returns>
+        </member>
+        <member name="P:Terrasoft.Reports.ReportSchemaManager.ItemCaption">
+            <summary>
+            Заголовок элемента менеджера схем.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Reports.ReportSchemaManager.ResourceManagerName">
+            <summary>
+            Имя менеджера ресурсов.
+            </summary>
+        </member>
+    </members>
+</doc>

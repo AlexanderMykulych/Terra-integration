@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Terrasoft.WebApp</name>
+    </assembly>
+    <members>
+        <member name="F:Terrasoft.WebApp.Nui.SchemaDesigner.Head1">
+            <summary>
+            Head1 control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Terrasoft.WebApp.Nui.UserManagement.UserManagementForm">
+            <summary>
+            UserManagementForm control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Terrasoft.WebApp.WorkspaceExplorerModule.PackageFilterName">
+            <summary>
+            Название фильтра пакетов
+            </summary>
+        </member>
+        <member name="F:Terrasoft.WebApp.WorkspaceExplorerModule.IsFavoriteSchemaFilterName">
+            <summary>
+            Название фильтра папок схемы
+            </summary>
+        </member>
+        <member name="M:Terrasoft.WebApp.Global.InitializeClassFactoryBinding">
+            <summary>
+            Инициализирует биндинг замещаемого типа для фабрики классов.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Terrasoft.Redis</name>
+    </assembly>
+    <members>
+        <member name="T:Terrasoft.Redis.ApplicationDataRedisStore">
+            <summary>
+            Хранилище данных приложения.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Redis.ApplicationDataRedisStore.HashId">
+            <summary>
+            Возвращает ключ, по которому будут храниться данные хранилища в Redis.
+            </summary>
+            <value>
+            Значение ключа в Redis.
+            </value>
+        </member>
+        <member name="P:Terrasoft.Redis.ApplicationDataRedisStore.Keys">
+            <summary>
+            Возвращает список всех ключей хранилища.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Redis.RedisSessionHelper.SynchronizeUserSessions(Terrasoft.Core.UserConnection)">
+            <summary>
+            Завершает неактивные сеансы пользователей.
+            </summary>
+            <param name="userConnection">Пользовательское подключение.</param>
+        </member>
+        <member name="P:Terrasoft.Redis.GeneralCacheRedisStore.IsLocalCache">
+            <summary>
+            Признак, определяющий, что данные хранятся в локальной памяти.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Redis.SessionCacheRedisStore.IsLocalCache">
+            <summary>
+            Признак, определяющий, что данные хранятся в локальной памяти.
+            </summary>
+        </member>
+    </members>
+</doc>

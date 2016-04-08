@@ -1,0 +1,64 @@
+﻿{
+  "PersonProfile": {
+    "name": "I Kleva ",
+    "b2b": true,
+    "b2c": false,
+    "b2s": false,
+    "scenarioType": null,
+    "status": "Регулярный",
+    "firstName": "Kleva2",
+    "middleName": "",
+    "lastName": "I",
+    "type": "Сотрудник",
+    "salutation": null,
+    "dear": "",
+    "gender": null,
+    "contact": {
+      "ContactInfo": {
+        "name": "ContactInfo",
+        "emailAllowed": true,
+        "phoneAllowed": true,
+        "faxAllowed": false,
+        "smsAllowed": true,
+        "mailAllowed": true,
+        "records": [
+          {
+            "ContactRecord": {
+              "value": "frfrfr@b.ru",
+              "name": "Email",
+              "type": {
+                "#ref": {
+                  "id": 1,
+                  "type": "ContactRecordType",
+                  "name": ""
+                }
+              },
+              "primary": false
+            }
+          }
+        ],
+        "addresses": []
+      }
+    },
+    "relationships": [
+      {
+        "#ref": {
+          "id": 7,
+          "type": "Relationship",
+          "name": ""
+        }
+      }
+    ],
+    "assignments": [],
+    "company": {
+      "#ref": {
+        "id": 68,
+        "type": "CompanyProfile",
+        "name": ""
+      }
+    },
+    "notificationProfiles": [],
+    "id": 62,
+    "version": 0
+  }
+}
