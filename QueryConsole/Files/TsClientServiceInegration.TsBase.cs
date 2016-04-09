@@ -75,7 +75,7 @@ namespace Terrasoft.Configuration
 					AddDataToRequest(_request, jsonText);
 					break;
 				}
-				_request.BeginGetResponse(GetRequestResponse, new ResponceParams(_request, callback, userConnection));
+				_request.BeginGetResponse(GetRequestResponse, new ResponceParams(_request, callback, userConnection, jsonText));
 			} catch(Exception e) {
 				IntegrationUtilities.Error("Method [MakeAsyncRequest] catch exception: threadId = {0}\nMessage = {1}", Thread.CurrentThread.ManagedThreadId, e.Message);
 			}
@@ -102,25 +102,36 @@ namespace Terrasoft.Configuration
 		/// </summary>
 		/// <param name="result"></param>
 		private static void GetRequestResponse(IAsyncResult result) {
-			var responceParams = (ResponceParams)result.AsyncState;
-			var responce = responceParams.Request.EndGetResponse(result);
-			using(Stream responseStream = responce.GetResponseStream())
-			using(StreamReader sr = new StreamReader(responseStream)) {
-				if(responceParams.Callback != null) {
-					string responceText = sr.ReadToEnd();
-					responceParams.Callback(responceText, responceParams.UserConnection);
+			var responseParams = (ResponceParams)result.AsyncState;
+			try {
+				var response = responseParams.Request.EndGetResponse(result);
+				using(Stream responseStream = response.GetResponseStream())
+				using(StreamReader sr = new StreamReader(responseStream)) {
+					if(responseParams.Callback != null) {
+						string responceText = sr.ReadToEnd();
+						responseParams.Callback(responceText, responseParams.UserConnection);
+					}
+				}
+			} catch(WebException e) {
+				var response = e.Response;
+				using(StreamReader sr = new StreamReader(response.GetResponseStream())) {
+					IntegrationUtilities.Error("Method [GetRequestResponse] catch exception: Source: {0}\nMessage: {1}\nJson Response: {2}", e.Source, e.Message, sr.ReadToEnd());
 				}
 			}
+			
+			
 		}
 		private class ResponceParams {
-			public ResponceParams(HttpWebRequest request, Action<string, UserConnection> callback, UserConnection userConnection) {
+			public ResponceParams(HttpWebRequest request, Action<string, UserConnection> callback, UserConnection userConnection, string jsonData) {
 				Request = request;
 				Callback = callback;
 				UserConnection = userConnection;
+				JsonData = jsonData;
 			}
 			public HttpWebRequest Request;
 			public Action<string, UserConnection> Callback;
 			public UserConnection UserConnection;
+			public string JsonData;
 		}
 		#endregion
 	}
@@ -159,7 +170,7 @@ namespace Terrasoft.Configuration
 				var integratorHelper = new IntegratorHelper();
 				var method = TRequstMethod.PUT;
 				integratorHelper.PushRequest(method, GetUrlByEntity(entity, method), GetEntityJson(entity), (x, y) => {
-					OnRequestResive(x, entity, method);
+					ProcessResponse(x, entity, method);
 				});
 				return true;
 			} catch(Exception e) {
@@ -178,7 +189,7 @@ namespace Terrasoft.Configuration
 					return true;
 				}
 				integratorHelper.PushRequest(method, GetUrlByEntity(entity, method), GetEntityJson(entity), (x, y) => {
-					OnRequestResive(x, entity, method);
+					ProcessResponse(x, entity, method);
 				});
 				return true;
 			} catch(Exception e) {
@@ -213,6 +224,7 @@ namespace Terrasoft.Configuration
 			}
 			return null;
 		}
+
 		private string GetUrlByEntity(Entity entity, TRequstMethod method) {
 			string url, entityName, additionalParam = "";
 			string entityType = entity.SchemaName;
@@ -233,20 +245,24 @@ namespace Terrasoft.Configuration
 			return url + "/" + entityName + additionalParam;
 		}
 
-		private void OnRequestResive(string responseJson, Entity entity, TRequstMethod method) {
-			int extId = 0;
-			int extVersion = 0;
-			var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<ExpandoObject>(responseJson) as IDictionary<string, object>;
-			if(obj.Any() && obj.First().Value is ExpandoObject) {
-				var dict = (IDictionary<string, object>)obj.First().Value;
-				extId = int.Parse(dict["id"].ToString());
-				extVersion = int.Parse(dict["version"].ToString());
-			}
-			if(extId != 0 && entity.GetTypedColumnValue<int>("TsExternalId") == 0) {
-				entity.SetColumnValue("TsExternalId", extId);
-				entity.SetColumnValue("TsExternalVersion", extVersion);
-				entity.Save(false);
-			}
+		private void ProcessResponse(string responseJson, Entity entity, TRequstMethod method) {
+			var integrationEntityHelper = new IntegrationEntityHelper();
+			var integrationInfo = new IntegrationInfo(null, entity.UserConnection, TIntegrationType.ExportResponseProcess, entity.PrimaryColumnValue, entity.SchemaName, CsConstant.IntegrationActionName.UpdateFromResponse, entity);
+			integrationInfo.StrData = responseJson;
+			integrationEntityHelper.IntegrateEntity(integrationInfo);
+			//int extId = 0;
+			//int extVersion = 0;
+			//var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<ExpandoObject>(responseJson) as IDictionary<string, object>;
+			//if(obj.Any() && obj.First().Value is ExpandoObject) {
+			//	var dict = (IDictionary<string, object>)obj.First().Value;
+			//	extId = int.Parse(dict["id"].ToString());
+			//	extVersion = int.Parse(dict["version"].ToString());
+			//}
+			//if(extId != 0 && entity.GetTypedColumnValue<int>("TsExternalId") == 0) {
+			//	entity.SetColumnValue("TsExternalId", extId);
+			//	entity.SetColumnValue("TsExternalVersion", extVersion);
+			//	entity.Save(false);
+			//}
 		}
 		#endregion
 	}
@@ -492,17 +508,25 @@ namespace Terrasoft.Configuration
 
 		#region Constructor: Public
 		public IntegrationEntityHelper() {
+			EntityHandlers = new Dictionary<Type, IIntegrationEntityHandler>();
 		}
 		#endregion
 
 		#region Methods: Public
 		public void IntegrateEntity(IntegrationInfo integrationInfo) {
-			EntityHandlers = new Dictionary<Type,IIntegrationEntityHandler>();
 			ExecuteHandlerMethod(integrationInfo, GetIntegrationHandler(integrationInfo));
 		}
 
 		public Type GetAttributeType(IntegrationInfo integrationInfo) {
-			return integrationInfo.IntegrationType == TIntegrationType.Import ? typeof(ImportHandlerAttribute) : typeof(ExportHandlerAttribute);
+			switch(integrationInfo.IntegrationType) {
+				case TIntegrationType.Import:
+				case TIntegrationType.ExportResponseProcess:
+					return typeof(ImportHandlerAttribute);
+				case TIntegrationType.Export:
+					return typeof(ExportHandlerAttribute);
+				default:
+					return typeof(ExportHandlerAttribute);
+			}
 		}
 
 		public List<Type> GetIntegrationTypes(IntegrationInfo integrationInfo) {
@@ -540,6 +564,9 @@ namespace Terrasoft.Configuration
 					if(integrationInfo.IntegrationType == TIntegrationType.Export) {
 						var result = new CsConstant.IntegrationResult(CsConstant.IntegrationResult.TResultType.Success, handler.ToJson(integrationInfo));
 						integrationInfo.Result = result;
+						return;
+					} else if(integrationInfo.IntegrationType == TIntegrationType.ExportResponseProcess) {
+						handler.ProcessResponse(integrationInfo);
 						return;
 					}
 					if(integrationInfo.Action == CsConstant.IntegrationActionName.Create) {
@@ -599,6 +626,7 @@ namespace Terrasoft.Configuration
 		void Update(IntegrationInfo integrationInfo);
 		void Delete(IntegrationInfo integrationInfo);
 		void Unknown(IntegrationInfo integrationInfo);
+		void ProcessResponse(IntegrationInfo integrationInfo);
 		JObject ToJson(IntegrationInfo integrationInfo);
 		bool IsEntityAlreadyExist(IntegrationInfo integrationInfo);
 	}
@@ -708,6 +736,7 @@ namespace Terrasoft.Configuration
 			
 			#region Properties: Public
 			public JObject Data { get; set; }
+			public string StrData {get;set;}
 			public UserConnection UserConnection { get; set; }
 			public TIntegrationType IntegrationType { get; set; }
 			public string EntityName { get; set; }
@@ -743,7 +772,8 @@ namespace Terrasoft.Configuration
 		public enum TIntegrationType {
 			Export = 0,
 			Import = 1,
-			All = 3
+			All = 3,
+			ExportResponseProcess = 4
 		}
 		public enum TSysAdminUnitType {
 			Organization = 0,
@@ -827,6 +857,7 @@ namespace Terrasoft.Configuration
 			public const string Create = @"create";
 			public const string Update = @"update";
 			public const string Delete = @"delete";
+			public const string UpdateFromResponse = @"updateFromResponse";
 			public const string Empty = @"";
 		}
 		#endregion
@@ -1143,55 +1174,84 @@ namespace Terrasoft.Configuration
 			try {
 				switch(integrationInfo.IntegrationType) {
 					case TIntegrationType.Import: {
-						if(integrationInfo.IntegratedEntity == null)
-							throw new Exception(string.Format("Integration Entity not exist {0} ({1})", jName));
-						var entityJObj = integrationInfo.Data[jName];
-						integrationInfo.IntegratedEntity.SetDefColumnValues();
-						foreach(var item in mapConfig) {
-							try {
-								if(item.MapIntegrationType != TIntegrationType.All && item.MapIntegrationType != integrationInfo.IntegrationType)
-									continue;
-								var subJObj = GetJTokenByPath(entityJObj, item.JSourcePath);
-								MapColumn(item, ref subJObj, integrationInfo);
-							} catch(Exception e) {
-								if(CsConstant.IntegrationFlagSetting.AllowErrorOnColumnAssign) {
-									throw;
-								}
-							}
-						}
+						StartMappImportByConfig(integrationInfo, jName, mapConfig);
 						break;
 					}
-					case TIntegrationType.Export:
-						integrationInfo.Data = new JObject();
-						if(integrationInfo.Data[jName] == null)
-							integrationInfo.Data[jName] = new JObject(); 
-						foreach(var item in mapConfig) {
-							
-							var jObjItem = (new JObject()) as JToken;
-							try {
-								MapColumn(item, ref jObjItem, integrationInfo);
-							} catch(Exception e) {
-								IntegrationUtilities.Error("Method [StartMappByConfig] catch exception by map column {0} Message = {1} IgnoreError = {2}", item.JSourcePath, e.Message, item.IgnoreError);
-								if(!item.IgnoreError) {
-									throw;
-								}
-								jObjItem = null;
-							}
-							if(integrationInfo.Data[jName][item.JSourcePath] != null && integrationInfo.Data[jName][item.JSourcePath].HasValues) {
-								if(integrationInfo.Data[jName][item.JSourcePath] is JArray)
-									((JArray)integrationInfo.Data[jName][item.JSourcePath]).Add(jObjItem);
-							} else {
-								var resultJ = GetJTokenByPath(integrationInfo.Data[jName], item.JSourcePath);
-								if(jObjItem == null && item.EFieldRequier)
-									throw new ArgumentNullException("Field " + item.JSourcePath + " required!");
-								resultJ.Replace(jObjItem);
-							}
-						}
-					break;
+					case TIntegrationType.Export: {
+						StartMappExportByConfig(integrationInfo, jName, mapConfig);
+						break;
+					}
+					case TIntegrationType.ExportResponseProcess: {
+						StartMappExportResponseProcessByConfig(integrationInfo, jName, mapConfig);
+						break;
+					}
 				}
 			} catch(Exception e) {
-				IntegrationUtilities.Error("Method [StartMappByConfig] catch exception Message = {0} jName = jName", e.Message, jName);
+				IntegrationUtilities.Error("Method [StartMappByConfig] catch exception Message = {0} jName = {1}", e.Message, jName);
 				throw;
+			}
+		}
+
+		public void StartMappImportByConfig(IntegrationInfo integrationInfo, string jName, List<MappingItem> mapConfig) {
+			if(integrationInfo.IntegratedEntity == null)
+				throw new Exception(string.Format("Integration Entity not exist {0} ({1})", jName));
+			var entityJObj = integrationInfo.Data[jName];
+			foreach(var item in mapConfig) {
+				if(item.MapIntegrationType == TIntegrationType.All || item.MapIntegrationType == TIntegrationType.Import) {
+					try {
+						var subJObj = GetJTokenByPath(entityJObj, item.JSourcePath);
+						MapColumn(item, ref subJObj, integrationInfo);
+					} catch(Exception e) {
+						if(CsConstant.IntegrationFlagSetting.AllowErrorOnColumnAssign) {
+							throw;
+						}
+					}
+				}
+			}
+		}
+
+		public void StartMappExportByConfig(IntegrationInfo integrationInfo, string jName, List<MappingItem> mapConfig) {
+			integrationInfo.Data = new JObject();
+			if(integrationInfo.Data[jName] == null)
+				integrationInfo.Data[jName] = new JObject();
+			foreach(var item in mapConfig) {
+				if(item.MapIntegrationType == TIntegrationType.All || item.MapIntegrationType == TIntegrationType.Export) {
+					var jObjItem = (new JObject()) as JToken;
+					try {
+						MapColumn(item, ref jObjItem, integrationInfo);
+					} catch(Exception e) {
+						IntegrationUtilities.Error("Method [StartMappByConfig] catch exception by map column {0} Message = {1} IgnoreError = {2}", item.JSourcePath, e.Message, item.IgnoreError);
+						if(!item.IgnoreError) {
+							throw;
+						}
+						jObjItem = null;
+					}
+					if(integrationInfo.Data[jName][item.JSourcePath] != null && integrationInfo.Data[jName][item.JSourcePath].HasValues) {
+						if(integrationInfo.Data[jName][item.JSourcePath] is JArray)
+							((JArray)integrationInfo.Data[jName][item.JSourcePath]).Add(jObjItem);
+					} else {
+						var resultJ = GetJTokenByPath(integrationInfo.Data[jName], item.JSourcePath);
+						if(jObjItem == null && item.EFieldRequier)
+							throw new ArgumentNullException("Field " + item.JSourcePath + " required!");
+						resultJ.Replace(jObjItem);
+					}
+				}
+			}
+		}
+
+		public void StartMappExportResponseProcessByConfig(IntegrationInfo integrationInfo, string jName, List<MappingItem> mapConfig) {
+			var entityJObj = integrationInfo.Data[jName];
+			foreach(var item in mapConfig) {
+				try {
+					if(item.SaveOnResponse) {
+						var subJObj = GetJTokenByPath(entityJObj, item.JSourcePath);
+						MapColumn(item, ref subJObj, integrationInfo);
+					}
+				} catch(Exception e) {
+					if(CsConstant.IntegrationFlagSetting.AllowErrorOnColumnAssign) {
+						throw;
+					}
+				}
 			}
 		}
 
@@ -1244,7 +1304,8 @@ namespace Terrasoft.Configuration
 		public void ArrayOfReference(MappingItem mappingItem, IntegrationInfo integrationInfo, ref JToken jToken) {
 			try {
 				switch(integrationInfo.IntegrationType) {
-					case TIntegrationType.Import: {
+					case TIntegrationType.Import:
+					case TIntegrationType.ExportResponseProcess: {
 						//Guid? resultGuid = null;
 						//if(jToken != null && jToken.HasValues) {
 						//	var refColumns = jToken[RefName];
@@ -1280,7 +1341,8 @@ namespace Terrasoft.Configuration
 		public void Const(MappingItem mappingItem, IntegrationInfo integrationInfo, ref JToken jToken) {
 			try {
 				switch(integrationInfo.IntegrationType) {
-					case TIntegrationType.Import: {
+					case TIntegrationType.Import:
+					case TIntegrationType.ExportResponseProcess: {
 						//Guid? resultGuid = null;
 						//if(jToken != null && jToken.HasValues) {
 						//	var refColumns = jToken[RefName];
@@ -1321,7 +1383,8 @@ namespace Terrasoft.Configuration
 
 		public void RefToGuid(MappingItem mappingItem, IntegrationInfo integrationInfo, ref JToken jToken) {
 			switch(integrationInfo.IntegrationType) {
-				case TIntegrationType.Import: {
+				case TIntegrationType.Import:
+				case TIntegrationType.ExportResponseProcess: {
 					Guid? resultGuid = null;
 					if(jToken != null && jToken.HasValues) {
 						var refColumns = jToken[RefName];
@@ -1349,7 +1412,8 @@ namespace Terrasoft.Configuration
 
 		public void Simple(MappingItem mappingItem, IntegrationInfo integrationInfo, ref JToken jToken) {
 			switch(integrationInfo.IntegrationType) {
-				case TIntegrationType.Import: {
+				case TIntegrationType.Import:
+				case TIntegrationType.ExportResponseProcess: {
 					object value = GetSimpleTypeValue(jToken);
 					integrationInfo.IntegratedEntity.SetColumnValue(mappingItem.TsSourcePath, value);
 					break;
@@ -1364,7 +1428,8 @@ namespace Terrasoft.Configuration
 
 		public void StringToDictionaryGuid(MappingItem mappingItem, IntegrationInfo integrationInfo, ref JToken jToken) {
 			switch(integrationInfo.IntegrationType) {
-				case TIntegrationType.Import: {
+				case TIntegrationType.Import:
+				case TIntegrationType.ExportResponseProcess: {
 					object resultId = null;
 					if(jToken != null) {
 						var newValue = GetSimpleTypeValue(jToken);
@@ -1388,13 +1453,13 @@ namespace Terrasoft.Configuration
 		public void CompositObject(MappingItem mappingItem, IntegrationInfo integrationInfo, ref JToken jToken) {
 			try {
 				switch(integrationInfo.IntegrationType) {
-					case TIntegrationType.Import: {
-						//if(jObject != null) {
-						//	var integrEntityHelper = IntegrationServiceIntegrator.GetInstance(UserConnection).IntegrationEntityHelper;
-						//	var integrationInfo = new IntegrationInfo(jObject, UserConnection, integrationType, null, null, "Create", entity);
-						//	//integrEntityHelper.IntegrateEntity(jObject, jObject.Properties().FirstOrDefault().Name, CsConstant.IntegrationActionName.Update, UserConnection);
-						//	integrEntityHelper.IntegrateEntity(integrationInfo);
-						//}
+					case TIntegrationType.Import:
+					case TIntegrationType.ExportResponseProcess: {
+						var integrator = new IntegrationEntityHelper();
+						//var objIntegrInfo = new IntegrationInfo(jToken, integrationInfo.UserConnection, integrationInfo.IntegrationType, null, null, integrationInfo.Action);
+						var jObject = jToken as JObject;
+						var objIntegrInfo = new IntegrationInfo(jObject, integrationInfo.UserConnection, integrationInfo.IntegrationType, null, jObject.Properties().First().Name, integrationInfo.Action);
+						integrator.IntegrateEntity(objIntegrInfo);
 						break;
 					}
 					case TIntegrationType.Export: {
@@ -1417,12 +1482,15 @@ namespace Terrasoft.Configuration
 		public void ArrayOfCompositObject(MappingItem mappingItem, IntegrationInfo integrationInfo, ref JToken jToken) {
 			try {
 				switch(integrationInfo.IntegrationType) {
-					case TIntegrationType.Import: {
-						//if(jObject == null)
-						//	return;
-						//foreach(var item in jObject) {
-						//	CompositObject("", mappingItem, entity, (item as JObject));
-						//}
+					case TIntegrationType.Import:
+					case TIntegrationType.ExportResponseProcess: {
+						if(jToken is JArray) {
+							var jArray = (JArray)jToken;
+							foreach(JToken jArrayItem in jArray) {
+								JToken jObj = jArrayItem;
+								CompositObject(mappingItem, integrationInfo, ref jObj);
+							}
+						}
 						break;
 					}
 					case TIntegrationType.Export: {
@@ -1493,6 +1561,10 @@ namespace Terrasoft.Configuration
 			} catch(Exception e) {
 				IntegrationUtilities.Error("Method [SaveEntity] catch exception: Message = {0}", e.Message);
 			}
+		}
+
+		public JObject GetJObject(string json) {
+			return !string.IsNullOrEmpty(json) ? JObject.Parse(json) : null;
 		}
 		#endregion
 
@@ -1639,6 +1711,8 @@ namespace Terrasoft.Configuration
 		public TConstType ConstType {get;set;}
 
 		public bool IgnoreError {get;set;}
+		public bool SaveOnResponse {get;set;}
+
 
 		public string HandlerName {get;set;}
 		#endregion

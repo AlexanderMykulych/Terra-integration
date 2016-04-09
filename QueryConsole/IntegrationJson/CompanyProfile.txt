@@ -1,6 +1,7 @@
 ﻿{
   "CompanyProfile": {
-	"id": 15,
+	"id": 800,
+	"version": 3,
     "mainContactInfo": {
       "ContactInfo": {
         "name": "ContactInfo",
@@ -12,21 +13,7 @@
         "records": [
           {
             "ContactRecord": {
-              "value": "33",
-              "name": "Мобильный телефон",
-              "type": {
-                "#ref": {
-                  "id": 2,
-                  "type": "ContactRecordType",
-                  "name": ""
-                }
-              },
-              "primary": false
-            }
-          },
-          {
-            "ContactRecord": {
-              "value": "testSurname",
+              "value": "Alexander@Skype",
               "name": "Skype",
               "type": {
                 "#ref": {
@@ -35,69 +22,15 @@
                   "name": ""
                 }
               },
-              "primary": false
-            }
-          },
-          {
-            "ContactRecord": {
-              "value": "mytestemail@gmail.com",
-              "name": "Email",
-              "type": {
-                "#ref": {
-                  "id": 1,
-                  "type": "ContactRecordType",
-                  "name": ""
-                }
-              },
-              "primary": false
-            }
-          },
-          {
-            "ContactRecord": {
-              "value": "+380969019403",
-              "name": "Рабочий телефон",
-              "type": {
-                "#ref": {
-                  "id": 2,
-                  "type": "ContactRecordType",
-                  "name": ""
-                }
-              },
-              "primary": false
-            }
+              "primary": false,
+			  "id": 5,
+			"version": 2
+            },
+			
           }
         ],
         "addresses": [
-          {
-            "AddressInfo": {
-              "name": "Домашний",
-              "country": "Россия",
-              "region": "Северо-Западный ФО",
-              "settlement": null,
-              "address": "ул. Бла бЛа бла, дом Бла Бла бЛа2, кв. 43",
-              "main": true,
-              "zipCode": "45643",
-              "type": null
-            }
-          },
-          {
-            "AddressInfo": {
-              "name": "Доставки",
-              "country": "Россия",
-              "region": null,
-              "settlement": "Ростов-на-Дону",
-              "address": "Екровв",
-              "main": false,
-              "zipCode": "344234",
-              "type": {
-                "#ref": {
-                  "id": 1,
-                  "type": "AddressType",
-                  "name": ""
-                }
-              }
-            }
-          }
+          
         ]
       }
     },
@@ -108,6 +41,7 @@
         "name": ""
       }
     },
+	"externalId": "123123",
     "name": "Integration Account 1",
     "type": "Наша компания",
     "subtype": "Локальный",
@@ -123,56 +57,16 @@
     "b2s": false,
     "liquidation": "true",
     "taxRegistrationNumberName": "ИНН",
-    "taxRegistrationNumber": "1231231231",
-    "companyRegistrationNumber": "231231231",
+    "taxRegistrationNumber": "2342342342342",
+    "companyRegistrationNumber": "3456166161",
     "companyRegistrationNumberName": "КПП",
     "scenario": "очень важный (VIP)",
     "bankrupt": true,
     "ownerAgentId": null,
     "specialization": "Американские автомобили",
     "relationships": [
-      {
-        "#ref": {
-          "id": 1,
-          "type": "Relationship",
-          "name": ""
-        }
-      },
-      {
-        "#ref": {
-          "id": 2,
-          "type": "Relationship",
-          "name": ""
-        }
-      }
     ],
     "notificationProfiles": [
-      {
-        "NotificationProfile": {
-          "person": null,
-          "type": "Отправка",
-          "disabled": false,
-          "notifyOnHolidays": false,
-          "timeFrom": "04:18:59",
-          "timeTo": "14:46:48",
-          "notificationChannel": null,
-          "communicationType": "",
-          "timezone": "(GMT-06:00) Центральное время (США и Канада)"
-        }
-      },
-      {
-        "NotificationProfile": {
-          "person": null,
-          "type": "Прибытие",
-          "disabled": false,
-          "notifyOnHolidays": false,
-          "timeFrom": null,
-          "timeTo": null,
-          "notificationChannel": null,
-          "communicationType": "",
-          "timezone": null
-        }
-      }
     ],
     "additionalInfo": {
       "category": "C",
@@ -188,46 +82,7 @@
       "wolesaleMakup": 0.0
     },
     "assignments": [
-      {
-        "CompanyProfileAssignement": {
-          "priority": 0,
-          "assignedManager": null,
-          "assignedGroup": {
-            "#ref": {
-              "id": 5,
-              "type": "ManagerGroup",
-              "name": ""
-            }
-          }
-        }
-      },
-      {
-        "CompanyProfileAssignement": {
-          "priority": 0,
-          "assignedManager": null,
-          "assignedGroup": null
-        }
-      },
-      {
-        "CompanyProfileAssignement": {
-          "priority": 0,
-          "assignedManager": null,
-          "assignedGroup": null
-        }
-      },
-      {
-        "CompanyProfileAssignement": {
-          "priority": 2,
-          "assignedManager": {
-            "#ref": {
-              "id": 2,
-              "type": "Manager",
-              "name": ""
-            }
-          },
-          "assignedGroup": null
-        }
-      }
+      
     ]
   }
 }

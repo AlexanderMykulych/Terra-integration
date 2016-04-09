@@ -24,10 +24,34 @@
 		<replace From="#YearFromDateTime" To="1" />
 	</prerenderConfig>
 	<configItem TsName="Default" JName="">
-		<mappingItem JSourcePath = "" TsSourcePath="" TsDestinationPath="Id" TsDestinationResPath="Name" TsExternalIdPath="TsExternalId" TsDestinationName="" TsDetinationValueType="string" MapType="#Simple" JTypeName="" MapExecuteType="1" MapIntegrationType="#All" IgnoreError="#true" IFieldRequier="0" EFieldRequier="0"/>
+		<mappingItem
+				JSourcePath = "" 
+				TsSourcePath=""
+				TsDestinationPath="Id"
+				TsDestinationResPath="Name"
+				TsExternalIdPath="TsExternalId"
+				TsDestinationName=""
+				TsDetinationValueType="string"
+				MapType="#Simple"
+				JTypeName=""
+				MapExecuteType="1"
+				MapIntegrationType="#All"
+				IgnoreError="#true"
+				IFieldRequier="0"
+				EFieldRequier="0"
+				SaveOnResponse="#false"
+		/>
 	</configItem>
 	<configItem JName = "CompanyProfile" TsName="Account">
-		<mappingItem JSourcePath = "mainContactInfo" TsSourcePath="PrimaryContactId" TsDestinationName="Contact" MapType="#CompositObject" JSourceName="ContactInfo" MapExecuteType = "#AfterEntitySave" HandlerName="ContactInfo" EFieldRequier="1"/>
+		<!--<mappingItem JSourcePath = "mainContactInfo" TsSourcePath="PrimaryContactId" TsDestinationName="Contact" MapType="#CompositObject" JSourceName="ContactInfo" MapExecuteType = "#AfterEntitySave" HandlerName="ContactInfo" EFieldRequier="1"/>-->
+		<mappingItem JSourcePath = "mainContactInfo.ContactInfo.name" MapType="#Const" ConstValue="ContactInfo"/>
+		<mappingItem JSourcePath = "mainContactInfo.ContactInfo.emailAllowed" TsSourcePath="PrimaryContactId" TsDestinationPath="Id" TsDestinationName="Contact" TsDestinationResPath="DoNotUseEmail" MapType="#StringToDictionaryGuid"/>
+		<mappingItem JSourcePath = "mainContactInfo.ContactInfo.phoneAllowed" TsSourcePath="PrimaryContactId" TsDestinationPath="Id" TsDestinationName="Contact" TsDestinationResPath = "DoNotUseCall" MapType="#StringToDictionaryGuid"/>
+		<mappingItem JSourcePath = "mainContactInfo.ContactInfo.faxAllowed" TsSourcePath="PrimaryContactId" TsDestinationPath="Id" TsDestinationName="Contact" TsDestinationResPath = "DoNotUseFax" MapType="#StringToDictionaryGuid"/>
+		<mappingItem JSourcePath = "mainContactInfo.ContactInfo.smsAllowed" TsSourcePath="PrimaryContactId" TsDestinationPath="Id" TsDestinationName="Contact" TsDestinationResPath = "DoNotUseSms" MapType="#StringToDictionaryGuid"/>
+		<mappingItem JSourcePath = "mainContactInfo.ContactInfo.mailAllowed" TsSourcePath="PrimaryContactId" TsDestinationPath="Id" TsDestinationName="Contact" TsDestinationResPath = "DoNotUseMail" MapType="#StringToDictionaryGuid"/>
+		<mappingItem JSourcePath = "mainContactInfo.ContactInfo.records" TsSourcePath = "PrimaryContactId" TsDestinationPath="Contact" TsDestinationName="ContactCommunication" MapType="#ArrayOfCompositObject" JSourceName="ContactRecord"/>
+		<mappingItem JSourcePath = "mainContactInfo.ContactInfo.addresses" TsSourcePath = "PrimaryContactId" TsDestinationPath="Contact" TsDestinationName="ContactAddress" MapType="#ArrayOfCompositObject" JSourceName="AddressInfo"/>
 		<mappingItem JSourcePath = "parentCompany" TsSourcePath = "ParentId" MapType = "#RefToGuid" TsDestinationName = "Account" JSourceName = "CompanyProfile" IgnoreError="#false"/>
 		<mappingItem JSourcePath = "name" TsSourcePath = "Name"/>
 		<mappingItem JSourcePath = "type" TsSourcePath = "TypeId" TsDestinationName="AccountType" TsDestinationResPath="Name" MapType = "#StringToDictionaryGuid"/>
@@ -46,10 +70,10 @@
 		<mappingItem JSourcePath = "bankrupt" TsSourcePath = "TsBankrucyFact"/>
 		<!--<mappingItem JSourcePath = "ownerAgentId" TsSourcePath = "TsLocalMarketId" TsDestinationName = "TsLocSalMarket" MapType = "#RefToGuid" JSourceName="LocalMarket"/>-->
 		<mappingItem JSourcePath = "specialization" TsSourcePath = "Id" MapType = "#StringToDictionaryGuid" TsDestinationName="TsAccountSpec" TsDestinationPath="TsAccount" TsDestinationResPath="TsSpecialization.Name" MapExecuteType = "#BeforeEntitySave" MapIntegrationType="#Export"/>
-		<mappingItem JSourcePath = "relationships" TsSourcePath = "Id" TsDestinationPath = "AccountA" TsDestinationName = "Relationship" MapType = "#ArrayOfReference" JSourceName = "Relationship" MapExecuteType = "#AfterEntitySave" MapIntegrationType="#Export"/>
-		<!--<mappingItem JSourcePath = "id" TsSourcePath = "TsExternalId" MapIntegrationType="#Import"/>
-		<mappingItem JSourcePath = "guid" TsSourcePath = "Id" MapIntegrationType="#Export"/>
-		<mappingItem JSourcePath = "version" TsSourcePath = "TsExternalVersion" MapIntegrationType="#Export"/>-->
+		<!--<mappingItem JSourcePath = "relationships" TsSourcePath = "Id" TsDestinationPath = "AccountA" TsDestinationName = "Relationship" MapType = "#ArrayOfReference" JSourceName = "Relationship" MapExecuteType = "#AfterEntitySave" MapIntegrationType="#Export"/>-->
+		<mappingItem JSourcePath = "relationships" MapType="#Const" ConstType="#EmptyArray"/>
+		<mappingItem JSourcePath = "id" TsSourcePath = "TsExternalId" MapIntegrationType="#Import" SaveOnResponse="#true"/>
+		<mappingItem JSourcePath = "version" TsSourcePath = "TsExternalVersion" MapIntegrationType="#Import" SaveOnResponse="#true"/>
 		<mappingItem JSourcePath = "notificationProfiles" TsSourcePath="Id" TsDestinationPath="TsAccount" TsDestinationName="TsAccountNotification" MapType="#ArrayOfCompositObject" JSourceName="NotificationProfile" MapExecuteType = "#AfterEntitySave"  MapIntegrationType="#Export"/>
 		<mappingItem JSourcePath = "additionalInfo.category" TsSourcePath="AccountCategoryId" TsDestinationName="AccountCategory" MapType="#StringToDictionaryGuid"/>
 		<mappingItem JSourcePath = "additionalInfo.scoring" TsSourcePath="TsCategoryScoringId" TsDestinationName="TsCategoryScoring" MapType="#StringToDictionaryGuid"/>
@@ -78,15 +102,32 @@
 		<mappingItem JSourcePath = "salutation" TsSourcePath = "SalutationTypeId" TsDestinationName="ContactSalutationType" MapType = "#StringToDictionaryGuid"/>
 		<mappingItem JSourcePath = "dear" TsSourcePath = "Dear"/>
 		<mappingItem JSourcePath = "gender" TsSourcePath = "GenderId" TsDestinationName="Gender" MapType = "#StringToDictionaryGuid"/>
-		<mappingItem JSourcePath = "contact" TsSourcePath = "OwnerId" TsDestinationName="Contact" MapType="#CompositObject" JSourceName="ContactInfo" MapExecuteType = "#AfterEntitySave" HandlerName="ContactInfo"/>
 		<!--<mappingItem JSourcePath = "relationships" TsSourcePath = "Id" TsDestinationPath = "ContactA" TsDestinationName = "Relationship" MapType = "#ArrayOfReference" JSourceName = "Relationship" MapExecuteType = "#AfterEntitySave"/>-->
+		<mappingItem JSourcePath = "relationships" MapType="#Const" ConstType="#EmptyArray"/>
 		<mappingItem JSourcePath = "assignments" TsSourcePath="Id" TsDestinationPath="TsContact" TsDestinationName="TsContactManagerGroup" MapType="#ArrayOfCompositObject" JSourceName="PersonProfileAssignment" MapExecuteType = "#AfterEntitySave"/>
 		<mappingItem JSourcePath = "company" TsSourcePath = "AccountId" TsDestinationName = "Account" MapType = "#RefToGuid" JSourceName = "CompanyProfile"/>
 		<mappingItem JSourcePath = "notificationProfiles" TsSourcePath="Id" TsDestinationPath="TsContact" TsDestinationName="TsContactNotifications" MapType="#ArrayOfCompositObject" JSourceName="NotificationProfile" MapExecuteType = "#AfterEntitySave"/>
-		<!--<mappingItem JSourcePath = "id" TsSourcePath = "TsExternalId" MapIntegrationType="#Import"/>
-		<mappingItem JSourcePath = "version" TsSourcePath = "TsExternalVersion" MapIntegrationType="#Import"/>
-		<mappingItem JSourcePath = "guid" TsSourcePath = "Id"/>-->
+		<mappingItem JSourcePath = "id" TsSourcePath = "TsExternalId" MapIntegrationType="#Import" SaveOnResponse="#true"/>
+		<mappingItem JSourcePath = "version" TsSourcePath = "TsExternalVersion" MapIntegrationType="#Import" SaveOnResponse="#true"/>
+		<mappingItem JSourcePath = "contact.ContactInfo.name" MapType="#Const" ConstValue="ContactInfo"/>
+		<mappingItem JSourcePath = "contact.ContactInfo.emailAllowed" TsSourcePath="DoNotUseEmail"/>
+		<mappingItem JSourcePath = "contact.ContactInfo.phoneAllowed" TsSourcePath = "DoNotUseCall"/>
+		<mappingItem JSourcePath = "contact.ContactInfo.faxAllowed" TsSourcePath = "DoNotUseFax"/>
+		<mappingItem JSourcePath = "contact.ContactInfo.smsAllowed" TsSourcePath = "DoNotUseSms"/>
+		<mappingItem JSourcePath = "contact.ContactInfo.mailAllowed" TsSourcePath = "DoNotUseMail"/>
+		<mappingItem JSourcePath = "contact.ContactInfo.records" TsSourcePath = "Id" TsDestinationPath="Contact" TsDestinationName="ContactCommunication" MapType="#ArrayOfCompositObject" JSourceName="ContactRecord"/>
+		<mappingItem JSourcePath = "contact.ContactInfo.addresses" TsSourcePath = "Id" TsDestinationPath="Contact" TsDestinationName="ContactAddress" MapType="#ArrayOfCompositObject" JSourceName="AddressInfo"/>
 	</configItem>
+	<!--<configItem JName = "ContactInfo" TsName="">
+		<mappingItem JSourcePath = "name" MapType="#Const" ConstValue="ContactInfo"/>
+		<mappingItem JSourcePath = "emailAllowed" TsSourcePath="DoNotUseEmail"/>
+		<mappingItem JSourcePath = "phoneAllowed" TsSourcePath = "DoNotUseCall"/>
+		<mappingItem JSourcePath = "faxAllowed" TsSourcePath = "DoNotUseFax"/>
+		<mappingItem JSourcePath = "smsAllowed" TsSourcePath = "DoNotUseSms"/>
+		<mappingItem JSourcePath = "mailAllowed" TsSourcePath = "DoNotUseMail"/>
+		<mappingItem JSourcePath = "records" TsSourcePath = "Id" TsDestinationPath="Contact" TsDestinationName="ContactCommunication" MapType="#ArrayOfCompositObject" JSourceName="ContactRecord"/>
+		<mappingItem JSourcePath = "addresses" TsSourcePath = "Id" TsDestinationPath="Contact" TsDestinationName="ContactAddress" MapType="#ArrayOfCompositObject" JSourceName="AddressInfo"/>
+	</configItem>-->
 	<configItem JName = "ClientRequest" TsName="Case">	
 		<mappingItem JSourcePath = "number" TsSourcePath = "Number"/>
 		<mappingItem JSourcePath = "state" TsSourcePath = "StatusId" TsDestinationName="CaseStatus" MapType="#StringToDictionaryGuid"/>
@@ -104,6 +145,8 @@
 		<mappingItem JSourcePath = "factResolutionAt" TsSourcePath = "SolutionProvidedOn"/>
 		<mappingItem JSourcePath = "requester" TsSourcePath = "ContactId" TsDestinationName="Contact" MapType="#RefToGuid" JSourceName = "PersonProfile"/>
 		<mappingItem JSourcePath = "company" TsSourcePath = "AccountId" TsDestinationName = "Account"  JSourceName = "CompanyProfile" MapType = "#RefToGuid"/>
+		<mappingItem JSourcePath = "id" TsSourcePath = "TsExternalId" MapIntegrationType="#Import" SaveOnResponse="#true"/>
+		<mappingItem JSourcePath = "version" TsSourcePath = "TsExternalVersion" MapIntegrationType="#Import" SaveOnResponse="#true"/>
 		<!--<mappingItem JSourcePath = "managerGroup" TsSourcePath = "GroupId" TsDestinationName = "SysAdminUnit" MapType = "#RefToGuid" JSourceName="ManagerGroup" HandlerName="ManagerGroup"/>
 		<mappingItem JSourcePath = "manager" TsSourcePath="OwnerId" TsDestinationPath = "Contact" TsDestinationName = "SysAdminUnit" MapType = "#RefToGuid" JSourceName="Manager" HandlerName="Manager"/>-->
 	</configItem>
@@ -139,6 +182,8 @@
 		<mappingItem JSourcePath = "additionalInfo.EngOil" TsSourcePath = "TsEngineOilInfo"/>
 		<mappingItem JSourcePath = "additionalInfo.BreakBrand" TsSourcePath = "TsBreakBrandInfo"/>
 		<mappingItem JSourcePath = "additionalInfo.FiltBrand" TsSourcePath = "TsFilterBrandInfo"/>
+		<mappingItem JSourcePath = "id" TsSourcePath = "TsExternalId" MapIntegrationType="#Import" SaveOnResponse="#true"/>
+		<mappingItem JSourcePath = "version" TsSourcePath = "TsExternalVersion" MapIntegrationType="#Import" SaveOnResponse="#true"/>
 	</configItem>
 	<configItem JName = "Employee" TsName="ContactCareer">
 		<mappingItem JSourcePath = "job" TsSourcePath="JobId" TsDestinationName="Job" MapType="#StringToDictionaryGuid"/>
@@ -152,6 +197,8 @@
 		<mappingItem JSourcePath = "jobChangeReason" TsSourcePath = "JobChangeReasonId" TsDestinationName="JobChangeReason" MapType="#StringToDictionaryGuid"/>
 		<mappingItem JSourcePath = "company" TsSourcePath = "AccountId"  TsDestinationName="Account" MapType="#RefToGuid" JSourceName="CompanyProfile"/>
 		<mappingItem JSourcePath = "personProfile" TsSourcePath = "ContactId"  TsDestinationName="Contact" MapType="#RefToGuid"/>
+		<mappingItem JSourcePath = "id" TsSourcePath = "TsExternalId" MapIntegrationType="#Import" SaveOnResponse="#true"/>
+		<mappingItem JSourcePath = "version" TsSourcePath = "TsExternalVersion" MapIntegrationType="#Import" SaveOnResponse="#true"/>
 	</configItem>
 	<configItem JName = "VehicleRelationship" TsName="TsAutoTechService">
 		<mappingItem JSourcePath = "casual" ConstValue = "false" MapType="#Const"/>
@@ -162,6 +209,8 @@
 		<mappingItem JSourcePath = "personProfile" TsSourcePath = "TsTechServiceContactId" TsDestinationName="Contact" MapType="#RefToGuid" JSourceName="PersonProfile"/>
 		<mappingItem JSourcePath = "type.ReferenceClientService.id" ConstValue="4" MapType="#Const"/>
 		<mappingItem JSourcePath = "type.ReferenceClientService.type" ConstValue="VehicleRelationshipType" MapType="#Const"/>
+		<mappingItem JSourcePath = "id" TsSourcePath = "TsExternalId" MapIntegrationType="#Import" SaveOnResponse="#true"/>
+		<mappingItem JSourcePath = "version" TsSourcePath = "TsExternalVersion" MapIntegrationType="#Import" SaveOnResponse="#true"/>
 	</configItem>
 	<configItem JName = "VehicleRelationship" TsName="TsAutoOwnerHistory">
 		<mappingItem JSourcePath = "casual" ConstValue = "false" MapType="#Const"/>
@@ -171,6 +220,8 @@
 		<mappingItem JSourcePath = "companyProfile" TsSourcePath = "TsAccountOwnerId" TsDestinationName="Account" MapType="#RefToGuid" JSourceName="CompanyProfile"/>
 		<mappingItem JSourcePath = "personProfile" TsSourcePath = "TsContactOwnerId" TsDestinationName="Contact" MapType="#RefToGuid" JSourceName="PersonProfile"/>
 		<mappingItem JSourcePath = "type" TsSourcePath="TsOwnershipTypeId" TsDestinationName="TsOwnershipType" MapType="#RefToGuid" JSourceName="VehicleRelationshipType"/>
+		<mappingItem JSourcePath = "id" TsSourcePath = "TsExternalId" MapIntegrationType="#Import" SaveOnResponse="#true"/>
+		<mappingItem JSourcePath = "version" TsSourcePath = "TsExternalVersion" MapIntegrationType="#Import" SaveOnResponse="#true"/>
 	</configItem>
 	<configItem JName = "VehicleRelationship" TsName="TsAutoOwnerInfo">
 		<mappingItem JSourcePath = "casual" ConstValue = "false" MapType="#Const"/>
@@ -179,22 +230,17 @@
 		<mappingItem JSourcePath = "personProfile" TsSourcePath = "TsContactOwnerId" TsDestinationName="Contact" MapType="#RefToGuid" JSourceName="PersonProfile"/>
 		<mappingItem JSourcePath = "type.ReferenceClientService.id" ConstValue="4" MapType="#Const"/>
 		<mappingItem JSourcePath = "type.ReferenceClientService.type" ConstValue="VehicleRelationshipType" MapType="#Const"/>
+		<mappingItem JSourcePath = "id" TsSourcePath = "TsExternalId" MapIntegrationType="#Import" SaveOnResponse="#true"/>
+		<mappingItem JSourcePath = "version" TsSourcePath = "TsExternalVersion" MapIntegrationType="#Import" SaveOnResponse="#true"/>
 	</configItem>
 	<configItem JName = "CompanyProfileAssignment" TsName="TsAccountManagerGroup">
 		<mappingItem JSourcePath = "priority" TsSourcePath="TsOrder"/>
 		<mappingItem JSourcePath = "assignedManager" TsSourcePath="TsOwnerId" TsDestinationPath = "Contact" TsDestinationName = "SysAdminUnit" MapType = "#RefToGuid" JSourceName="Manager" HandlerName="Manager"/>
 		<mappingItem JSourcePath = "assignedGroup" TsSourcePath = "TsManagerGroupId" TsDestinationName = "SysAdminUnit" MapType = "#RefToGuid" JSourceName="ManagerGroup" HandlerName="ManagerGroup"/>
+		<mappingItem JSourcePath = "id" TsSourcePath = "TsExternalId" MapIntegrationType="#Import" SaveOnResponse="#true"/>
+		<mappingItem JSourcePath = "version" TsSourcePath = "TsExternalVersion" MapIntegrationType="#Import" SaveOnResponse="#true"/>
 	</configItem>
-	<configItem JName = "ContactInfo" TsName="">
-		<mappingItem JSourcePath = "name" MapType="#Const" ConstValue="ContactInfo"/>
-		<mappingItem JSourcePath = "emailAllowed" TsSourcePath="DoNotUseEmail"/>
-		<mappingItem JSourcePath = "phoneAllowed" TsSourcePath = "DoNotUseCall"/>
-		<mappingItem JSourcePath = "faxAllowed" TsSourcePath = "DoNotUseFax"/>
-		<mappingItem JSourcePath = "smsAllowed" TsSourcePath = "DoNotUseSms"/>
-		<mappingItem JSourcePath = "mailAllowed" TsSourcePath = "DoNotUseMail"/>
-		<mappingItem JSourcePath = "records" TsSourcePath = "Id" TsDestinationPath="Contact" TsDestinationName="ContactCommunication" MapType="#ArrayOfCompositObject" JSourceName="ContactRecord"/>
-		<mappingItem JSourcePath = "addresses" TsSourcePath = "Id" TsDestinationPath="Contact" TsDestinationName="ContactAddress" MapType="#ArrayOfCompositObject" JSourceName="AddressInfo"/>
-	</configItem>
+	
 	<configItem JName = "AddressInfo" TsName="ContactAddress">
 		<mappingItem JSourcePath = "name" TsSourcePath="AddressTypeId" TsDestinationName="AddressType" TsDestinationResPath="Name" MapType="#StringToDictionaryGuid"/>
 		<mappingItem JSourcePath = "country" TsSourcePath="CountryId" TsDestinationName="Country" TsDestinationResPath="Name" MapType="#StringToDictionaryGuid"/>
@@ -204,34 +250,42 @@
 		<mappingItem JSourcePath = "main" TsSourcePath = "Primary"/>
 		<mappingItem JSourcePath = "zipCode" TsSourcePath = "Zip"/>
 		<mappingItem JSourcePath = "type" TsSourcePath = "AddressTypeId" TsDestinationName = "AddressType" MapType = "#RefToGuid" JSourceName="AddressType"/>
+		<mappingItem JSourcePath = "id" TsSourcePath = "TsExternalId" MapIntegrationType="#Import" SaveOnResponse="#true"/>
+		<mappingItem JSourcePath = "version" TsSourcePath = "TsExternalVersion" MapIntegrationType="#Import" SaveOnResponse="#true"/>
 	</configItem>
 	<configItem JName = "ContactRecord" TsName="ContactCommunication">
 		<mappingItem JSourcePath = "value" TsSourcePath="Number" />
 		<mappingItem JSourcePath = "name" TsSourcePath="CommunicationTypeId" TsDestinationName="CommunicationType" TsDestinationPath="Id" TsDestinationResPath="Name" MapType="#StringToDictionaryGuid"/>
 		<mappingItem JSourcePath = "type" TsSourcePath = "CommunicationTypeId" TsDestinationName = "CommunicationType" MapType = "#RefToGuid" JSourceName="ContactRecordType"/>
 		<mappingItem JSourcePath = "primary" TsSourcePath = "NonActual"/>
+		<mappingItem JSourcePath = "id" TsSourcePath = "TsExternalId" MapIntegrationType="#Import" SaveOnResponse="#true"/>
+		<mappingItem JSourcePath = "version" TsSourcePath = "TsExternalVersion" MapIntegrationType="#Import" SaveOnResponse="#true"/>
 	</configItem>
 	<configItem JName = "NotificationProfile" TsName="TsAccountNotification">
-		<mappingItem JSourcePath = "person" MapType="#RefToGuid" TsSourcePath="TsContactId" TsDestinationName="Contact" JSourceName="PersonProfile"/>
+		<mappingItem JSourcePath = "person" MapType="#RefToGuid" TsSourcePath="TsContactId" TsDestinationName="Contact" JSourceName="PersonProfile" EFieldRequier="#true"/>
 		<mappingItem JSourcePath = "type" MapType = "#StringToDictionaryGuid" TsSourcePath="TsTypeId" TsDestinationName="TsNotificationType"/>
 		<mappingItem JSourcePath = "disabled" TsSourcePath = "TsDisabled"/>
-		<mappingItem JSourcePath = "notifyOnHolidays" TsSourcePath = "TsWeekendNotify"/>
+		<mappingItem JSourcePath = "notifyOnHolidays" TsSourcePath = "TsWeekendNotify" EFieldRequier="#true"/>
 		<mappingItem JSourcePath = "timeFrom" TsSourcePath = "TsStartTime"/>
 		<mappingItem JSourcePath = "timeTo" TsSourcePath = "TsDueTime"/>
 		<mappingItem JSourcePath = "notificationChannel" MapType = "#StringToDictionaryGuid" TsSourcePath="TsChannelId" TsDestinationName="TsNotificationType"/>
 		<mappingItem JSourcePath = "communicationType" TsSourcePath = "TsCommunicationNumber"/>
 		<mappingItem JSourcePath = "timezone" TsSourcePath="TsTimeZoneId" TsDestinationName="TimeZone" MapType="#StringToDictionaryGuid"/>
+		<mappingItem JSourcePath = "id" TsSourcePath = "TsExternalId" MapIntegrationType="#Import" SaveOnResponse="#true"/>
+		<mappingItem JSourcePath = "version" TsSourcePath = "TsExternalVersion" MapIntegrationType="#Import" SaveOnResponse="#true"/>
 	</configItem>
-	<configItem JName = "NotificationProfile" TsName="TsContactNotification">
-		<mappingItem JSourcePath = "person" MapType="#RefToGuid" TsSourcePath="TsContactId" TsDestinationName="Contact" JSourceName="CompanyProfile"/>
+	<configItem JName = "NotificationProfile" TsName="TsContactNotifications">
+		<mappingItem JSourcePath = "person" MapType="#RefToGuid" TsSourcePath="TsContactId" TsDestinationName="Contact" JSourceName="PersonProfile" EFieldRequier="#true"/>
 		<mappingItem JSourcePath = "type" MapType = "#StringToDictionaryGuid" TsSourcePath="TsTypeId" TsDestinationName="TsNotificationType"/>
 		<mappingItem JSourcePath = "disabled" TsSourcePath = "TsDisabled"/>
-		<mappingItem JSourcePath = "notifyOnHolidays" TsSourcePath = "TsWeekendNotify"/>
+		<mappingItem JSourcePath = "notifyOnHolidays" TsSourcePath = "TsWeekendNotify" EFieldRequier="#true"/>
 		<mappingItem JSourcePath = "timeFrom" TsSourcePath = "TsStartTime"/>
 		<mappingItem JSourcePath = "timeTo" TsSourcePath = "TsDueTime"/>
 		<mappingItem JSourcePath = "notificationChannel" MapType = "#StringToDictionaryGuid" TsSourcePath="TsChannelId" TsDestinationName="TsNotificationType"/>
 		<mappingItem JSourcePath = "communicationType" TsSourcePath = "TsCommunicationNumber"/>
 		<mappingItem JSourcePath = "timezone" TsSourcePath="TsTimeZoneId" TsDestinationName="TimeZone" MapType="#StringToDictionaryGuid"/>
+		<mappingItem JSourcePath = "id" TsSourcePath = "TsExternalId" MapIntegrationType="#Import" SaveOnResponse="#true"/>
+		<mappingItem JSourcePath = "version" TsSourcePath = "TsExternalVersion" MapIntegrationType="#Import" SaveOnResponse="#true"/>
 	</configItem>
 	<configItem JName = "Relationship" TsName="Relationship">
 		<!--TODO: ДОДЕЛАТЬ-->
@@ -243,12 +297,16 @@
 		<mappingItem JSourcePath = "personProfileB" MapType="#RefToGuid" TsSourcePath="ContactBId" TsDestinationPath="Id" TsDestinationName="Contact" JSourceName="PersonProfile"/>
 		<mappingItem JSourcePath = "companyProfileB" MapType="#RefToGuid" TsSourcePath="AccountBId" TsDestinationPath="Id" TsDestinationName="Account" JSourceName="CompanyProfile"/>
 		<mappingItem JSourcePath = "description" TsSourcePath = "Description"/>
+		<mappingItem JSourcePath = "id" TsSourcePath = "TsExternalId" MapIntegrationType="#Import" SaveOnResponse="#true"/>
+		<mappingItem JSourcePath = "version" TsSourcePath = "TsExternalVersion" MapIntegrationType="#Import" SaveOnResponse="#true"/>
 	</configItem>
 	<configItem JName = "Manager" TsName="Manager">
 		<!--<mappingItem JSourcePath = "chief" MapType="#RefToGuid" TsSourcePath="TsContactId" TsDestinationName="Contact" JSourceName="CompanyProfile"/>-->
 		<mappingItem JSourcePath = "group" MapType="#RefToGuid" TsSourcePath="Id" TsDestinationPath ="SysUser" TsDestinationName="SysUserInRole" JSourceName="ManagerGroup" TsExternalIdPath="SysRole.TsExternalId"/>
 		<mappingItem JSourcePath = "person" MapType="#RefToGuid" TsSourcePath="ContactId" TsDestinationName="Contact" JSourceName="PersonProfile"/>
 		<mappingItem JSourcePath = "company" MapType="#RefToGuid" TsSourcePath="ContactId" TsDestinationName="Contact" TsExternalIdPath="Account.TsExternalId" JSourceName="CompanyProfile"/>
+		<mappingItem JSourcePath = "id" TsSourcePath = "TsExternalId" MapIntegrationType="#Import" SaveOnResponse="#true"/>
+		<mappingItem JSourcePath = "version" TsSourcePath = "TsExternalVersion" MapIntegrationType="#Import" SaveOnResponse="#true"/>
 		<!--<mappingItem JSourcePath = "ownerCompanyId" MapType="#RefToGuid" TsSourcePath="ContactId" TsDestinationName="Contact" JSourceName="PersonProfile"/>-->
 		<!--<mappingItem JSourcePath = "managerInfoId" MapType="#RefToGuid" TsSourcePath="ContactId" TsDestinationName="Contact" JSourceName="PersonProfile"/>-->
 	</configItem>
@@ -256,5 +314,7 @@
 		<mappingItem JSourcePath = "head" MapType="#Const" ConstType ="#Null"/>
 		<mappingItem JSourcePath = "workers" MapType = "#Const" ConstType ="#EmptyArray"/>
 		<mappingItem JSourcePath = "name" TsSourcePath = "Name"/>
+		<mappingItem JSourcePath = "id" TsSourcePath = "TsExternalId" MapIntegrationType="#Import" SaveOnResponse="#true"/>
+		<mappingItem JSourcePath = "version" TsSourcePath = "TsExternalVersion" MapIntegrationType="#Import" SaveOnResponse="#true"/>
 	</configItem>
 </MapingConfiguration>

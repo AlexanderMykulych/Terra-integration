@@ -19,9 +19,9 @@ namespace Terrasoft.Configuration
 		public virtual void Create(IntegrationInfo integrationInfo) {
 			var entitySchema = integrationInfo.UserConnection.EntitySchemaManager.GetInstanceByName(EntityName);
 			integrationInfo.IntegratedEntity = entitySchema.CreateEntity(integrationInfo.UserConnection);
+			integrationInfo.IntegratedEntity.SetDefColumnValues();
 			BeforeMapping(integrationInfo);
 			Mapper.StartMappByConfig(integrationInfo, JName, GetMapConfig(integrationInfo.UserConnection));
-			HandleComplexField(integrationInfo);
 			AfterMapping(integrationInfo);
 			try {
 				Mapper.SaveEntity(integrationInfo.IntegratedEntity);
@@ -34,7 +34,6 @@ namespace Terrasoft.Configuration
 					ExceptionMessage = e.Message
 				};
 			}
-			
 		}
 		public virtual void BeforeMapping(IntegrationInfo integrationInfo) {
 		}
@@ -47,7 +46,6 @@ namespace Terrasoft.Configuration
 			if(entity != null) {
 				BeforeMapping(integrationInfo);
 				Mapper.StartMappByConfig(integrationInfo, JName, GetMapConfig(integrationInfo.UserConnection));
-				HandleComplexField(integrationInfo);
 				AfterMapping(integrationInfo);
 				Mapper.SaveEntity(entity);
 			} else {
@@ -70,15 +68,29 @@ namespace Terrasoft.Configuration
 			return Mapper.CheckIsExist(EntityName, integrationInfo.Data[JName].Value<int>("id"));
 		}
 
+		public virtual void ProcessResponse(IntegrationInfo integrationInfo) {
+			integrationInfo.Data = Mapper.GetJObject(integrationInfo.StrData);
+			BeforeMapping(integrationInfo);
+			Mapper.StartMappByConfig(integrationInfo, JName, GetMapConfig(integrationInfo.UserConnection));
+			AfterMapping(integrationInfo);
+			try {
+				Mapper.SaveEntity(integrationInfo.IntegratedEntity);
+				integrationInfo.Result = new CsConstant.IntegrationResult() {
+					Type = CsConstant.IntegrationResult.TResultType.Success
+				};
+			} catch(Exception e) {
+				integrationInfo.Result = new CsConstant.IntegrationResult() {
+					Type = CsConstant.IntegrationResult.TResultType.Exception,
+					ExceptionMessage = e.Message
+				};
+			}
+		}
+
 		public virtual JObject ToJson(IntegrationInfo integrationInfo) {
 			BeforeMapping(integrationInfo);
 			Mapper.StartMappByConfig(integrationInfo, JName, GetMapConfig(integrationInfo.UserConnection));
 			AfterMapping(integrationInfo);
 			return integrationInfo.Data;
-		}
-
-		public virtual void HandleComplexField(IntegrationInfo integrationInfo) {
-
 		}
 
 		public virtual List<MappingItem> GetMapConfig(UserConnection userConnection) {
@@ -159,6 +171,16 @@ namespace Terrasoft.Configuration
 		public TsAccountNotificationHandler() {
 			Mapper = new MappingHelper();
 			EntityName = "TsAccountNotification";
+			JName = "NotificationProfile";
+		}
+	}
+
+	[ImportHandler("NotificationProfile")]
+	[ExportHandler("TsContactNotifications")]
+	public class TsContactNotificationsHandler : EntityHandler {
+		public TsContactNotificationsHandler() {
+			Mapper = new MappingHelper();
+			EntityName = "TsContactNotifications";
 			JName = "NotificationProfile";
 		}
 	}
