@@ -22,21 +22,21 @@ namespace QueryConsole
 				var integrationType = 3;
 				Console.WriteLine("Start");
 				var integrationEntityNames = new List<string>() {
-					//"Account",
-					//"Contact",
-					//"Case",
-					//"TsAutomobile",
-					//"ContactCareer",
-					//"TsAutoTechService",
-					//"TsAutoOwnerHistory",
-					//"TsAutoOwnerInfo",
-					//"TsAccountManagerGroup",
-					//"ContactCommunication",
-					//"TsAccountNotification",
-					//"TsContactNotifications",
+					"Account",
+					"Contact",
+					"Case",
+					"TsAutomobile",
+					"ContactCareer",
+					"TsAutoTechService",
+					"TsAutoOwnerHistory",
+					"TsAutoOwnerInfo",
+					"TsAccountManagerGroup",
+					"ContactCommunication",
+					"TsAccountNotification",
+					"TsContactNotifications",
 					"Relationship",
-					//"Manager",
-					//"ManagerGroup"
+					"Manager",
+					"ManagerGroup"
 				};
 				if(integrationType == 1) {
 					foreach(var entityName in integrationEntityNames) {
@@ -57,6 +57,8 @@ namespace QueryConsole
 					foreach(var entityName in integrationEntityNames) {
 						consoleApp.UpdateEntity(entityName);
 					}
+				} else if(integrationType == 4) {
+					consoleApp.ExecuteSql();
 				}
 			} catch (ReflectionTypeLoadException e1) {
 				Console.WriteLine(e1.Message);
@@ -502,6 +504,21 @@ namespace QueryConsole
 			Console.ForegroundColor = color;
 			Console.WriteLine(text);
 			Console.ForegroundColor = buff;
+		}
+
+		public void ExecuteSql() {
+			var select = new Select(SystemUserConnection)
+				.Column(Func.Count("Reminding", "Id"))
+					.Distinct()
+				.From("Reminding")
+					.LeftOuterJoin("SysAdminUnit")
+						.On("SysAdminUnit", "ContactId").IsEqual("Reminding", "ContactId")
+					.InnerJoin("Case")
+						.On("Case", "Id").IsEqual("Reminding", "SubjectId")
+				.Where("RemindTime").IsLessOrEqual(Column.Const((new DateTime()).ToUniversalTime()))
+				.And("IsRead").IsEqual(Column.Parameter(0))
+				.And(Column.SqlText("[SysAdminUnit].[Id]")).IsEqual(Column.Parameter(new Guid("117D32F9-8275-4534-8411-1C66115CE9CD"))) as Select;
+
 		}
 		#endregion
 

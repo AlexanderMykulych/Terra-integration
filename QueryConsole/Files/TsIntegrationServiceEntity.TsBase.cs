@@ -105,8 +105,8 @@ namespace Terrasoft.Configuration
 		}
 	}
 
-	[ImportHandler("CompanyProfile")]
-	[ExportHandler("Account")]
+	[ImportHandlerAttribute("CompanyProfile")]
+	[ExportHandlerAttribute("Account")]
 	public class AccountHandler : EntityHandler {
 		public AccountHandler() {
 			Mapper = new MappingHelper();
@@ -115,8 +115,8 @@ namespace Terrasoft.Configuration
 		}
 	}
 
-	[ImportHandler("PersonProfile")]
-	[ExportHandler("Contact")]
+	[ImportHandlerAttribute("PersonProfile")]
+	[ExportHandlerAttribute("Contact")]
 	public class ContactHandler : EntityHandler {
 		public ContactHandler() {
 			Mapper = new MappingHelper();
@@ -125,8 +125,8 @@ namespace Terrasoft.Configuration
 		}
 	}
 
-	[ImportHandler("")]
-	[ExportHandler("TsAutoTechService")]
+	[ImportHandlerAttribute("")]
+	[ExportHandlerAttribute("TsAutoTechService")]
 	public class TsAutoTechServiceHandler : EntityHandler {
 		public TsAutoTechServiceHandler() {
 			Mapper = new MappingHelper();
@@ -135,8 +135,8 @@ namespace Terrasoft.Configuration
 		}
 	}
 
-	[ImportHandler("")]
-	[ExportHandler("TsAutoOwnerHistory")]
+	[ImportHandlerAttribute("")]
+	[ExportHandlerAttribute("TsAutoOwnerHistory")]
 	public class TsAutoOwnerHistoryHandler : EntityHandler {
 		public TsAutoOwnerHistoryHandler() {
 			Mapper = new MappingHelper();
@@ -145,8 +145,8 @@ namespace Terrasoft.Configuration
 		}
 	}
 
-	[ImportHandler("")]
-	[ExportHandler("TsAutoOwnerInfo")]
+	[ImportHandlerAttribute("")]
+	[ExportHandlerAttribute("TsAutoOwnerInfo")]
 	public class TsAutoOwnerInfoHandler : EntityHandler {
 		public TsAutoOwnerInfoHandler() {
 			Mapper = new MappingHelper();
@@ -155,8 +155,8 @@ namespace Terrasoft.Configuration
 		}
 	}
 
-	[ImportHandler("Relationship")]
-	[ExportHandler("Relationship")]
+	[ImportHandlerAttribute("Relationship")]
+	[ExportHandlerAttribute("Relationship")]
 	public class RelationshipHandler : EntityHandler {
 		public RelationshipHandler() {
 			Mapper = new MappingHelper();
@@ -165,8 +165,8 @@ namespace Terrasoft.Configuration
 		}
 	}
 
-	[ImportHandler("NotificationProfile")]
-	[ExportHandler("TsAccountNotification")]
+	[ImportHandlerAttribute("NotificationProfile")]
+	[ExportHandlerAttribute("TsAccountNotification")]
 	public class TsAccountNotificationHandler : EntityHandler {
 		public TsAccountNotificationHandler() {
 			Mapper = new MappingHelper();
@@ -175,8 +175,8 @@ namespace Terrasoft.Configuration
 		}
 	}
 
-	[ImportHandler("NotificationProfile")]
-	[ExportHandler("TsContactNotifications")]
+	[ImportHandlerAttribute("NotificationProfile")]
+	[ExportHandlerAttribute("TsContactNotifications")]
 	public class TsContactNotificationsHandler : EntityHandler {
 		public TsContactNotificationsHandler() {
 			Mapper = new MappingHelper();
@@ -185,8 +185,8 @@ namespace Terrasoft.Configuration
 		}
 	}
 
-	[ImportHandler("")]
-	[ExportHandler("SysAdminUnit")]
+	[ImportHandlerAttribute("")]
+	[ExportHandlerAttribute("SysAdminUnit")]
 	public class SysAdminUnitHandler : EntityHandler {
 		public override string HandlerName {
 			get {
@@ -210,8 +210,8 @@ namespace Terrasoft.Configuration
 		}
 	}
 
-	[ImportHandler("CompanyProfileAssignment")]
-	[ExportHandler("TsAccountManagerGroup")]
+	[ImportHandlerAttribute("CompanyProfileAssignment")]
+	[ExportHandlerAttribute("TsAccountManagerGroup")]
 	public class TsAccountManagerGroupHandler : EntityHandler {
 		public TsAccountManagerGroupHandler() {
 			Mapper = new MappingHelper();
@@ -220,8 +220,8 @@ namespace Terrasoft.Configuration
 		}
 	}
 
-	[ImportHandler("ClientRequest")]
-	[ExportHandler("Case")]
+	[ImportHandlerAttribute("ClientRequest")]
+	[ExportHandlerAttribute("Case")]
 	public class CaseHandler : EntityHandler {
 		public CaseHandler() {
 			Mapper = new MappingHelper();
@@ -230,8 +230,8 @@ namespace Terrasoft.Configuration
 		}
 	}
 
-	[ImportHandler("VehicleProfile")]
-	[ExportHandler("TsAutomobile")]
+	[ImportHandlerAttribute("VehicleProfile")]
+	[ExportHandlerAttribute("TsAutomobile")]
 	public class TsAutomobileHandler : EntityHandler {
 		public TsAutomobileHandler() {
 			Mapper = new MappingHelper();
@@ -240,8 +240,8 @@ namespace Terrasoft.Configuration
 		}
 	}
 
-	[ImportHandler("ContactInfo")]
-	[ExportHandler("ContactInfo")]
+	[ImportHandlerAttribute("ContactInfo")]
+	[ExportHandlerAttribute("ContactInfo")]
 	public class ContactInfoHandler : EntityHandler {
 		public ContactInfoHandler() {
 			Mapper = new MappingHelper();
@@ -256,8 +256,8 @@ namespace Terrasoft.Configuration
 		}
 	}
 
-	[ImportHandler("AddressInfo")]
-	[ExportHandler("ContactAddress")]
+	[ImportHandlerAttribute("AddressInfo")]
+	[ExportHandlerAttribute("ContactAddress")]
 	public class AddressInfoHandler : EntityHandler {
 		public AddressInfoHandler() {
 			Mapper = new MappingHelper();
@@ -272,8 +272,8 @@ namespace Terrasoft.Configuration
 		}
 	}
 
-	[ImportHandler("ContactRecord")]
-	[ExportHandler("ContactCommunication")]
+	[ImportHandlerAttribute("ContactRecord")]
+	[ExportHandlerAttribute("ContactCommunication")]
 	public class ContactRecordHandler : EntityHandler {
 		public ContactRecordHandler() {
 			Mapper = new MappingHelper();
@@ -288,8 +288,8 @@ namespace Terrasoft.Configuration
 		}
 	}
 
-	[ImportHandler("Employee")]
-	[ExportHandler("ContactCareer")]
+	[ImportHandlerAttribute("Employee")]
+	[ExportHandlerAttribute("ContactCareer")]
 	public class ContactCareerHandler : EntityHandler {
 		public ContactCareerHandler() {
 			Mapper = new MappingHelper();

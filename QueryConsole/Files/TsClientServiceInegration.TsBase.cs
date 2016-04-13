@@ -13,6 +13,7 @@ using Terrasoft.Core.Configuration;
 using System.Xml;
 using System.Reflection;
 using System.Threading;
+using System.Web.Configuration;
 
 
 namespace Terrasoft.Configuration
@@ -21,6 +22,7 @@ namespace Terrasoft.Configuration
 	using TIntegrationType = CsConstant.TIntegrationType;
 	using System.Configuration;
 	using System.Collections;
+	using System.Threading.Tasks;
 	#region Enum: TRequstMethod
 	public enum TRequstMethod {
 		GET,
@@ -35,6 +37,7 @@ namespace Terrasoft.Configuration
 	/// Клас-helper для отправки запроса и его приема
 	/// </summary>
 	public class IntegratorHelper {
+
 		#region Methods: public
 		/// <summary>
 		/// Конструктор
@@ -48,9 +51,10 @@ namespace Terrasoft.Configuration
 			if(string.IsNullOrEmpty(url)) {
 				return;
 			}
-			MakeAsyncRequest(requestMethod, url, jsonText, callback, userConnection);
+			ThreadPool.QueueUserWorkItem(((x) => MakeAsyncRequest(requestMethod, url, jsonText, callback, userConnection)));
 		}
 		#endregion
+
 		#region Methods: Private
 		/// <summary>
 		/// Делает асинхронный запрос
@@ -75,9 +79,30 @@ namespace Terrasoft.Configuration
 					AddDataToRequest(_request, jsonText);
 					break;
 				}
-				_request.BeginGetResponse(GetRequestResponse, new ResponceParams(_request, callback, userConnection, jsonText));
+				try {
+					var response = _request.GetResponse();
+					using(Stream responseStream = response.GetResponseStream())
+					using(StreamReader sr = new StreamReader(responseStream)) {
+						if(callback != null) {
+							string responceText = sr.ReadToEnd();
+							callback(responceText, userConnection);
+						}
+					}
+				} catch(WebException e) {
+					var response = e.Response;
+					using(StreamReader sr = new StreamReader(response.GetResponseStream())) {
+						IntegrationUtilities.Error("ClientService Response: Error. Source: {0}\nMessage: {1}\nJson Response: {2}\nurl = {3} requested json = {4}", e.Source, e.Message, sr.ReadToEnd(), url, jsonText);
+					}
+				}
 			} catch(Exception e) {
 				IntegrationUtilities.Error("Method [MakeAsyncRequest] catch exception: threadId = {0}\nMessage = {1}", Thread.CurrentThread.ManagedThreadId, e.Message);
+			}
+		}
+
+		public static void OnWebException(WebException e, string url, string json) {
+			var response = e.Response;
+			using(StreamReader sr = new StreamReader(response.GetResponseStream())) {
+				IntegrationUtilities.Error("ClientService Response: Error. Source: {0}\nMessage: {1}\nJson Response: {2}\nurl = {3} requested json = {4}", e.Source, e.Message, sr.ReadToEnd(), url, json);
 			}
 		}
 		/// <summary>
@@ -97,30 +122,8 @@ namespace Terrasoft.Configuration
 				writeStream.Write(bytes, 0, bytes.Length);
 			}
 		}
-		/// <summary>
-		/// Приймает ответ на запрос
-		/// </summary>
-		/// <param name="result"></param>
-		private static void GetRequestResponse(IAsyncResult result) {
-			var responseParams = (ResponceParams)result.AsyncState;
-			try {
-				var response = responseParams.Request.EndGetResponse(result);
-				using(Stream responseStream = response.GetResponseStream())
-				using(StreamReader sr = new StreamReader(responseStream)) {
-					if(responseParams.Callback != null) {
-						string responceText = sr.ReadToEnd();
-						responseParams.Callback(responceText, responseParams.UserConnection);
-					}
-				}
-			} catch(WebException e) {
-				var response = e.Response;
-				using(StreamReader sr = new StreamReader(response.GetResponseStream())) {
-					IntegrationUtilities.Error("Method [GetRequestResponse] catch exception: Source: {0}\nMessage: {1}\nJson Response: {2}", e.Source, e.Message, sr.ReadToEnd());
-				}
-			}
-			
-			
-		}
+
+		#region Class: ResponceParams
 		private class ResponceParams {
 			public ResponceParams(HttpWebRequest request, Action<string, UserConnection> callback, UserConnection userConnection, string jsonData) {
 				Request = request;
@@ -134,6 +137,7 @@ namespace Terrasoft.Configuration
 			public string JsonData;
 		}
 		#endregion
+		#endregion
 	}
 	#endregion
 
@@ -142,7 +146,7 @@ namespace Terrasoft.Configuration
 		#region Constructor: Public
 		public ClientServiceIntegrator(UserConnection userConnection) {
 			_userConnection = userConnection;
-			_isIntegrationActive = SysSettings.GetValue(UserConnection, CsConstant.SysSettingsCode.IsIntegrationActive, _isIntegrationActive);
+			_isIntegrationActive = Terrasoft.Core.Configuration.SysSettings.GetValue(UserConnection, CsConstant.SysSettingsCode.IsIntegrationActive, _isIntegrationActive);
 		}
 		#endregion
 
@@ -158,6 +162,11 @@ namespace Terrasoft.Configuration
 		#endregion
 		
 		#region Methods: Public
+		/// <summary>
+		/// Обновляет объект в clientservice. Если объект еще не создан в clientservice, то создает его.
+		/// </summary>
+		/// <param name="entity">Сущность которую обновляем</param>
+		/// <returns></returns>
 		public bool Update(Entity entity) {
 			if(!_isIntegrationActive) {
 				return true;
@@ -167,16 +176,25 @@ namespace Terrasoft.Configuration
 					Insert(entity);
 					return true;
 				}
+				IntegrationUtilities.Info("Update: Start. schemaName = {0} id = {1}", entity.SchemaName, entity.PrimaryColumnValue);
 				var integratorHelper = new IntegratorHelper();
 				var method = TRequstMethod.PUT;
 				integratorHelper.PushRequest(method, GetUrlByEntity(entity, method), GetEntityJson(entity), (x, y) => {
 					ProcessResponse(x, entity, method);
 				});
+				IntegrationUtilities.Info("Update: Finish. schemaName = {0} id = {1}", entity.SchemaName, entity.PrimaryColumnValue);
 				return true;
 			} catch(Exception e) {
+				IntegrationUtilities.Error("Update: Error. schemaName = {0} id = {1} message = {2} stack trace = {3}", entity.SchemaName, entity.PrimaryColumnValue, e.Message, e.StackTrace);
 				return true;
 			}
 		}
+
+		/// <summary>
+		/// Создает объект в clientservice. Если объект уже создан в clientservice, то обновляет его.
+		/// </summary>
+		/// <param name="entity">Сущность которую создаем</param>
+		/// <returns></returns>
 		public bool Insert(Entity entity) {
 			if(!_isIntegrationActive) {
 				return true;
@@ -188,14 +206,23 @@ namespace Terrasoft.Configuration
 					Update(entity);
 					return true;
 				}
+				IntegrationUtilities.Info("Insert: Start. schemaName = {0} id = {1}", entity.SchemaName, entity.PrimaryColumnValue);
 				integratorHelper.PushRequest(method, GetUrlByEntity(entity, method), GetEntityJson(entity), (x, y) => {
 					ProcessResponse(x, entity, method);
 				});
+				IntegrationUtilities.Info("Insert: Finish. schemaName = {0} id = {1}", entity.SchemaName, entity.PrimaryColumnValue);
 				return true;
 			} catch(Exception e) {
+				IntegrationUtilities.Error("Insert: Error. schemaName = {0} id = {1} message = {2} stack trace = {3}", entity.SchemaName, entity.PrimaryColumnValue, e.Message, e.StackTrace);
 				return true;
 			}
 		}
+
+		/// <summary>
+		/// Удаляет объкт в clientservice. Не должен использоватся.
+		/// </summary>
+		/// <param name="entity">Сущность которую удаляем</param>
+		/// <returns></returns>
 		public bool Delete(Entity entity) {
 			if(!_isIntegrationActive) {
 				return true;
@@ -215,6 +242,11 @@ namespace Terrasoft.Configuration
 		#endregion
 		
 		#region Methods: Private
+		/// <summary>
+		/// Формирует JSON из объекта
+		/// </summary>
+		/// <param name="entity">Сущность из которой формируем JSON</param>
+		/// <returns></returns>
 		private string GetEntityJson(Entity entity) {
 			var integrationInfo = new IntegrationInfo(null, UserConnection, CsConstant.TIntegrationType.Export, entity.PrimaryColumnValue, entity.SchemaName, CsConstant.IntegrationActionName.Empty, entity);
 			var integrationEntityHelper = new IntegrationEntityHelper();
@@ -225,6 +257,12 @@ namespace Terrasoft.Configuration
 			return null;
 		}
 
+		/// <summary>
+		/// Возвращает url по которому делаем запрос в clientservice
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="method"></param>
+		/// <returns></returns>
 		private string GetUrlByEntity(Entity entity, TRequstMethod method) {
 			string url, entityName, additionalParam = "";
 			string entityType = entity.SchemaName;
@@ -245,24 +283,17 @@ namespace Terrasoft.Configuration
 			return url + "/" + entityName + additionalParam;
 		}
 
+		/// <summary>
+		/// После операций Update, Insert обрабатывает ответ от clientservice
+		/// </summary>
+		/// <param name="responseJson"></param>
+		/// <param name="entity"></param>
+		/// <param name="method"></param>
 		private void ProcessResponse(string responseJson, Entity entity, TRequstMethod method) {
 			var integrationEntityHelper = new IntegrationEntityHelper();
 			var integrationInfo = new IntegrationInfo(null, entity.UserConnection, TIntegrationType.ExportResponseProcess, entity.PrimaryColumnValue, entity.SchemaName, CsConstant.IntegrationActionName.UpdateFromResponse, entity);
 			integrationInfo.StrData = responseJson;
 			integrationEntityHelper.IntegrateEntity(integrationInfo);
-			//int extId = 0;
-			//int extVersion = 0;
-			//var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<ExpandoObject>(responseJson) as IDictionary<string, object>;
-			//if(obj.Any() && obj.First().Value is ExpandoObject) {
-			//	var dict = (IDictionary<string, object>)obj.First().Value;
-			//	extId = int.Parse(dict["id"].ToString());
-			//	extVersion = int.Parse(dict["version"].ToString());
-			//}
-			//if(extId != 0 && entity.GetTypedColumnValue<int>("TsExternalId") == 0) {
-			//	entity.SetColumnValue("TsExternalId", extId);
-			//	entity.SetColumnValue("TsExternalVersion", extVersion);
-			//	entity.Save(false);
-			//}
 		}
 		#endregion
 	}
@@ -271,19 +302,22 @@ namespace Terrasoft.Configuration
 	#region Static Class: ExtensionHelper
 	public static class ExtensionHelper {
 		#region Methods: Public
+		/// <summary>
+		/// Сериализирует объект
+		/// </summary>
+		/// <param name="obj">Объект</param>
+		/// <returns></returns>
 		public static string SerializeToJson(this object obj) {
 			return Newtonsoft.Json.JsonConvert.SerializeObject(obj).Replace("ReferenceClientService", "#ref");
 		}
+
+		/// <summary>
+		/// Десериализирует объект
+		/// </summary>
+		/// <param name="json">json текс</param>
+		/// <returns></returns>
 		public static Dictionary<string, object> DeserializeJson(this string json) {
 			return Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-		}
-		public static long GetExtIdFromJson(this string json) {
-			var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<ExpandoObject>(json) as IDictionary<string, object>;
-			if(obj.Any() && obj.First().Value is ExpandoObject && ((IDictionary<string, object>)obj.First().Value).ContainsKey("id")) {
-				var resultId = (long)((IDictionary<string, object>)obj.First().Value)["id"];
-				return resultId;
-			}
-			return 0;
 		}
 		#endregion
 	}
@@ -318,16 +352,20 @@ namespace Terrasoft.Configuration
 		#region Constructor: Public
 		public IntegrationServiceIntegrator(UserConnection userConnection) {
 			_userConnection = userConnection;
-			_postboxId = SysSettings.GetValue(UserConnection, CsConstant.SysSettingsCode.TerrasoftPostboxId, _postboxId);
-			_basePostboxUrl = SysSettings.GetValue(UserConnection, CsConstant.SysSettingsCode.IntegrationServiceBaseUrl, _basePostboxUrl);
-			_baseClientServiceUrl = SysSettings.GetValue(UserConnection, CsConstant.SysSettingsCode.ClientServiceBaseUrl, _basePostboxUrl);
-			_notifyLimit = SysSettings.GetValue(UserConnection, CsConstant.SysSettingsCode.NotificationLimit, _notifyLimit);
-			_isImportAllow = SysSettings.GetValue(UserConnection, CsConstant.SysSettingsCode.AllowImport, _isImportAllow);
+			_postboxId = Terrasoft.Core.Configuration.SysSettings.GetValue(UserConnection, CsConstant.SysSettingsCode.TerrasoftPostboxId, _postboxId);
+			_basePostboxUrl = Terrasoft.Core.Configuration.SysSettings.GetValue(UserConnection, CsConstant.SysSettingsCode.IntegrationServiceBaseUrl, _basePostboxUrl);
+			_baseClientServiceUrl = Terrasoft.Core.Configuration.SysSettings.GetValue(UserConnection, CsConstant.SysSettingsCode.ClientServiceBaseUrl, _basePostboxUrl);
+			_notifyLimit = Terrasoft.Core.Configuration.SysSettings.GetValue(UserConnection, CsConstant.SysSettingsCode.NotificationLimit, _notifyLimit);
+			_isImportAllow = Terrasoft.Core.Configuration.SysSettings.GetValue(UserConnection, CsConstant.SysSettingsCode.AllowImport, _isImportAllow);
 			_integrationEntityHelper = new IntegrationEntityHelper();
 		}
 		#endregion
 
 		#region Methods: Public
+		/// <summary>
+		/// Получает BusEventNotification, после чего вызывает OnBusEventNotificationsDataRecived
+		/// </summary>
+		/// <param name="withData"></param>
 		public void GetBusEventNotification(bool withData = true) {
 			var url = GenerateUrl(
 				withData == true ? TIntegratorRequest.BusEventNotificationData : TIntegratorRequest.BusEventNotification,
@@ -345,6 +383,9 @@ namespace Terrasoft.Configuration
 			});
 		}
 
+		/// <summary>
+		/// Всем нотификейшенам в ReadedNotificationIds ставит статус "Прочитано"
+		/// </summary>
 		public void SetNotifyRead() {
 			var url = GenerateUrl(
 				TIntegratorRequest.BusEventNotification,
@@ -360,10 +401,18 @@ namespace Terrasoft.Configuration
 			ReadedNotificationIds.Clear();
 		}
 
+		/// <summary>
+		/// Сохраняет нотификейшен, чтобы потом скопом поставить признак прочитано
+		/// </summary>
+		/// <param name="notifyId"></param>
 		public void AddReadId(string notifyId) {
 			ReadedNotificationIds.Add(notifyId);
 		}
 
+		/// <summary>
+		/// Делает запрос в clientservice и если версия объекта в нем больше за версию в integrationservice, то обновляет объектом из clientservice
+		/// </summary>
+		/// <param name="integrationInfo"></param>
 		public void CreatedOnEntityExist(IntegrationInfo integrationInfo) {
 			string jName = integrationInfo.EntityName;
 			var data = integrationInfo.Data[jName];
@@ -384,6 +433,11 @@ namespace Terrasoft.Configuration
 			});
 		}
 
+		/// <summary>
+		/// Срабатывает на получение нотификейшенов из integrationservice
+		/// </summary>
+		/// <param name="busEventNotifications"></param>
+		/// <param name="userConnection"></param>
 		public void OnBusEventNotificationsDataRecived(JArray busEventNotifications, UserConnection userConnection) {
 			foreach(JObject busEventNotify in busEventNotifications) {
 				var busEvent = busEventNotify[CsConstant.IntegrationEventName.BusEventNotify] as JObject;
@@ -405,6 +459,16 @@ namespace Terrasoft.Configuration
 			SetNotifyRead();
 		}
 
+		/// <summary>
+		/// Генерирует Url в integrationservice
+		/// </summary>
+		/// <param name="integratorRequestType">Тип возращаемой сущности</param>
+		/// <param name="requstMethod">Тип запроса</param>
+		/// <param name="skip">Сколько данныех пропустить от начала</param>
+		/// <param name="limit">Сколько данных взять</param>
+		/// <param name="filters">Фильтры</param>
+		/// <param name="sorts">Сортировки</param>
+		/// <returns></returns>
 		public string GenerateUrl(TIntegratorRequest integratorRequestType, TRequstMethod requstMethod, string skip = null, string limit = null, Dictionary<string, string> filters = null, Dictionary<string, string> sorts = null) {
 			string result = _basePostboxUrl;
 			string filtersStr = "";
@@ -513,22 +577,36 @@ namespace Terrasoft.Configuration
 		#endregion
 
 		#region Methods: Public
+		/// <summary>
+		/// Експортирует или импортирует объекты в зависимости от настроек
+		/// </summary>
+		/// <param name="integrationInfo">Настройки интеграции</param>
 		public void IntegrateEntity(IntegrationInfo integrationInfo) {
 			ExecuteHandlerMethod(integrationInfo, GetIntegrationHandler(integrationInfo));
 		}
 
+		/// <summary>
+		/// В зависимости от типа интеграции возвращает соответсвенный атрибут
+		/// </summary>
+		/// <param name="integrationInfo">Настройки интеграции</param>
+		/// <returns></returns>
 		public Type GetAttributeType(IntegrationInfo integrationInfo) {
 			switch(integrationInfo.IntegrationType) {
 				case TIntegrationType.Import:
-				case TIntegrationType.ExportResponseProcess:
 					return typeof(ImportHandlerAttribute);
 				case TIntegrationType.Export:
+				case TIntegrationType.ExportResponseProcess:
 					return typeof(ExportHandlerAttribute);
 				default:
 					return typeof(ExportHandlerAttribute);
 			}
 		}
 
+		/// <summary>
+		/// Возвращает все классы помеченые атрибутами интеграции которые розмещены в пространстве имен Terrasoft.Configuration
+		/// </summary>
+		/// <param name="integrationInfo">Настройки интеграции</param>
+		/// <returns></returns>
 		public List<Type> GetIntegrationTypes(IntegrationInfo integrationInfo) {
 			if(IntegrationEntityTypes != null && IntegrationEntityTypes.Any()) {
 				return IntegrationEntityTypes;
@@ -541,6 +619,11 @@ namespace Terrasoft.Configuration
 			}).ToList();
 		}
 
+		/// <summary>
+		/// Возвращает объект который отвечает за интеграцию конкретной сущности
+		/// </summary>
+		/// <param name="integrationInfo">Настройки интеграции</param>
+		/// <returns></returns>
 		public IIntegrationEntityHandler GetIntegrationHandler(IntegrationInfo integrationInfo) {
 			var attributeType = GetAttributeType(integrationInfo);
 			var types = GetIntegrationTypes(integrationInfo);
@@ -558,6 +641,11 @@ namespace Terrasoft.Configuration
 			return null;
 		}
 
+		/// <summary>
+		/// В зависимости от настройки интеграции, выполняет соответсвенный метод объкта, который отвечает за интеграцию конкретной сущности
+		/// </summary>
+		/// <param name="integrationInfo">Настройки интеграции</param>
+		/// <param name="handler">объект, который отвечает за интеграцию конкретной сущности</param>
 		public void ExecuteHandlerMethod(IntegrationInfo integrationInfo, IIntegrationEntityHandler handler) {
 			if(handler != null) {
 				try {
@@ -608,6 +696,13 @@ namespace Terrasoft.Configuration
 	#region Class: CsReference
 	public class CsReference {
 		public CsReferenceProperty ReferenceClientService;
+		/// <summary>
+		/// Cоздает объект, который обозначает ссылку (#ref) в Clientservice
+		/// </summary>
+		/// <param name="pid">id</param>
+		/// <param name="ptype">type</param>
+		/// <param name="pname">name</param>
+		/// <returns></returns>
 		public static CsReference Create(int pid, string ptype, string pname = "") {
 			return pid != 0 ? new CsReference {
 				ReferenceClientService = new CsReferenceProperty {
@@ -634,13 +729,14 @@ namespace Terrasoft.Configuration
 
 	#region Interface: IMappingMethod
 	public interface IMappingMethod {
+		//TODO: Вынести методы маппера в отдельные сущности
 		void Evaluate(MappingItem mappItem, IntegrationInfo integrationInfo);
 	}
 	#endregion
 
 	#region Class: IntegrationHandlerAttribute
 	[AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Method)]
-	public class IntegrationHandlerAttribute : Attribute {
+	public class IntegrationHandlerAttribute : System.Attribute {
 		private string entityName;
 		public string EntityName {
 			get { return entityName; }
@@ -670,7 +766,7 @@ namespace Terrasoft.Configuration
 	#endregion
 
 	#region Class: MappingMethodAttribute
-	public class MappingMethodAttribute : Attribute {
+	public class MappingMethodAttribute : System.Attribute {
 		private string methodName;
 		public string MethodName {
 			get {
@@ -901,7 +997,7 @@ namespace Terrasoft.Configuration
 		public static global::Common.Logging.ILog Log {
 			get {
 				if(_log == null)
-					_log = global::Common.Logging.LogManager.GetLogger("TscIntegration");
+					_log = global::Common.Logging.LogManager.GetLogger("TscIntegration") ?? global::Common.Logging.LogManager.GetLogger("Common");
 				return _log;
 			}
 		}
@@ -914,49 +1010,31 @@ namespace Terrasoft.Configuration
 
 		public static void Info(string format, params object[] args) {
 			try {
-				//Console.ForegroundColor = ConsoleColor.Green;
-				//Console.WriteLine(string.Format(format, args.Select(x => x ?? "null").ToArray()));
-				//Log.Info(string.Format(format, args.Select(x => x ?? "null").ToArray()));
+				Log.Info(string.Format(format, args.Select(x => x ?? "null").ToArray()));
 			} catch(Exception e) {
-				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine(e.Message);
-				//Log.Error(e.Message);
+				Log.Error(e.Message);
 			}
 		}
 
 		public static void Info(string text) {
 			try {
-				////Log.Info(text);
-				//Console.ForegroundColor = ConsoleColor.Green;
-				//Console.WriteLine(text);
+				Log.Info(text);
 			} catch(Exception e) {
-				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine(e.Message);
-				//Log.Error(e.Message);
+				Log.Error(e.Message);
 			}
 		}
 		public static void Error(string text) {
 			try {
-				//Console.ForegroundColor = ConsoleColor.Red;
-				//Console.WriteLine(text);
-				////Log.Error(text);
+				Log.Error(text);
 			} catch(Exception e) {
-				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine(e.Message);
-				//Log.Error(e.Message);
+				Log.Error(e.Message);
 			}
 		}
 		public static void Error(string format, params object[] args) {
 			try {
-				var buff = Console.ForegroundColor;
-				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine(string.Format(format, args.Select(x => x ?? "null").ToArray()));
-				Console.ForegroundColor = buff;
-				//Log.Error(string.Format(format, args.Select(x => x ?? "null").ToArray()));
+				Log.Error(string.Format(format, args.Select(x => x ?? "null").ToArray()));
 			} catch(Exception e) {
-				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine(e.Message);
-				//Log.Error(e.Message);
+				Log.Error(e.Message);
 			}
 		}
 		#endregion
@@ -978,19 +1056,24 @@ namespace Terrasoft.Configuration
 		#endregion
 
 		#region Methods: Private
+		/// <summary>
+		/// Возвращает xml документ c настройками маппинга
+		/// </summary>
+		/// <param name="userConnection"></param>
+		/// <returns></returns>
 		private static XmlDocument GetConfigXmlDocument(UserConnection userConnection) {
 			try {
 				if(_xDocument != null)
 					return _xDocument;
 
-				string confLocation = ConfigurationManager.AppSettings["XmlConfigurationLocation"] ?? "db";
+				string confLocation = System.Configuration.ConfigurationManager.AppSettings["XmlConfigurationLocation"] ?? "db";
 				if(confLocation == "db") {
 					if(string.IsNullOrEmpty(_xmlData)) {
-						_xmlData = SysSettings.GetValue(userConnection, CsConstant.SysSettingsCode.ConfigurationData, "<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+						_xmlData = Terrasoft.Core.Configuration.SysSettings.GetValue(userConnection, CsConstant.SysSettingsCode.ConfigurationData, "<?xml version=\"1.0\" encoding=\"utf-8\"?>");
 					}
 				} else if(confLocation == "file") {
 					if(string.IsNullOrEmpty(_xmlData)) {
-						string confPath = ConfigurationManager.AppSettings["XmlConfigurationFilePath"] ?? "IntegrationConfig.xml";
+						string confPath = System.Configuration.ConfigurationManager.AppSettings["XmlConfigurationFilePath"] ?? "IntegrationConfig.xml";
 						using(var stream = new StreamReader(confPath)) {
 							_xmlData = stream.ReadToEnd();
 						}
@@ -1007,6 +1090,12 @@ namespace Terrasoft.Configuration
 			}
 		}
 
+		/// <summary>
+		/// Возвращает ноду с именем name, документа doc
+		/// </summary>
+		/// <param name="doc">Документ</param>
+		/// <param name="name">Имя ноды</param>
+		/// <returns></returns>
 		private static XmlNode GetXmlNodeByNameAttr(XmlDocument doc, string name) {
 			try {
 				foreach(XmlNode node in doc.DocumentElement) {
@@ -1023,6 +1112,13 @@ namespace Terrasoft.Configuration
 			}
 		}
 
+		/// <summary>
+		/// Возвращает елемент маппинга по ноде из документа конфигурации
+		/// </summary>
+		/// <param name="userConnection"></param>
+		/// <param name="node">Нода</param>
+		/// <param name="defItem">Елемент маппинга по умолчанию. Если в ноде не будет какого-то поля, то подставится поле с этого объекта</param>
+		/// <returns></returns>
 		private static MappingItem GetItemByXmlNode(UserConnection userConnection, XmlNode node, MappingItem defItem = null) {
 			try {
 				var resultObj = Activator.CreateInstance(_mapItemType) as MappingItem;
@@ -1059,6 +1155,11 @@ namespace Terrasoft.Configuration
 			}
 		}
 
+		/// <summary>
+		/// Возращает конфиг пререндеринга prerenderConfig
+		/// </summary>
+		/// <param name="userConnection"></param>
+		/// <returns></returns>
 		private static Dictionary<string, string> GetPrerenderConfig(UserConnection userConnection) {
 			try {
 				if(_prerenderConfigDict != null && _prerenderConfigDict.Any())
@@ -1082,6 +1183,12 @@ namespace Terrasoft.Configuration
 			}
 		}
 
+		/// <summary>
+		/// Подготавливает конфигурацию маппинга с помощю конфигурации prerenderConfig.
+		/// </summary>
+		/// <param name="userConnection"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
 		private static string PrepareValue(UserConnection userConnection, string value) {
 			try {
 				var configDict = GetPrerenderConfig(userConnection);
@@ -1093,6 +1200,12 @@ namespace Terrasoft.Configuration
 				throw;
 			}
 		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="userConnection"></param>
+		/// <returns></returns>
 		private static MappingItem GetDefaultItem(UserConnection userConnection) {
 			try {
 				return _defaultItem == null ? _defaultItem = GetItemByXmlNode(userConnection, GetXmlNodeByNameAttr(GetConfigXmlDocument(userConnection), "Default").ChildNodes[0]) : _defaultItem;
@@ -1152,7 +1265,7 @@ namespace Terrasoft.Configuration
 		public bool IsInsertToDB {
 			get {
 				try {
-					_isInsertToDB = SysSettings.GetValue(UserConnection, CsConstant.SysSettingsCode.IsInsertToDB, _isInsertToDB);
+					_isInsertToDB = Terrasoft.Core.Configuration.SysSettings.GetValue(UserConnection, CsConstant.SysSettingsCode.IsInsertToDB, _isInsertToDB);
 				} catch(Exception e) {
 					IntegrationUtilities.Error("Method [IsInsertToDB get] exception: Message = {0}", e.Message);
 					_isInsertToDB = false;

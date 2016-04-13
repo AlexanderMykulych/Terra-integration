@@ -177,7 +177,7 @@
 		<mappingItem JSourcePath = "monthlyMileageKm" TsSourcePath = "TsMonthlyMileage"/>
 		<!--<mappingItem JSourcePath = "currentPassport.ReferenceClientService.Id" TsSourcePath = "TsPassportExternalId"/>
 		<mappingItem JSourcePath = "currentPassport.ReferenceClientService.type" ConstValue = "VehiclePassport" MapType="#Const"/>-->
-		<mappingItem JSourcePath = "currentOwner" TsSourcePath = "Id" TsDestinationPath="TsAutomobile" TsDestinationName="TsAutoTechService" MapType="#RefToGuid" JSourceName = "VehicleRelationship"/>
+		<mappingItem JSourcePath = "currentOwner" TsSourcePath = "Id" TsDestinationPath="TsAutomobile" TsDestinationName="TsAutoOwnerInfo" MapType="#RefToGuid" JSourceName = "VehicleRelationship"/>
 		<mappingItem JSourcePath = "additionalInfo.NextServDate" TsSourcePath = "TsNextTechDate"/>
 		<mappingItem JSourcePath = "additionalInfo.EngOil" TsSourcePath = "TsEngineOilInfo"/>
 		<mappingItem JSourcePath = "additionalInfo.BreakBrand" TsSourcePath = "TsBreakBrandInfo"/>
@@ -263,27 +263,27 @@
 	</configItem>
 	<configItem JName = "NotificationProfile" TsName="TsAccountNotification">
 		<mappingItem JSourcePath = "person" MapType="#RefToGuid" TsSourcePath="TsContactId" TsDestinationName="Contact" JSourceName="PersonProfile" EFieldRequier="#true"/>
-		<mappingItem JSourcePath = "type" MapType = "#StringToDictionaryGuid" TsSourcePath="TsTypeId" TsDestinationName="TsNotificationType"/>
+		<mappingItem JSourcePath = "type" TsSourcePath="TsTypeName"/>
 		<mappingItem JSourcePath = "disabled" TsSourcePath = "TsDisabled"/>
 		<mappingItem JSourcePath = "notifyOnHolidays" TsSourcePath = "TsWeekendNotify" EFieldRequier="#true"/>
 		<mappingItem JSourcePath = "timeFrom" TsSourcePath = "TsStartTime"/>
 		<mappingItem JSourcePath = "timeTo" TsSourcePath = "TsDueTime"/>
-		<mappingItem JSourcePath = "notificationChannel" MapType = "#StringToDictionaryGuid" TsSourcePath="TsChannelId" TsDestinationName="TsNotificationType"/>
+		<mappingItem JSourcePath = "notificationChannel" TsSourcePath="TsChannelName"/>
 		<mappingItem JSourcePath = "communicationType" TsSourcePath = "TsCommunicationNumber"/>
-		<mappingItem JSourcePath = "timezone" TsSourcePath="TsTimeZoneId" TsDestinationName="TimeZone" MapType="#StringToDictionaryGuid"/>
+		<mappingItem JSourcePath = "timezone" TsSourcePath="TsTimeZoneName"/>
 		<mappingItem JSourcePath = "id" TsSourcePath = "TsExternalId" MapIntegrationType="#Import" SaveOnResponse="#true"/>
 		<mappingItem JSourcePath = "version" TsSourcePath = "TsExternalVersion" MapIntegrationType="#Import" SaveOnResponse="#true"/>
 	</configItem>
 	<configItem JName = "NotificationProfile" TsName="TsContactNotifications">
 		<mappingItem JSourcePath = "person" MapType="#RefToGuid" TsSourcePath="TsContactId" TsDestinationName="Contact" JSourceName="PersonProfile" EFieldRequier="#true"/>
-		<mappingItem JSourcePath = "type" MapType = "#StringToDictionaryGuid" TsSourcePath="TsTypeId" TsDestinationName="TsNotificationType"/>
+		<mappingItem JSourcePath = "type" TsSourcePath="TsTypeName"/>
 		<mappingItem JSourcePath = "disabled" TsSourcePath = "TsDisabled"/>
 		<mappingItem JSourcePath = "notifyOnHolidays" TsSourcePath = "TsWeekendNotify" EFieldRequier="#true"/>
 		<mappingItem JSourcePath = "timeFrom" TsSourcePath = "TsStartTime"/>
 		<mappingItem JSourcePath = "timeTo" TsSourcePath = "TsDueTime"/>
-		<mappingItem JSourcePath = "notificationChannel" MapType = "#StringToDictionaryGuid" TsSourcePath="TsChannelId" TsDestinationName="TsNotificationType"/>
+		<mappingItem JSourcePath = "notificationChannel" TsSourcePath="TsChannelName"/>
 		<mappingItem JSourcePath = "communicationType" TsSourcePath = "TsCommunicationNumber"/>
-		<mappingItem JSourcePath = "timezone" TsSourcePath="TsTimeZoneId" TsDestinationName="TimeZone" MapType="#StringToDictionaryGuid"/>
+		<mappingItem JSourcePath = "timezone" TsSourcePath="TsTimeZoneName"/>
 		<mappingItem JSourcePath = "id" TsSourcePath = "TsExternalId" MapIntegrationType="#Import" SaveOnResponse="#true"/>
 		<mappingItem JSourcePath = "version" TsSourcePath = "TsExternalVersion" MapIntegrationType="#Import" SaveOnResponse="#true"/>
 	</configItem>
