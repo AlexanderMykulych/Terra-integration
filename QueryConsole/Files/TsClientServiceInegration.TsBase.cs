@@ -84,6 +84,7 @@ namespace Terrasoft.Configuration
 					using(Stream responseStream = response.GetResponseStream())
 					using(StreamReader sr = new StreamReader(responseStream)) {
 						if(callback != null) {
+							IntegrationUtilities.Info("ClientService Response: Success");
 							string responceText = sr.ReadToEnd();
 							callback(responceText, userConnection);
 						}
@@ -1010,7 +1011,8 @@ namespace Terrasoft.Configuration
 
 		public static void Info(string format, params object[] args) {
 			try {
-				Log.Info(string.Format(format, args.Select(x => x ?? "null").ToArray()));
+				//Log.Info(string.Format(format, args.Select(x => x ?? "null").ToArray()));
+				Console.WriteLine(string.Format(format, args.Select(x => x ?? "null").ToArray()));
 			} catch(Exception e) {
 				Log.Error(e.Message);
 			}
@@ -1018,21 +1020,24 @@ namespace Terrasoft.Configuration
 
 		public static void Info(string text) {
 			try {
-				Log.Info(text);
+				//Log.Info(text);
+				Console.WriteLine(text);
 			} catch(Exception e) {
 				Log.Error(e.Message);
 			}
 		}
 		public static void Error(string text) {
 			try {
-				Log.Error(text);
+				//Log.Error(text);
+				Console.WriteLine(text);
 			} catch(Exception e) {
 				Log.Error(e.Message);
 			}
 		}
 		public static void Error(string format, params object[] args) {
 			try {
-				Log.Error(string.Format(format, args.Select(x => x ?? "null").ToArray()));
+				//Log.Error(string.Format(format, args.Select(x => x ?? "null").ToArray()));
+				Console.WriteLine(string.Format(format, args.Select(x => x ?? "null").ToArray()));
 			} catch(Exception e) {
 				Log.Error(e.Message);
 			}
@@ -1383,9 +1388,9 @@ namespace Terrasoft.Configuration
 				//executedMethod = new Action(() => Simple(mapItem, integrationInfo, jToken));
 				Simple(mapItem, integrationInfo, ref jToken);
 				break;
-				case TMapType.StringToDictionaryGuid:
+				case TMapType.FirstDestinationField:
 				//executedMethod = new Action(() => StringToDictionaryGuid(mapItem, integrationInfo, jToken));
-				StringToDictionaryGuid(mapItem, integrationInfo, ref jToken);
+				FirstDestinationField(mapItem, integrationInfo, ref jToken);
 				break;
 				case TMapType.CompositObject:
 				//executedMethod = new Action(() => CompositObject(mapItem, integrationInfo, jToken));
@@ -1539,7 +1544,7 @@ namespace Terrasoft.Configuration
 			}
 		}
 
-		public void StringToDictionaryGuid(MappingItem mappingItem, IntegrationInfo integrationInfo, ref JToken jToken) {
+		public void FirstDestinationField(MappingItem mappingItem, IntegrationInfo integrationInfo, ref JToken jToken) {
 			switch(integrationInfo.IntegrationType) {
 				case TIntegrationType.Import:
 				case TIntegrationType.ExportResponseProcess: {
@@ -1682,11 +1687,19 @@ namespace Terrasoft.Configuration
 		#endregion
 
 		#region Methods: Private
-		private List<object> GetColumnValues(string entityName, string entityPath, object entityPathValue, string resultColumnName, int limit = -1) {
+		private List<object> GetColumnValues(string entityName, string entityPath, object entityPathValue, string resultColumnName, int limit = -1,
+			string orderColumnName = "CreatedOn", Common.OrderDirection orderType = Common.OrderDirection.Descending) {
 			var esq = new EntitySchemaQuery(UserConnection.EntitySchemaManager, entityName);
-			if(limit > 0)
+			if(limit > 0) {
 				esq.RowCount = limit;
+			}
 			var resColumn = esq.AddColumn(resultColumnName);
+			if(!string.IsNullOrEmpty(orderColumnName)) {
+				var orderColumn = esq.AddColumn(orderColumnName);
+				orderColumn.SetForcedQueryColumnValueAlias("orderColumn");
+				orderColumn.OrderDirection = orderType;
+				orderColumn.OrderPosition = 0;
+			}
 			esq.Filters.Add(esq.CreateFilterWithParameters(FilterComparisonType.Equal, entityPath, entityPathValue));
 			return esq.GetEntityCollection(UserConnection).Select(x => 
 				x.GetColumnValue(resColumn.IsLookup ? PrepareColumn(resColumn.Name, true) : resColumn.Name)
@@ -1772,7 +1785,7 @@ namespace Terrasoft.Configuration
 	public enum TMapType {
 		RefToGuid = 0,
 		Simple = 1,
-		StringToDictionaryGuid = 2,
+		FirstDestinationField = 2,
 		CompositObject = 3,
 		ArrayOfCompositObject = 4,
 		Const = 5,
@@ -1820,14 +1833,16 @@ namespace Terrasoft.Configuration
 
 		public string TsExternalIdPath { get; set; }
 
-		public object ConstValue {get;set;}
-		public TConstType ConstType {get;set;}
+		public object ConstValue { get;set; }
+		public TConstType ConstType { get;set; }
 
-		public bool IgnoreError {get;set;}
-		public bool SaveOnResponse {get;set;}
+		public bool IgnoreError { get;set; }
+		public bool SaveOnResponse { get;set; }
 
+		public string OrderColumn { get;set; }
+		public Common.OrderDirection OrderType { get;set; }
 
-		public string HandlerName {get;set;}
+		public string HandlerName { get;set; }
 		#endregion
 
 		#region Constructor: MappingItem

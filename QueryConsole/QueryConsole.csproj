@@ -199,27 +199,27 @@
     <Reference Include="System.Xml" />
     <Reference Include="Terrasoft.Common, Version=7.7.0.2753, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\Terrasoft.Common.dll</HintPath>
+      <HintPath>..\..\..\..\WebApp\Armtek_7.7.0.2881\bin\Terrasoft.Common.dll</HintPath>
     </Reference>
     <Reference Include="Terrasoft.Core, Version=7.7.0.2753, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\Terrasoft.Core.dll</HintPath>
+      <HintPath>..\..\..\..\WebApp\Armtek_7.7.0.2881\bin\Terrasoft.Core.dll</HintPath>
     </Reference>
     <Reference Include="Terrasoft.Core.Packages, Version=7.7.0.2753, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\Terrasoft.Core.Packages.dll</HintPath>
+      <HintPath>..\..\..\..\WebApp\Armtek_7.7.0.2881\bin\Terrasoft.Core.Packages.dll</HintPath>
     </Reference>
     <Reference Include="Terrasoft.Core.Scheduler, Version=7.7.0.2753, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\WebApp\Armtek\Terrasoft.WebApp\bin\Terrasoft.Core.Scheduler.dll</HintPath>
+      <HintPath>..\..\..\..\WebApp\Armtek_7.7.0.2881\bin\Terrasoft.Core.Scheduler.dll</HintPath>
     </Reference>
     <Reference Include="Terrasoft.Messaging.Common, Version=7.7.0.2753, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\Terrasoft.Messaging.Common.dll</HintPath>
+      <HintPath>..\..\..\..\WebApp\Armtek_7.7.0.2881\Terrasoft.WebApp\bin\Terrasoft.Messaging.Common.dll</HintPath>
     </Reference>
     <Reference Include="Terrasoft.Reports, Version=7.7.0.2753, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\WebApp\Armtek\Terrasoft.WebApp\bin\Terrasoft.Reports.dll</HintPath>
+      <HintPath>..\..\..\..\WebApp\Armtek_7.7.0.2881\bin\Terrasoft.Reports.dll</HintPath>
     </Reference>
     <Reference Include="Terrasoft.Svn, Version=7.7.0.1868, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -231,11 +231,11 @@
     </Reference>
     <Reference Include="Terrasoft.UI.WebControls, Version=7.7.0.2753, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\Terrasoft.UI.WebControls.dll</HintPath>
+      <HintPath>..\..\..\..\WebApp\Armtek_7.7.0.2881\bin\Terrasoft.UI.WebControls.dll</HintPath>
     </Reference>
     <Reference Include="Terrasoft.Web.Common, Version=7.7.0.2753, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\WebApp\Armtek\Terrasoft.WebApp\bin\Terrasoft.Web.Common.dll</HintPath>
+      <HintPath>..\..\..\..\WebApp\Armtek_7.7.0.2881\Terrasoft.WebApp\bin\Terrasoft.Web.Common.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
