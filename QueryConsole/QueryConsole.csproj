@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>QueryConsole</RootNamespace>
     <AssemblyName>QueryConsole</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <PublishUrl>publish\</PublishUrl>
@@ -27,6 +27,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -50,15 +51,15 @@
   <ItemGroup>
     <Reference Include="Common.Logging, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\inetpub\wwwroot\DAMU_Site\bin\Common.Logging.dll</HintPath>
+      <HintPath>bin\Debug\Common.Logging.dll</HintPath>
     </Reference>
     <Reference Include="Common.Logging.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\inetpub\wwwroot\DAMU_Site\bin\Common.Logging.Core.dll</HintPath>
+      <HintPath>bin\Debug\Common.Logging.Core.dll</HintPath>
     </Reference>
     <Reference Include="Common.Logging.Log4Net1213, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\inetpub\wwwroot\DAMU_Site\bin\Common.Logging.Log4Net1213.dll</HintPath>
+      <HintPath>bin\Debug\Common.Logging.Log4Net1213.dll</HintPath>
     </Reference>
     <Reference Include="DevDefined.OAuth, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a3261f5b4697e67d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -181,6 +182,12 @@
     <Reference Include="Quartz">
       <HintPath>..\..\..\WebApp\Armtek\Terrasoft.WebApp\bin\Quartz.dll</HintPath>
     </Reference>
+    <Reference Include="SharpSvn">
+      <HintPath>..\packages\SharpSvn.1.8-x86.1.8016.3866.130\lib\net40\SharpSvn.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpSvn.UI">
+      <HintPath>..\packages\SharpSvn.1.8-x86.1.8016.3866.130\lib\net40\SharpSvn.UI.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -200,6 +207,9 @@
     <Reference Include="Terrasoft.Common, Version=7.7.0.2753, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\WebApp\Armtek_7.7.0.2881\bin\Terrasoft.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Configuration">
+      <HintPath>..\..\..\..\Dev\Armtek_D\C#\A.Mykulych\Terrasoft.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="Terrasoft.Core, Version=7.7.0.2753, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -239,6 +249,44 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Files\BpmEntityHelper\IntegrationEntityHelper.cs" />
+    <Compile Include="Files\BpmIntegrator\CsReference.cs" />
+    <Compile Include="Files\BpmIntegrator\CsReferenceProperty.cs" />
+    <Compile Include="Files\BpmIntegrator\IIntegrationEntityHandler.cs" />
+    <Compile Include="Files\BpmIntegrator\IntegrationHandlerAttribute.cs" />
+    <Compile Include="Files\Constants\CsConstant.cs" />
+    <Compile Include="Files\IntegratorHelper\IntegratorHelper.cs" />
+    <Compile Include="Files\Integrators\ClientServiceIntegrator.cs" />
+    <Compile Include="Files\Integrators\IntegrationServiceIntegrator.cs" />
+    <Compile Include="Files\Integrators\NewClientServiceIntegrator.cs" />
+    <Compile Include="Files\Integrators\OrderServiceIntegrator.cs" />
+    <Compile Include="Files\IntegratorTester\BaseIntegratorTester.cs" />
+    <Compile Include="Files\IntegratorTester\ClientServiceIntegratorTester.cs" />
+    <Compile Include="Files\IntegratorTester\OrderServiceIntegratorTester.cs" />
+    <Compile Include="Files\Logger\IntegrationUtilities.cs" />
+    <Compile Include="Files\MappingManager\IMapRule.cs" />
+    <Compile Include="Files\MappingManager\JsonHelper.cs" />
+    <Compile Include="Files\MappingManager\MappingHelper.cs" />
+    <Compile Include="Files\MappingManager\MappingItem.cs" />
+    <Compile Include="Files\MappingManager\MappRule\ArrayOfCompositeObjectMappRule.cs" />
+    <Compile Include="Files\MappingManager\MappRule\ArrayOfReferenceMappRule.cs" />
+    <Compile Include="Files\MappingManager\MappRule\BaseMappRule.cs" />
+    <Compile Include="Files\MappingManager\MappRule\ComplexFieldMappRule.cs" />
+    <Compile Include="Files\MappingManager\MappRule\CompositMappRule.cs" />
+    <Compile Include="Files\MappingManager\MappRule\ConstMappRule.cs" />
+    <Compile Include="Files\MappingManager\MappRule\ManyToManyMappRule.cs" />
+    <Compile Include="Files\MappingManager\MappRule\ReferensToEntityMappRule.cs" />
+    <Compile Include="Files\MappingManager\MappRule\SimpleMappRule.cs" />
+    <Compile Include="Files\MappingManager\RuleExportInfo.cs" />
+    <Compile Include="Files\MappingManager\RuleImportInfo.cs" />
+    <Compile Include="Files\MappingManager\RuleInfo.cs" />
+    <Compile Include="Files\MappingManager\RulesFactory.cs" />
+    <Compile Include="Files\MappingManager\TsMacrosHelper.cs" />
+    <Compile Include="Files\Signal\SignalGenerator.cs" />
+    <Compile Include="Files\Signal\SignalHandler.cs" />
+    <Compile Include="Files\Signal\SignalProcessor.cs" />
+    <Compile Include="Files\UrlMaker\ServiceUrlMaker.cs" />
+    <Compile Include="Files\Integrators\TsServiceIntegrator.cs" />
     <Compile Include="Files\TsClientServiceInegration.TsBase.cs" />
     <Compile Include="Files\TsClientServiceInegrationSchema.TsBase.cs" />
     <Compile Include="Files\TsIntegrationServiceEntity.TsBase.cs" />
@@ -272,6 +320,7 @@
     <Content Include="IntegrationJson\CompanyProfile.txt" />
     <Content Include="IntegrationJson\PersonProfile.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

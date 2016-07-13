@@ -1,4 +1,4 @@
-﻿namespace Terrasoft.Configuration
+﻿namespace Terrasoft.TsConfiguration
 {
 
 	using System;

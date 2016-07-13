@@ -3,13 +3,17 @@ using System.Configuration;
 using System.IO;
 using System.Reflection;
 using Terrasoft.Common;
-using Terrasoft.Configuration;
+using Terrasoft.TsConfiguration;
 using Terrasoft.Core;
 using Terrasoft.Core.DB;
 using Terrasoft.Core.Entities;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
+using QueryConsole.Files.Integrators;
+using QueryConsole.Files.BpmEntityHelper;
+using QueryConsole.Files.Constants;
+using QueryConsole.Files.IntegratorTester;
 
 namespace QueryConsole
 {
@@ -17,9 +21,10 @@ namespace QueryConsole
 	{
 		public static void Main(string[] args) {
 			try {
+				//var consoleApp = new TerrasoftConsoleClass("A.Mykulych");
 				var consoleApp = new TerrasoftConsoleClass("Default");
 				try {
-				consoleApp.Run();
+					consoleApp.Run();
 				} catch(Exception e) {
 					consoleApp.ConsoleColorWrite("Connect to Database: Failed", ConsoleColor.Red);
 					Console.WriteLine(e.Message);
@@ -27,24 +32,50 @@ namespace QueryConsole
 				consoleApp.ConsoleColorWrite("Connect to Database: Success");
 				Console.WriteLine("Press any button to start integrate");
 				Console.ReadKey();
-				var integrationEntityNames = new List<string>() {
-					"Account",
-					//"Contact",
-					//"Case",
-					//"TsAutomobile",
-					//"ContactCareer",
-					//"TsAutoTechService",
-					//"TsAutoOwnerHistory",
-					//"TsAutoOwnerInfo",
-					//"TsAccountManagerGroup",
-					//"ContactCommunication",
-					//"TsAccountNotification",
-					//"TsContactNotifications",
-					//"Relationship",
-					//"SysAdminUnit"
+				var testers = new List<BaseIntegratorTester>() {
+					new OrderServiceIntegratorTester(consoleApp.SystemUserConnection),
+					//new ClientServiceIntegratorTester(consoleApp.SystemUserConnection)
 				};
-				foreach(var entityName in integrationEntityNames) {
-					consoleApp.UpdateEntity(entityName);
+                //	//Account
+
+                //	var esq = new EntitySchemaQuery(consoleApp.SystemUserConnection.EntitySchemaManager, "Account");
+                //	esq.AddAllSchemaColumns();
+                //	esq.RowCount = 1;
+                //	var createdOn = esq.AddColumn("CreatedOn");
+                //	createdOn.OrderByDesc();
+                //	var entity = esq.GetEntityCollection(consoleApp.SystemUserConnection)[0];
+                //	testers[1].ImportBpmEntity(entity);
+                ////Contact
+
+                //	var esq2 = new EntitySchemaQuery(consoleApp.SystemUserConnection.EntitySchemaManager, "Contact");
+                //	esq2.AddAllSchemaColumns();
+                //	esq2.RowCount = 1;
+                //	var createdOn2 = esq2.AddColumn("CreatedOn");
+                //	createdOn2.OrderByDesc();
+                //	var entity2 = esq2.GetEntityCollection(consoleApp.SystemUserConnection)[0];
+                //	testers[1].ImportBpmEntity(entity2);
+                ////TsAutomobile
+                //	var esq3 = new EntitySchemaQuery(consoleApp.SystemUserConnection.EntitySchemaManager, "TsAutomobile");
+                //	esq3.AddAllSchemaColumns();
+                //	esq3.RowCount = 1;
+                //	var createdOn3 = esq3.AddColumn("CreatedOn");
+                //	createdOn3.OrderByDesc();
+                //	var entity3 = esq3.GetEntityCollection(consoleApp.SystemUserConnection)[0];
+                //	testers[1].ImportBpmEntity(entity3);
+                //	int limit = 10;
+                //	limit = int.Parse(Console.ReadLine());
+                foreach (var tester in testers)
+                {
+                    tester.ExportAllServiceEntitiesByStep(1000, 3000);
+                }
+                //var test3 = new IntegrationServiceIntegrator(consoleApp.SystemUserConnection);
+                //test3.GetBusEventNotification(true);
+                //tester.ExportAllServiceEntities(1000);
+                //tester.ExportAllServiceEntitiesByStep(20, 3500);
+                //
+                //tester2.ExportAllServiceEntities(100);
+                //tester.ImportAllBpmEntity();
+                while (true) {
 				}
 			} catch (ReflectionTypeLoadException e1) {
 				Console.WriteLine(e1.Message);
@@ -79,7 +110,7 @@ namespace QueryConsole
 			set;
 		}
 
-		private UserConnection SystemUserConnection;
+		public UserConnection SystemUserConnection;
 
 		private AppConnection _appConnection;
 
@@ -116,7 +147,7 @@ namespace QueryConsole
 			if (index > 0) {
 				string requestingAssemblyPath = Path.Combine(appPath, processRunMode,
 					requestingAssemblyName.Substring(0, index) + ".dll");
-				if (File.Exists(requestingAssemblyPath)) {
+				if (System.IO.File.Exists(requestingAssemblyPath)) {
 					return Assembly.LoadFrom(requestingAssemblyPath);
 				}
 			}
@@ -178,7 +209,7 @@ namespace QueryConsole
 		}
 		public void Import(string json, string entityName) {
 			var integrator = new IntegrationEntityHelper();
-			var integrationInfo = new Terrasoft.Configuration.CsConstant.IntegrationInfo(Newtonsoft.Json.JsonConvert.DeserializeObject(json) as JObject, SystemUserConnection, CsConstant.TIntegrationType.Import, null, entityName, "create");
+			var integrationInfo = new CsConstant.IntegrationInfo(Newtonsoft.Json.JsonConvert.DeserializeObject(json) as JObject, SystemUserConnection, CsConstant.TIntegrationType.Import, null, entityName, "create");
 			var sw = new Stopwatch();
 			sw.Start();
 			integrator.IntegrateEntity(integrationInfo);
@@ -198,7 +229,6 @@ namespace QueryConsole
 			Console.ForegroundColor = buff;
 		}
 		#endregion
-
 	}
 
 	#endregion
