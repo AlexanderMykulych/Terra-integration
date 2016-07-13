@@ -1,0 +1,358 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Terrasoft.Nui.ServiceModel</name>
+    </assembly>
+    <members>
+        <member name="T:Terrasoft.Nui.ServiceModel.DataContract.QueryType">
+            <summary>
+            Тип запроса.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Nui.ServiceModel.DataContract.QueryType.Select">
+            <summary>
+            Чтение данных.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Nui.ServiceModel.DataContract.QueryType.Update">
+            <summary>
+            Изменение данных.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Nui.ServiceModel.DataContract.QueryType.Delete">
+            <summary>
+            Удаление данных.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Nui.ServiceModel.DataContract.BaseFilterableQuery.QueryType">
+            <summary>
+            Тип запроса.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Nui.ServiceModel.DataContract.UpdateQuery.QueryType">
+            <summary>
+            Тип запроса.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Nui.ServiceModel.DataContract.UpdateQuery.IsForceUpdate">
+            <summary>
+            Параметр, указывающий необходимость принудительного выполнения запроса в БД
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Nui.ServiceModel.DataContract.DeleteQuery.QueryType">
+            <summary>
+            Тип запроса.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Nui.ServiceModel.DataContract.SelectQuery.QueryType">
+            <summary>
+            Тип запроса.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Nui.ServiceModel.DataContract.SysSettingSaveRequest">
+            <summary>
+            Базовый запрос опрации сохранения системной настройки.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Nui.ServiceModel.DataContract.SysSettingSaveRequest.Id">
+            <summary>
+            Идентификатор системной настройки.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Nui.ServiceModel.DataContract.SysSettingSaveRequest.Name">
+            <summary>
+            Имя системной настройки.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Nui.ServiceModel.DataContract.SysSettingSaveRequest.Code">
+            <summary>
+            Код системной настройки.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Nui.ServiceModel.DataContract.SysSettingSaveRequest.Description">
+            <summary>
+            Описание системной настройки.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Nui.ServiceModel.DataContract.SysSettingSaveRequest.ValueTypeName">
+            <summary>
+            Тип системной настройки.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Nui.ServiceModel.DataContract.SysSettingSaveRequest.IsPersonal">
+            <summary>
+            Признак персональности системной настройки.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Nui.ServiceModel.DataContract.SysSettingSaveRequest.IsCacheable">
+            <summary>
+            Признак кешируемости системной настройки.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Nui.ServiceModel.DataContract.SysSettingSaveRequest.ReferenceSchemaUId">
+            <summary>
+            Идентификатор схемы справочника.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Nui.ServiceModel.DataContract.SysSettingSaveRequest.IsSSPAvailable">
+            <summary>
+            Признак доступности SSP.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Nui.ServiceModel.DataContract.InsertSysSettingRequest">
+            <summary>
+            Запрос добавления записи системной настройки.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Nui.ServiceModel.DataContract.UpdateSysSettingRequest">
+            <summary>
+            Запрос обновления записи системной настройки.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Nui.ServiceModel.DataContract.DeleteSysSettingRequest">
+            <summary>
+            Запроса удаления записи системной настройки.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Nui.ServiceModel.DataContract.DeleteSysSettingRequest.PrimaryColumnValues">
+            <summary>
+            Значения перичной колонки системной настройки.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Nui.ServiceModel.DataContract.BaseResponse.Success">
+            <summary>
+            Признак успешности операции.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Nui.ServiceModel.DataContract.BaseResponse.ErrorInfo">
+            <summary>
+            Объект ошибки.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Nui.ServiceModel.DataContract.InsertSysSettingResponse">
+            <summary>
+            Ответа сервера при вставки записи системной настройки.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Nui.ServiceModel.DataContract.InsertSysSettingResponse.Id">
+            <summary>
+            Идентификатор системной настройки.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Nui.ServiceModel.DataContract.UpdateSysSettingResponse">
+            <summary>
+            Ответ сервера при обновлении записи системной настройки.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Nui.ServiceModel.DataContract.DeleteSysSettingResponse">
+            <summary>
+            Ответа сервера при удалении записи системной настройки.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Nui.ServiceModel.DataContract.ModificationStatus">
+            <summary>
+            Статус изменения сущности.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Nui.ServiceModel.DataContract.ModificationStatus.NotModified">
+            <summary>
+            Не изменен.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Nui.ServiceModel.DataContract.ModificationStatus.Removed">
+            <summary>
+            Удалена
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Nui.ServiceModel.DataContract.ModificationStatus.New">
+            <summary>
+            Новый.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Nui.ServiceModel.DataContract.ModificationStatus.Updated">
+            <summary>
+            Модифицирован.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Nui.ServiceModel.DataContract.BaseSchema.GetElementsDictionary``1(Terrasoft.Core.Schema,System.Collections.Generic.IEnumerable{``0},System.Boolean)">
+            <summary>
+            Возвращает коллекцию элементов схемы в виде словаря, который получен из елементов схемы и их свойств.
+            </summary>
+            <typeparam name="T">Наследник типа</typeparam>
+            <param name="schema">Схема</param>
+            <param name="collection">Коллекция элементов</param>
+            <param name="useNameAsKey">Использовать Name в качестве ключа коллекции</param>
+            <returns>Возвращает коллекцию элементов</returns>
+        </member>
+        <member name="T:Terrasoft.Nui.ServiceModel.DataContract.ContractProcessSchema">
+            <summary>
+            Класс контракта схемы процесса.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Nui.ServiceModel.DataContract.ContractProcessSchema.ParentSchemaUId">
+            <summary>
+            Уникальный идентификатор родительской схемы.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Nui.ServiceModel.DataContract.ProcessSchemaRequest">
+            <summary>
+            Запрос получения схемы процесса.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Nui.ServiceModel.DataContract.ProcessSchemaRequest.UId">
+            <summary>
+            Уникальный идентификатор процесса.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Nui.ServiceModel.DataContract.ProcessSchemaRequest.PackageUId">
+            <summary>
+            Уникальный идентификатор пакета.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Nui.ServiceModel.DataContract.RemoveProcessSchemaRequest">
+            <summary>
+            Запрос удаления схемы процесса.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Nui.ServiceModel.DataContract.DatePart">
+            <summary>
+            Часть даты.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Nui.ServiceModel.DataContract.DatePart.None">
+            <summary>
+            Значение не установлено.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Nui.ServiceModel.DataContract.DatePart.Day">
+            <summary>
+            День.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Nui.ServiceModel.DataContract.DatePart.Week">
+            <summary>
+            Неделя.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Nui.ServiceModel.DataContract.DatePart.Month">
+            <summary>
+            Месяц.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Nui.ServiceModel.DataContract.DatePart.Year">
+            <summary>
+            Год.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Nui.ServiceModel.DataContract.DatePart.Weekday">
+            <summary>
+            День недели.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Nui.ServiceModel.DataContract.DatePart.Hour">
+            <summary>
+            Час.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Nui.ServiceModel.DataContract.DatePart.HourMinute">
+            <summary>
+            Минута.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Nui.ServiceModel.DataContract.EnumUtilities.ToStrict(Terrasoft.Nui.ServiceModel.DataContract.DatePart)">
+            <summary>
+            Преобразование перечисления типа <see cref="T:Terrasoft.Nui.ServiceModel.DataContract.DatePart"/> в перечисления типа 
+            <see cref="T:Terrasoft.Core.Entities.EntitySchemaDatePartQueryFunctionInterval"/>.
+            </summary>
+            <param name="source">Перечисление типа <see cref="T:Terrasoft.Nui.ServiceModel.DataContract.DatePart"/>.</param>
+            <returns>Перечисление типа <see cref="T:Terrasoft.Core.Entities.EntitySchemaDatePartQueryFunctionInterval"/>.</returns>
+            <exception cref="T:Terrasoft.Common.UnsupportedTypeException">При передаче в качестве параметра <paramref name="source"/> 
+            значения, не являющегося элементом перечисления <see ref="AggregationType"/>.</exception>
+        </member>
+        <member name="M:Terrasoft.Nui.ServiceModel.Extensions.ExceptionExtension.ToResponse``1(System.Exception)">
+            <summary>
+            Преобразует исключение в ответ.
+            </summary>
+            <param name="source">Исключение.</param>
+            <returns>Объект ответа.</returns>
+        </member>
+        <member name="T:Terrasoft.Nui.ServiceModel.WebService.ProcessSchemaDesigner">
+            <summary>
+            Дизайнер схемы процесса.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Nui.ServiceModel.WebService.ProcessSchemaDesigner.GetParentUId(Terrasoft.Nui.ServiceModel.DataContract.ContractProcessSchema)">
+            <summary>
+            Возвращает уникальный идентификатор родительской схемы
+            </summary>
+            <param name="schema">Контракт схемы процесса</param>
+            <returns>Уникальный идентификатор родительской схемы.</returns>
+        </member>
+        <member name="M:Terrasoft.Nui.ServiceModel.WebService.ProcessSchemaDesigner.GetValidationActions">
+            <summary>
+            Возвращает список действий валидации.
+            </summary>
+            <returns>Список действий валидации.</returns>
+        </member>
+        <member name="M:Terrasoft.Nui.ServiceModel.WebService.ProcessSchemaDesigner.SaveSchema(Terrasoft.Nui.ServiceModel.DataContract.ContractProcessSchema,Terrasoft.Core.ISchemaManagerItem)">
+            <summary>
+            Сохранение схемы процесса.
+            </summary>
+            <param name="schema">Контракт схемы процесса.</param>
+            <param name="managerItem">Элемент менеджера.</param>
+        </member>
+        <member name="M:Terrasoft.Nui.ServiceModel.WebService.ProcessSchemaDesigner.ApplyChanges(Terrasoft.Nui.ServiceModel.DataContract.ContractProcessSchema,Terrasoft.Core.ISchemaManagerItem)">
+            <summary>
+            Применение изменений схемы процесса из клиента на сервер.
+            </summary>
+            <param name="schema">Контракт схемы процесса.</param>
+            <param name="managerItem">Элемент менеджера.</param>
+        </member>
+        <member name="M:Terrasoft.Nui.ServiceModel.WebService.ProcessSchemaDesigner.SetDefPackageUId(Terrasoft.Core.ISchemaManagerItem)">
+            <summary>
+            Устанавливает Custom пакет по умолчанию, если он не был установлен
+            </summary>
+            <param name="managerItem"></param>
+        </member>
+        <member name="P:Terrasoft.Nui.ServiceModel.WebService.ProcessSchemaDesigner.SchemaManager">
+            <summary>
+            Инстанс менеджера схем процессов.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Nui.ServiceModel.WebService.DataService.GetLookupDisplayValue(Terrasoft.Core.Configuration.SysSettings)">
+            <summary>
+            Возвращает отображаемое значение системной настройки.
+            </summary>
+            <param name="sysSettingsItem">Системная настройка.</param>
+            <returns>Отображаемое значение системной настройки.</returns>
+        </member>
+        <member name="M:Terrasoft.Nui.ServiceModel.WebService.DataService.SetSysSettingColumnValues(Terrasoft.Core.Configuration.SysSettings,Terrasoft.Nui.ServiceModel.DataContract.SysSettingSaveRequest)">
+            <summary>
+            Устанавливает значения колонок системной настройки.
+            </summary>
+            <param name="sysSettingsItem">Системная настройка.</param>
+            <param name="query">Объект запроса.</param>
+        </member>
+        <member name="M:Terrasoft.Nui.ServiceModel.WebService.DataService.Post(Terrasoft.Nui.ServiceModel.DataContract.InsertSysSettingRequest)">
+            <summary>
+            Добавляет системную настройку в базу данных.
+            </summary>
+            <param name="query">Объект запроса.</param>
+            <returns>Объект ответа.</returns>
+        </member>
+        <member name="M:Terrasoft.Nui.ServiceModel.WebService.DataService.Post(Terrasoft.Nui.ServiceModel.DataContract.UpdateSysSettingRequest)">
+            <summary>
+            Обновляет системную настройку в базе данных.
+            </summary>
+            <param name="query">Объект запроса.</param>
+            <returns>Объект ответа.</returns>
+        </member>
+        <member name="M:Terrasoft.Nui.ServiceModel.WebService.DataService.Post(Terrasoft.Nui.ServiceModel.DataContract.DeleteSysSettingRequest)">
+            <summary>
+            Удаляет системные настройки из базы данных.
+            </summary>
+            <param name="query">Объект запроса.</param>
+            <returns>Объект ответа.</returns>
+        </member>
+    </members>
+</doc>

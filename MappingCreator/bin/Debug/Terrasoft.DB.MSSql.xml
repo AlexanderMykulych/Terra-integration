@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Terrasoft.DB.MSSql</name>
+    </assembly>
+    <members>
+        <member name="M:Terrasoft.DB.MSSql.MSSqlEngine.BuildRowLockHintSqlText(System.Text.StringBuilder,Terrasoft.Core.DB.RowLockHint)">
+            <summary>
+            Формирует текст запроса табличного указания "Блокировка по записям".
+            </summary>
+            <param name="sb">Экземпляр <see cref="T:System.Text.StringBuilder"/>, с помощью которого формируется текст 
+            запроса.</param>
+            <param name="rowLockSqlHint">Табличное указание "Блокировка по записям".</param>
+        </member>
+    </members>
+</doc>

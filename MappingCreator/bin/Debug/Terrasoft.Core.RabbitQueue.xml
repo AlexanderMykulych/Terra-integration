@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Terrasoft.Core.RabbitQueue</name>
+    </assembly>
+    <members>
+        <member name="T:Terrasoft.Core.RabbitQueue.RabbitQueue">
+            <summary>
+            Представляет класс, который реализует работу очереди с помощью RabbitMQ.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Core.RabbitQueue.RabbitQueue.#ctor(System.Func{RabbitMQ.Client.ConnectionFactory})">
+            <summary>
+            Инициализирует экземпляр <see cref="T:RabbitMQ.Client.ConnectionFactory"/> с заданным алгоритмом для соединения с RabbitMQ.
+            </summary>
+            <param name="createConnectionFactoryFunc">Алгоритм, реализующий создание экземпляра 
+            <see cref="T:RabbitMQ.Client.ConnectionFactory"/> для соединения с RabbitMQ.</param>
+        </member>
+        <member name="M:Terrasoft.Core.RabbitQueue.RabbitQueue.#ctor">
+            <summary>
+            Инициализирует экземпляр <see cref="T:RabbitMQ.Client.ConnectionFactory"/> с алгоритмом,
+            заданным по умолчанию для соединения с RabbitMQ.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Core.RabbitQueue.RabbitQueue.Dispose">
+            <summary>
+            Освобождает ресурсы.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Core.RabbitQueue.RabbitQueue.FlowEngineInstance">
+            <summary>
+            Инициализирует и возвращает экземпляр <see cref="T:Terrasoft.Core.RabbitQueue.RabbitQueueItem"/>
+            для общения с очередью на стороне исполнения схемы бизнес-процесса.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Core.RabbitQueue.RabbitQueue.TaskExecutorInstance">
+            <summary>
+            Инициализирует и возвращает экземпляр <see cref="T:Terrasoft.Core.RabbitQueue.RabbitQueueItem"/>
+            для общения с очередью на стороне исполнения задач бизнес-процесса.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Core.RabbitQueue.RabbitQueue.IsExternalQueue">
+            <summary>
+            Флаг, сообщающий, что очередь служит для распределенного режима обработки бизнес-процессов.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Core.RabbitQueue.RabbitQueueConfigSection">
+            <summary>
+            Представляет набор свойств для настройки подключения к RabbitMQ.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Core.RabbitQueue.RabbitQueueConfigSection.Settings">
+            <summary>
+            Инициализирует все конфигурационные свойства.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Core.RabbitQueue.RabbitQueueConfigSection.HostName">
+            <summary>
+            Имя или ip адрес RabbitMQ сервера.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Core.RabbitQueue.RabbitQueueConfigSection.UserName">
+            <summary>
+            Имя пользователя для соединения с сервером RabbitMQ.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Core.RabbitQueue.RabbitQueueConfigSection.Password">
+            <summary>
+            Пароль для соединения с сервером RabbitMQ.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Core.RabbitQueue.RabbitQueueConfigSection.SendQueueName">
+            <summary>
+            Наименование очереди, куда будут отправляться пакеты со стороны исполнителя схемы бизнес-процесса.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Core.RabbitQueue.RabbitQueueConfigSection.ReceiveQueueName">
+            <summary>
+            Наименование очереди, откуда будут приходить пакеты со стороны исполнителя схемы бизнес-процесса.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Core.RabbitQueue.RabbitQueueItem">
+            <summary>
+            Представляет класс, который реализует возможность общения с очередью при помощи RabbitMQ.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Core.RabbitQueue.RabbitQueueItem.#ctor(System.String,System.String,RabbitMQ.Client.ConnectionFactory)">
+            <summary>
+            Осуществляет подключение к серверу RabbitMQ и создает очереди для 
+            отправки и принятия сообщений, если таковые отсутствуют.
+            </summary>
+            <param name="sendChannelName">Наименование очереди, в которую будут отправляться пакеты.</param>
+            <param name="receiveChannelName">Наименование очереди, из которой будут приходить пакеты.</param>
+            <param name="connectionFactory">
+            Экземпляр класса настроек, необходимых для подключения к серверу RabbitMQ.
+            </param>
+        </member>
+        <member name="M:Terrasoft.Core.RabbitQueue.RabbitQueueItem.Send(Terrasoft.Core.Process.TaskServiceQueueItem,System.Byte)">
+            <summary>
+            Выполняет отправку сообщения.
+            </summary>
+            <param name="message">Сообщение <see cref="T:Terrasoft.Core.Process.TaskServiceQueueItem"/>.</param>
+            <param name="priority">Приоритет отправки сообщения. Значение по умолчанию - 0.</param>
+        </member>
+        <member name="M:Terrasoft.Core.RabbitQueue.RabbitQueueItem.Dispose">
+            <summary>
+            Закрывает подключение к RabbitMQ и освобождает ресурсы.
+            </summary>
+        </member>
+        <member name="E:Terrasoft.Core.RabbitQueue.RabbitQueueItem.ReceiveMessage">
+            <summary>
+            Событие, возникающее при получении нового сообщения.
+            </summary>
+        </member>
+        <member name="E:Terrasoft.Core.RabbitQueue.RabbitQueueItem.Error">
+            <summary>
+            Событие, возникающее в результате ошибки при отправке или получении сообщения.
+            </summary>
+        </member>
+    </members>
+</doc>

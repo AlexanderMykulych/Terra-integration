@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Terrasoft.Social</name>
+    </assembly>
+    <members>
+        <member name="F:Terrasoft.Social.Google.GoogleConsumer._consumerInfoServiceAccessInfoPageUri">
+            <summary>
+            Returns URI of social service AccessInfoPage.aspx.
+            </summary>
+            <value>URI of social service AccessInfoPage.aspx.</value>
+        </member>
+        <member name="M:Terrasoft.Social.Google.GoogleConsumer.AuthorizeUserInApp(System.String@,System.String@,System.String@)">
+            <summary>
+            Gets access tokens for user.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Social.Google.GoogleConsumer.UseSharedApplication">
+            <summary>
+            Returns boolean value of "Use shared Google application" system setting.
+            </summary>
+            <value>Boolean value of "Use shared Google application" system setting.</value>
+        </member>
+        <member name="P:Terrasoft.Social.Google.GoogleConsumer.ConsumerKey">
+            <summary>
+            Returns google application consumer key.
+            </summary>
+            <value>Consumer key.</value>
+        </member>
+        <member name="P:Terrasoft.Social.Google.GoogleConsumer.ConsumerSecret">
+            <summary>
+            Returns google application consumer secret.
+            </summary>
+            <value>Consumer secret.</value>
+        </member>
+        <member name="M:Terrasoft.Social.LinkedIn.LinkedInSocialNetwork.#ctor(System.String)">
+            <summary>
+            Используется только для тестов
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Social.ConsumerTokenManager.#ctor(System.String,System.String,Terrasoft.Social.SocialNetwork,Terrasoft.Core.Store.ICacheStore)">
+            <summary>
+            Используется только для тестов
+            </summary>
+        </member>
+    </members>
+</doc>

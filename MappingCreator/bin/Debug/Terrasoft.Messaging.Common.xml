@@ -1,0 +1,1050 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Terrasoft.Messaging.Common</name>
+    </assembly>
+    <members>
+        <member name="T:Terrasoft.Messaging.Common.MsgUtilService">
+            <summary>
+            Класс веб-сервиса сообщений.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.MsgUtilService.LogInMsgServer(Terrasoft.Messaging.Common.NewSessionParameters)">
+            <summary>
+            Авторизирует пользователя в сервисе сообщений.
+            </summary>
+            <param name="paramList">Параметры сессии.</param>
+            <returns>Возвращает новый уникальный идентификатор, если авторизация прошла успешно. Иначе - пустую строку.
+            </returns>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.MsgUtilService.UpdateCall(Terrasoft.Messaging.Common.Call)">
+            <summary>
+            Обновляет информацию о звонке в базе данных и временную метку последнего обновления.
+            </summary>
+            <param name="call">Звонок.</param>
+            <returns>Если обновление прошло успешно - идентификатор звонка в базе данных, иначе - сообщение об
+            ошибке.</returns>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.MsgUtilService.UpdateCallInfo(Terrasoft.Messaging.Common.Call)">
+            <summary>
+            Обновляет запись звонка в базе данных.
+            </summary>
+            <param name="callInfo">Звонок.</param>
+            <returns>Если обновление прошло успешно - идентификатор звонка в базе данных, иначе - сообщение об
+            ошибке.</returns>
+        </member>
+        <member name="T:Terrasoft.Messaging.Common.GeneralizedCallFeatures">
+            <summary>
+            Перечисление флагов доступных операций со звонком.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.GeneralizedCallFeatures.CanNothing">
+            <summary>
+            Нет доступных операций.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.GeneralizedCallFeatures.CanReCall">
+            <summary>
+            Перезвонить.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.GeneralizedCallFeatures.CanDial">
+            <summary>
+            Набрать номер.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.GeneralizedCallFeatures.CanAnswer">
+            <summary>
+            Ответить.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.GeneralizedCallFeatures.CanDrop">
+            <summary>
+            Завершить.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.GeneralizedCallFeatures.CanHold">
+            <summary>
+            Поставить на удержание.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.GeneralizedCallFeatures.CanUnHold">
+            <summary>
+            Снять с удержания.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.GeneralizedCallFeatures.CanSetupTransfer">
+            <summary>
+            Начать условный перевод.
+            </summary>
+            <remarks>Только TAPI</remarks>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.GeneralizedCallFeatures.CanCompleteTransfer">
+            <summary>
+            Завершить безусловный перевод.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.GeneralizedCallFeatures.CanBlindTransfer">
+            <summary>
+            Перевести безусловно.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.GeneralizedCallFeatures.CanMakeConsultCall">
+            <summary>
+            Совершить консультационный звонок.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.GeneralizedCallFeatures.CanDtmf">
+            <summary>
+            Отправить команду Dtmf.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Messaging.Common.GeneralizedCallStateEnum">
+            <summary>
+            Перечисление состояний звонка.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.GeneralizedCallStateEnum.None">
+            <summary>
+            Неактивен.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.GeneralizedCallStateEnum.Alerting">
+            <summary>
+            Дозвон входящий или исходящий.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.GeneralizedCallStateEnum.Connected">
+            <summary>
+            Соединение установлено.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.GeneralizedCallStateEnum.Holded">
+            <summary>
+            На удержании.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.GeneralizedCallStateEnum.Conferenced">
+            <summary>
+            В режиме конференции.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.GeneralizedCallStateEnum.Unknown">
+            <summary>
+            Неизвестное состояние.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.GeneralizedCallStateEnum.Busy">
+            <summary>
+            Занято.
+            </summary>
+            <remarks>Только TAPI.</remarks>
+        </member>
+        <member name="T:Terrasoft.Messaging.Common.CallDirection">
+            <summary>
+            Перечисление направлений звонка.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.CallDirection.Unknown">
+            <summary>
+            Направление не определено.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.CallDirection.Out">
+            <summary>
+            Исходящий звонок.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.CallDirection.In">
+            <summary>
+            Входящий звонок.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Messaging.Common.Call">
+            <summary>
+            Класс звонка библиотеки обмена сообщениями.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Messaging.Common.ITelephonyCall">
+            <summary>
+            Интерфейс провайдера звонка.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ITelephonyCall.MakeConsultCall(System.String)">
+            <summary>
+            Выполняет консультационный звонок.
+            </summary>
+            <param name="targetAddress">Номер, на который выполняется консультационный вызов.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ITelephonyCall.AnswerCall">
+            <summary>
+            Отвечает на звонок.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ITelephonyCall.HoldCall">
+            <summary>
+            Ставит либо снимает звонок с удержания.
+            </summary>
+            <remarks>Поведение зависит от текущего состояния звонка. Если звонок находится на удержании, то
+            производится снятие звонка с удержания. В противном случае - установка звонка на удержание.</remarks>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ITelephonyCall.DropCall">
+            <summary>
+            Завершает соединение.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ITelephonyCall.TransferCall(Terrasoft.Messaging.Common.Call)">
+            <summary>
+            Завершает условный (консультационный) перевод звонка.
+            </summary>
+            <param name="consultationCall">Консультационный звонок.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ITelephonyCall.SetupTransferCall">
+            <summary>
+            Выполняет подготовку звонка к условному переводу.
+            </summary>
+            <remarks>Только TAPI.</remarks>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ITelephonyCall.BlindTransferCall(System.String)">
+            <summary>
+            Выполняет безусловный (слепой) перевод звонка на заданный номер.
+            </summary>
+            <param name="targetAddress">Номер, на который переводится звонок.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.IDtmfSupported.SendDtmf(System.String)">
+            <summary>
+            Отправляет сигнал Dtmf.
+            </summary>
+            <param name="digits">Символы сигналов.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.Call.#ctor(System.String)">
+            <summary>
+            Инициализирует новый экземпляр <see cref="T:Terrasoft.Messaging.Common.Call"/>.
+            </summary>
+            <param name="id">Идентификатор звонка.</param>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.Call._callProvider">
+            <summary>
+            Провайдер звонка.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.Call.MakeConsultCall(System.String)">
+            <summary>
+            Выполнить консультационный звонок.
+            </summary>
+            <param name="targetAddress">Номер, на который выполняется консультационный вызов.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.Call.AnswerCall">
+            <summary>
+            Отвечает на звонок.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.Call.HoldCall">
+            <summary>
+            Ставит либо снимает звонок с удержания.
+            </summary>
+            <remarks>Поведение зависит от текущего состояния звонка. Если звонок находится на удержания, то
+            производится снятие звонка с удержания. В противном случае - установка звонка на удержание.</remarks>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.Call.DropCall">
+            <summary>
+            Завершить соединение.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.Call.TransferCall(Terrasoft.Messaging.Common.Call)">
+            <summary>
+            Завершает условный (консультационный) перевод звонка.
+            </summary>
+            <param name="consultationCall">Звонок, который был совершен консультанту (консультационный вызов).</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.Call.SetupTransferCall">
+            <summary>
+            Подготовка к условному перевода звонка.
+            </summary>
+            <remarks>Используется только в TAPI.</remarks>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.Call.BlindTransferCall(System.String)">
+            <summary>
+            Выполняет безусловный (слепой) перевод звонка на заданный номер.
+            </summary>
+            <param name="targetAddress">Номер, на который переводится звонок.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.Call.SendDtmf(System.String)">
+            <summary>
+            Отправляет сигнал Dtmf.
+            </summary>
+            <param name="digits">Символы сигналов.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.Call.Equals(Terrasoft.Messaging.Common.Call)">
+            <summary>
+            Сравнивает текущий звонок с заданным.
+            </summary>
+            <param name="other">Звонок, с которым сравнивается текущий.</param>
+            <returns><c>true</c>, если звонки идентичны, иначе - <c>false</c>.</returns>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.Call.Id">
+            <summary>
+            Идентификатор звонка.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.Call.DataBaseUId">
+            <summary>
+            Идентификатор звонка в базе данных.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.Call.UserContactUId">
+            <summary>
+            Идентификатор контакта пользователя, который обрабатывает звонок.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.Call.CallFeaturesSet">
+            <summary>
+            Набор флагов <see cref="T:Terrasoft.Messaging.Common.GeneralizedCallFeatures"/> доступных операций со звонком.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.Call.DeviceId">
+            <summary>
+            Идентификатор устройства, которое обрабатывает звонок.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.Call.CallerId">
+            <summary>
+            Номер абонента, который инициировал звонок.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.Call.CalledId">
+            <summary>
+            Номе абонента, который принял звонок.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.Call.Direction">
+            <summary>
+            Направление звонка.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.Call.CallContext">
+            <summary>
+            Контекст звонка.
+            </summary>
+            <remarks>Дополнительная информация по звонку.</remarks>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.Call.CallContextType">
+            <summary>
+            Тип контекста звонка.
+            </summary>
+            <remarks>Типизирует контекст звонка.</remarks>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.Call.StartTime">
+            <summary>
+            Время начала звонка.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.Call.EndTime">
+            <summary>
+            Время завершения звонка.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.Call.State">
+            <summary>
+            Состояние звонка.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.Call.OldState">
+            <summary>
+            Предыдущее состояние звонка.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.Call.CurrentHoldStartTime">
+            <summary>
+            Время последней установки звонка на удержание.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.Call.TotalHoldDuration">
+            <summary>
+            Продолжительность (в секундах) звонка на удержании.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.Call.ConnectionStartTime">
+            <summary>
+            Время установки соединения с абонентом.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.Call.CurrentTalkStartTime">
+            <summary>
+            Время начала последнего разговора по звонку.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.Call.TotalTalkDuration">
+            <summary>
+            Продолжительность (в секундах) звонка в режиме разговора.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.Call.RedirectingId">
+            <summary>
+            Номер абонента, который перевел звонок.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.Call.RedirectionId">
+            <summary>
+            Номер абонента, на которого перевели звонок.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.Call.TimeStamp">
+            <summary>
+            Последняя временная метка звонка.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Messaging.Common.ActiveCallCollection">
+            <summary>
+            Коллекция активных звонков <see cref="T:Terrasoft.Messaging.Common.Call"/>.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.ActiveCallCollection.CallExpireDuration">
+            <summary>
+            Максимальное время жизни записи звонка в хранилище (минут).
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ActiveCallCollection.#ctor(Terrasoft.Core.UserConnection)">
+            <summary>
+            Инициализирует новый экземпляр <see cref="T:Terrasoft.Messaging.Common.ActiveCallCollection"/>.
+            </summary>
+            <param name="userConnection">Пользовательское соединение.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ActiveCallCollection.#ctor(Terrasoft.Core.UserConnection,System.String)">
+            <summary>
+            Инициализирует новый экземпляр <see cref="T:Terrasoft.Messaging.Common.ActiveCallCollection"/> для заданного номера абонента.
+            </summary>
+            <param name="userConnection">Пользовательское соединение.</param>
+            <param name="abonentId">Номер абонента.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ActiveCallCollection.#ctor(Terrasoft.Core.UserConnection,System.Guid)">
+            <summary>
+            Инициализирует новый экземпляр <see cref="T:Terrasoft.Messaging.Common.ActiveCallCollection"/> для заданного контакта пользователя.
+            </summary>
+            <param name="userConnection">Пользовательское соединение.</param>
+            <param name="userContactId">Идентификатор контакта пользователя.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ActiveCallCollection.ClearExpiredCalls">
+            <summary>
+            Очищает просроченные (зависшие) звонки.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ActiveCallCollection.UpdateCallTable(Terrasoft.Messaging.Common.Call)">
+            <summary>
+            Создает или обновляет запись звонка в базе данных.
+            </summary>
+            <param name="callListItem">Экземпляр коллекции активных звонков.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ActiveCallCollection.SaveNewCallInDB(Terrasoft.Messaging.Common.Call,Terrasoft.Core.Entities.Entity)">
+            <summary>
+            Создает запись звонка в базе данных.
+            </summary>
+            <param name="callListItem">Экземпляр коллекции активных звонков.</param>
+            <param name="callEntity">Объект звонка.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ActiveCallCollection.UpdateCallInDB(Terrasoft.Messaging.Common.Call,Terrasoft.Core.Entities.Entity)">
+            <summary>
+            Обновляет запись звонка в базе данных.
+            </summary>
+            <param name="callListItem">Экземпляр коллекции активных звонков.</param>
+            <param name="callEntity">Объект звонка.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ActiveCallCollection.GetStoreKey">
+            <summary>
+            Возвращает ключ в хранилище для текущей коллекции активных звонков.
+            </summary>
+            <returns>Hash-ключ в хранилище активных звонков.</returns>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ActiveCallCollection.RemoveCall(System.Guid)">
+            <summary>
+            Удаляет звонок из коллекции активных звонков.
+            </summary>
+            <param name="callUId">Идентификатор звонка в базе данных.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ActiveCallCollection.LoadState">
+            <summary>
+            Загружает коллекцию активных звонков из хранилища.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ActiveCallCollection.RefreshWithCallInfoPortion(Terrasoft.Messaging.Common.Call)">
+            <summary>
+            Обновляет свойства активного звонка на основании заданного экземпляра звонка.
+            </summary>
+            <param name="updateCall">Экземпляр звонка, на основании которого нужно выполнить обновление.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ActiveCallCollection.SaveState">
+            <summary>
+            Сохраняет текущую коллекцию активных звонков в хранилище.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Messaging.Common.ActiveCallSnapshot">
+            <summary>
+            Класс, представляющий снимок активных звонков соединения библиотеки обмена сообщениями.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ActiveCallSnapshot.SerializeToString">
+            <summary>
+            Сериализирует звонок в строку.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.ActiveCallSnapshot.ActiveCalls">
+            <summary>
+            Массив активных звонков.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.ActiveCallSnapshot.CurrentCall">
+            <summary>
+            Основной активный звонок.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Messaging.Common.MsgEventType">
+            <summary>
+            Перечисление событий библиотеки обмена сообщениями.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgEventType.None">
+            <summary>
+            Не определено.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgEventType.LibraryInitialized">
+            <summary>
+            Библиотека инициализирована.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgEventType.ConnectionCreated">
+            <summary>
+            Соединение установлено.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgEventType.Error">
+            <summary>
+            Получена ошибка.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgEventType.CommandInfo">
+            <summary>
+            Результат выполнения команды.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgEventType.RingStarted">
+            <summary>
+            Начался звонок.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgEventType.RingFinished">
+            <summary>
+            Завершился звонок.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgEventType.CommutationStarted">
+            <summary>
+            Установлено соединение с абонентом.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgEventType.PutHoldAction">
+            <summary>
+            Абонент установлен на удержание.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgEventType.EndHoldAction">
+            <summary>
+            Абонент снят с удержания.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgEventType.ActiveCallSnapshot">
+            <summary>
+            Получен список активных звонков.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgEventType.LineStateChanged">
+            <summary>
+            Изменилось состояние линии (набор доступных операций со звонком).
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgEventType.AgentStateChanged">
+            <summary>
+            Изменилось состояние агента.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgEventType.AbonentBusy">
+            <summary>
+            Абонент установлен в состояние Занят.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgEventType.Disconnected">
+            <summary>
+            Соединение разорвано.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgEventType.CallSavedInDb">
+            <summary>
+            Звонок сохранен в базе данных.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgEventType.RawData">
+            <summary>
+            Низкоуровневые данные получены.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgEventType.CallInfoChanged">
+            <summary>
+            Изменились данные звонка.
+            </summary>
+            <remarks>Соответствие старому звонку производится по <see cref="P:Terrasoft.Messaging.Common.Call.DataBaseUId"/>.</remarks>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgEventType.DtmfEntered">
+            <summary>
+            Отправлены символы Dtmf.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Messaging.Common.MsgErrorType">
+            <summary>
+            Перечисление типов ошибок библиотеки обмена сообщениями.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgErrorType.GeneralError">
+            <summary>
+            Общая ошибка.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgErrorType.LoadLibraryError">
+            <summary>
+            Ошибка загрузки библиотеки.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgErrorType.OpenConnectionError">
+            <summary>
+            Ошибка открытия подключения.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgErrorType.CommandError">
+            <summary>
+            Ошибка выполнения команды.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgErrorType.CommandNotImplementedError">
+            <summary>
+            Команда не реализована.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgErrorType.CallCentreNotAvailableError">
+            <summary>
+            Сервер телефонии не доступен.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgErrorType.AuthenticationError">
+            <summary>
+            Ошибка аутентификации (неверный логин или пароль).
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.MsgErrorType.CallSavingError">
+            <summary>
+            Ошибка сохранения звонка в БД.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Messaging.Common.OnMessageHandler">
+            <summary>
+            Делегат обработчика событий библиотеки обмена сообщениями.
+            </summary>
+            <param name="eventParams">Параметры события.</param>
+        </member>
+        <member name="T:Terrasoft.Messaging.Common.ConnectionCloseHandler">
+            <summary>
+            Делегат обработчика закрытия подключения библиотеки обмена сообщениями.
+            </summary>
+            <param name="connection">Подключение библиотеки обмена сообщениями.</param>
+        </member>
+        <member name="T:Terrasoft.Messaging.Common.IMsgConnectionFactory">
+            <summary>
+            Интерфейс фабрики подключений библиотеки обмена сообщениями.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Messaging.Common.IMsgLibrary">
+            <summary>
+            Интерфейс библиотеки обмена сообщениями.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.IMsgLibrary.Name">
+            <summary>
+            Полное название библиотеки обмена сообщениями.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.IMsgLibrary.IsActive">
+            <summary>
+            Признак активности библиотеки обмена сообщениями.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.IMsgLibrary.MsgServer">
+            <summary>
+            Ссылка на объект сервера обмена сообщениями.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Messaging.Common.IMsgConnection">
+            <summary>
+            Интерфейс подключения сервиса сообщений.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.IMsgConnection.LibrarySpecificService(System.String,System.String)">
+            <summary>
+            Выполняет специфичный для данного коннектора сервис телефонии.
+            </summary>
+            <param name="serviceName">Код названия сервиса.</param>
+            <param name="serviceParams">Сериализированные параметры сервиса.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.IMsgConnection.SetMsgUserState(System.String,System.String)">
+            <summary>
+            Устанавливает состояние и причину изменения состояния.
+            </summary>
+            <param name="code">Код состояния.</param>
+            <param name="reason">Причина изменения состояния.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.IMsgConnection.QueryMsgUserState">
+            <summary>
+            Запрашивает текущее состояние пользователя.
+            </summary>
+            <remarks>Инициирует отправку команды <see cref="F:Terrasoft.Messaging.Common.MsgEventType.AgentStateChanged"/>.</remarks>
+        </member>
+        <member name="T:Terrasoft.Messaging.Common.IMsgCommandProcessor">
+            <summary>
+            Интерфейс процессора команд сообщений.
+            </summary>
+            <remarks>Описывает интерфейс классов, которые обрабатывают команды сервиса сообщений.</remarks>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.IMsgCommandProcessor.ProcessMsgCommand(Terrasoft.Messaging.Common.MsgCommandInfo)">
+            <summary>
+            Обрабатывает команду, отправленную клиентом сервису телефонии.
+            </summary>
+            <param name="msgCommand">Команда сервиса сообщений.</param>
+        </member>
+        <member name="T:Terrasoft.Messaging.Common.ILicenseAbleLibrary">
+            <summary>
+            Интерфейс библиотеки сервиса сообщений, которая подлежит лицензированию.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ILicenseAbleLibrary.GetLicInfo">
+            <summary>
+            Возвращает лицензионные операции текущего коннектора.
+            </summary>
+            <returns>Коды лицензионных операций текущего коннектора.</returns>
+        </member>
+        <member name="T:Terrasoft.Messaging.Common.ITelephonyConnection">
+            <summary>
+            Интерфейс подключения к телефонии библиотеки обмена сообщениями.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ITelephonyConnection.CloseConnection">
+            <summary>
+            Закрывает подключение к серверу телефонии и высвобождает ресурсы.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ITelephonyConnection.MakeCall(System.String)">
+            <summary>
+            Инициирует звонок по заданному номеру.
+            </summary>
+            <param name="targetAddress">Номер, по которому инициируется звонок.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ITelephonyConnection.Hookup">
+            <summary>
+            Поднимает трубку.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ITelephonyConnection.SetDnd">
+            <summary>
+            Устанавливает состояние "Не беспокоить".
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ITelephonyConnection.SetDndForAddress(System.String)">
+            <summary>
+            Устанавливает состояние "Не беспокоить" для линии.
+            </summary>
+            <param name="targetAddress">Линия, для которой необходимо установить состояние "Не беспокоить".</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ITelephonyConnection.QueryLineState">
+            <summary>
+            Запрашивает текущее состояние линии.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ITelephonyConnection.QueryCallState(Terrasoft.Messaging.Common.Call)">
+            <summary>
+            Запрашивает текущее состояние звонка.
+            </summary>
+            <remarks>В ответ сервис отправляет сериализованную копию звонка.</remarks>
+            <param name="call">Звонок.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ITelephonyConnection.QueryActiveCallSnapshot">
+            <summary>
+            Запрашивает коллекцию текущих звонков.
+            </summary>
+            <remarks>В случае успешного выполнения генерируется событие <see cref="F:Terrasoft.Messaging.Common.MsgEventType.ActiveCallSnapshot"/>.
+            </remarks>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ITelephonyConnection.SetCallCustomContext(Terrasoft.Messaging.Common.Call,System.String,System.String)">
+            <summary>
+            Устанавливает контекстную информацию по звонку.
+            </summary>
+            <param name="call">Звонок.</param>
+            <param name="contentTypeName">Тип контекстной информации.</param>
+            <param name="content">Контекстная информация.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ITelephonyConnection.SetCallProvider(Terrasoft.Messaging.Common.Call)">
+            <summary>
+            Устанавливает провайдер <see cref="T:Terrasoft.Messaging.Common.ITelephonyCall"/> для данного звонка.
+            </summary>
+            <param name="call">Звонок.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ITelephonyConnection.CancelTransfer(Terrasoft.Messaging.Common.Call,Terrasoft.Messaging.Common.Call)">
+            <summary>
+            Отменяет условный перевод звонка.
+            </summary>
+            <param name="currentCall">Основной звонок.</param>
+            <param name="consultCall">Консультационный звонок.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.ITelephonyConnection.SetWrapUpUserState(System.Boolean)">
+            <summary>
+            Устанавливает состояние постообработки.
+            </summary>
+            <param name="isWrapUpActive">Признак активного состояния постообработки.</param>
+        </member>
+        <member name="T:Terrasoft.Messaging.Common.IMsgEventInfo">
+            <summary>
+            Интерфейс события библиотеки обмена сообщениями.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.IMsgEventInfo.Connection">
+            <summary>
+            Подключение, которое является отправителем события.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.IMsgEventInfo.EventType">
+            <summary>
+            Тип события.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.IMsgEventInfo.ContentType">
+            <summary>
+            Тип данных события.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.IMsgEventInfo.CommandUId">
+            <summary>
+            Идентификатор команды, которая инициировала событие.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Messaging.Common.MsgEventInfo">
+            <summary>
+            Событие библиотеки обмена сообщениями.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.MsgEventInfo.#ctor">
+            <summary>
+            Инициализирует новый экземпляр класса <see cref="T:Terrasoft.Messaging.Common.MsgEventInfo"/>.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.MsgEventInfo.Connection">
+            <summary>
+            Подключение, которое является отправителем события.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.MsgEventInfo.ConnectionUId">
+            <summary>
+            Идентификатор подключения <see cref="P:Terrasoft.Messaging.Common.MsgEventInfo.Connection"/>.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.MsgEventInfo.LibraryUId">
+            <summary>
+            Идентификатор библиотеки обмена сообщениями, которая инициировала событие.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.MsgEventInfo.CommandUId">
+            <summary>
+            Идентификатор команды, которая инициировала событие.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.MsgEventInfo.EventType">
+            <summary>
+            Тип события.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.MsgEventInfo.Content">
+            <summary>
+            Данные события.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.MsgEventInfo.ContentType">
+            <summary>
+            Тип данных события.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.MsgEventInfo.PrivateData">
+            <summary>
+            Дополнительные параметры события.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.MsgEventInfo.ResultData">
+            <summary>
+            Сериализированное представление события.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Messaging.Common.TelephonyConnectionBase">
+            <summary>
+            Базовый класс подключения телефонии.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.TelephonyConnectionBase.CallTypeName">
+            <summary>
+            Полное название типа звонка библиотеки обмена сообщениями.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.TelephonyConnectionBase.MsgErrorInfoTypeName">
+            <summary>
+            Название типа для информации об ошибке библиотеки обмена сообщениями.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Messaging.Common.TelephonyConnectionBase.ActiveCallSnapshotTypeName">
+            <summary>
+            Названия типа для коллекции текущих звонков.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.TelephonyConnectionBase.DecryptPassword(System.String)">
+            <summary>
+            Выполняет расшифровку пароля, необходимого для авторизации пользователя на сервере телефонии.
+            </summary>
+            <param name="password">Зашифрованный пароль.</param>
+            <returns>Расшифрованный пароль.</returns>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.TelephonyConnectionBase.SendError(System.String,System.String)">
+            <summary>
+            Отправляет сообщение об ошибке на клиент.
+            </summary>
+            <param name="message">Сообщение об ошибке.</param>
+            <param name="errorCode">Код ошибки.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.TelephonyConnectionBase.SendCallMsgEvent(Terrasoft.Messaging.Common.Call,Terrasoft.Messaging.Common.MsgEventType,System.Boolean)">
+            <summary>
+            Отправляет сообщение об изменении состояния звонка, сохраняя звонок в базе данных.
+            </summary>
+            <param name="call">Звонок.</param>
+            <param name="eventType">Тип события.</param>
+            <param name="skipSaveDb">Не сохранять звонок в БД.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.TelephonyConnectionBase.SendLineFeatures(Terrasoft.Messaging.Common.GeneralizedCallFeatures,System.String)">
+            <summary>
+            Отправляет сообщение об изменении доступных операций на линии.
+            </summary>
+            <param name="lineFeatures">Перечисление флагов доступных операций.</param>
+            <param name="callId">Идентификатор звонка.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.TelephonyConnectionBase.LogDebug(System.String)">
+            <summary>
+            Записывает в лог отладочное сообщение.
+            </summary>
+            <param name="value">Отладочное сообщение.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.TelephonyConnectionBase.LogDebug(System.String,System.Object[])">
+            <summary>
+            Записывает в лог отладочное сообщение.
+            </summary>
+            <param name="value">Строка составного формата с отладочной информацией.</param>
+            <param name="args">Параметры формата сообщения.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.TelephonyConnectionBase.LogError(System.String)">
+            <summary>
+            Записывает в лог сообщение об ошибке.
+            </summary>
+            <param name="value">Сообщение об ошибке.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.TelephonyConnectionBase.LogError(System.String,System.Object[])">
+            <summary>
+            Записывает в лог сообщение об ошибке.
+            </summary>
+            <param name="value">Строка составного формата с сообщением об ошибке.</param>
+            <param name="args">Параметры формата сообщения.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.TelephonyConnectionBase.LogError(System.Exception,System.String,System.Object[])">
+            <summary>
+            Записывает в лог сообщение об ошибке, включающее информацию об исключении, которое вызвало эту ошибку.
+            </summary>
+            <param name="e">Исключение по данной ошибке.</param>
+            <param name="value">Строка составного формата с сообщением об ошибке.</param>
+            <param name="args">Параметры формата сообщения.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.TelephonyConnectionBase.ClearMsgEventHandlers">
+            <summary>
+            Отписывает web-socket соединения от события <see cref="E:Terrasoft.Messaging.Common.TelephonyConnectionBase.OnMessage"/> подключения телефонии.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.TelephonyConnectionBase.ResetCloseConnectionTimer">
+            <summary>
+            Выполняет сброс таймера подключения.
+            </summary>
+            <remarks>Таймер отсчитывает время, которое клиент не имел web-socket связи с текущим
+            подключением.</remarks>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.TelephonyConnectionBase.CloseConnection">
+            <summary>
+            Закрывает подключение к серверу телефонии и высвобождает ресурсы.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.TelephonyConnectionBase.Dispose">
+            <summary>
+            Выполняет удаление, высвобождение и сброс ресурсов.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.TelephonyConnectionBase.MsgSessionUId">
+            <summary>
+            Идентификатор сессии подключения.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.TelephonyConnectionBase.IsActive">
+            <summary>
+            Признак активности подключения.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.TelephonyConnectionBase.MsgLibrary">
+            <summary>
+            Ссылка на библиотеку обмена сообщениями.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.TelephonyConnectionBase.UserUId">
+            <summary>
+            Идентификатор пользователя в базе данных, который инициировал данное подключения.
+            </summary>
+        </member>
+        <member name="P:Terrasoft.Messaging.Common.TelephonyConnectionBase.UserContactUId">
+            <summary>
+            Идентификатор контакта пользователя в базе данных, который инициировал данное подключения.
+            </summary>
+        </member>
+        <member name="E:Terrasoft.Messaging.Common.TelephonyConnectionBase.OnMessage">
+            <summary>
+            Событие срабатывает при отправке сообщения на клиент текущим подключением.
+            </summary>
+        </member>
+        <member name="T:Terrasoft.Messaging.Common.SimpleMsgCommandExecutor">
+            <summary>
+            Вспомогательный класс для выполнения команд библиотеки обмена сообщениями.
+            </summary>
+            <remarks>Для выполнения команд используется рефлексия.</remarks>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.SimpleMsgCommandExecutor.ExecuteMsgCommand(System.Object,Terrasoft.Messaging.Common.MsgCommandInfo)">
+            <summary>
+            Выполняет команду библиотеки обмена сообщениями.
+            </summary>
+            <param name="executor">Исполнитель команды. <remarks>Может быть, например, объект типа
+            <see cref="T:Terrasoft.Messaging.Common.TelephonyConnectionBase"/> или <see cref="T:Terrasoft.Messaging.Common.Call"/>.</remarks></param>
+            <param name="msgCommand">Команда библиотеки обмена сообщениями.</param>
+        </member>
+        <member name="M:Terrasoft.Messaging.Common.WebSocketServiceLayer.Initilize(System.Int32)">
+            <summary>
+            Инициализация сервиса веб-сокетов, при этом номер порта подключения формируется в зависимости от заданного
+            номера рабочего пространства.
+            </summary>
+            <param name="workspaceNumber">Номер рабочего пространства.</param>
+            <remarks>К номеру порта подключения клиента прибавляется номер рабочего пространства.</remarks>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

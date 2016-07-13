@@ -1,0 +1,20 @@
+<xliff version="1.2">
+<file original="options_manager_res.xml" datatype="x-icrm" source-language="en-US" target-language="en-US" category="CRM" product-name="CRMDesktop for Outlook" product-version="3.03.39.04">
+<header>
+</header>
+<body>
+<trans-unit id="opmanager-caption_fmt">
+<source>Настройки %s</source><target>%s - Options</target>
+</trans-unit>
+<trans-unit id="opmanager-ok_btn">
+<source>ОК</source><target>OK</target>
+</trans-unit>
+<trans-unit id="opmanager-cancel_btn">
+<source>Отмена</source><target>Cancel</target>
+</trans-unit>
+<trans-unit id="opmanager-apply_btn">
+<source>Применить</source><target>Apply</target>
+</trans-unit>
+</body>
+</file>
+</xliff>

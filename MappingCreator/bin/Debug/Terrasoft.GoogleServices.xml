@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Terrasoft.GoogleServices</name>
+    </assembly>
+    <members>
+        <member name="F:Terrasoft.GoogleServices.GoogleServicesUtilities._googleServerConnector">
+            <summary>
+            Returns instance of google serve connector.
+            </summary>
+            <value>Instance of google serve connector.</value>
+        </member>
+        <member name="F:Terrasoft.GoogleServices.GoogleServicesUtilities._googleConsumerInfo">
+            <summary>
+            Returns consumer information about google shared application.
+            </summary>
+            <value>Consumer information.</value>
+        </member>
+        <member name="F:Terrasoft.GoogleServices.GoogleServicesUtilities._consumerKey">
+            <summary>
+            Returns google shared application consumer key.
+            </summary>
+            <value>Consumer key.</value>
+        </member>
+        <member name="F:Terrasoft.GoogleServices.GoogleServicesUtilities._consumerSecret">
+            <summary>
+            Returns google shared application consumer secret.
+            </summary>
+            <value>Consumer secret.</value>
+        </member>
+        <member name="M:Terrasoft.GoogleServices.GoogleServicesUtilities.GetSysSettingValue``1(System.String)">
+            <summary>
+            Returns system setting value.
+            <param name="code">System setting code.</param>
+            </summary>
+            <returns>System setting value.</returns>
+        </member>
+        <member name="M:Terrasoft.GoogleServices.GoogleServicesUtilities.GetConsumerInfo">
+            <summary>
+            Returns consumer information about google shared application.
+            </summary>
+            <returns>Consumer information.</returns>
+        </member>
+        <member name="P:Terrasoft.GoogleServices.GoogleServicesUtilities.UseSharedApplication">
+            <summary>
+            Returns boolean value of "Use shared Google application" system setting.
+            </summary>
+            <value>Boolean value of "Use shared Google application" system setting.</value>
+        </member>
+    </members>
+</doc>

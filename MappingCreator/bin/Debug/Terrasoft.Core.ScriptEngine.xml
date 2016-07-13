@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Terrasoft.Core.ScriptEngine</name>
+    </assembly>
+    <members>
+        <member name="T:Terrasoft.Core.ScriptEngine.DynamicExpressoEngine">
+            <summary>
+            Класс, реализующий исполнение выражений.
+            </summary>
+        </member>
+        <member name="F:Terrasoft.Core.ScriptEngine.DynamicExpressoEngine._delegateCache">
+            <summary>
+            Словарь выполненных выражений.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Core.ScriptEngine.DynamicExpressoEngine.#ctor">
+            <summary>
+            Инициализирует новый экземпляр класса <see cref="T:Terrasoft.Core.ScriptEngine.DynamicExpressoEngine"/>.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.Core.ScriptEngine.DynamicExpressoEngine.Eval``1(System.String)">
+            <summary>
+            Выполняет выражение, возвращающее результат указанного типа данных.
+            </summary>
+            <typeparam name="T">Тип данных, который должно вернуть выражение.</typeparam>
+            <param name="expression">Текст выражения.</param>
+            <returns>Результат выполнения выражения.</returns>
+        </member>
+        <member name="M:Terrasoft.Core.ScriptEngine.DynamicExpressoEngine.Eval(System.String)">
+            <summary>
+            Выполняет выражение, возвращающее результат типа <see cref="T:System.Object"/>.
+            </summary>
+            <param name="expression">Текст выражения.</param>
+            <returns>Результат выполнения выражения с типом данных <see cref="T:System.Object"/>.</returns>
+        </member>
+        <member name="M:Terrasoft.Core.ScriptEngine.DynamicExpressoEngine.SetVariable(System.String,System.Object)">
+            <summary>
+            Устанавливает переменной с указанным именем переданное значение.
+            </summary>
+            <param name="name">Имя переменной.</param>
+            <param name="value">Значение переменной.</param>
+        </member>
+        <member name="M:Terrasoft.Core.ScriptEngine.DynamicExpressoEngine.SetVariable(System.String,System.Object,System.Type)">
+            <summary>
+            Устанавливает переменной с указанным именем и типом переданное значение.
+            </summary>
+            <param name="name">Имя переменной.</param>
+            <param name="value">Значение переменной.</param>
+            <param name="type">Тип значения переменной.</param>
+        </member>
+        <member name="M:Terrasoft.Core.ScriptEngine.DynamicExpressoEngine.AddReference(System.Type)">
+            <summary>
+            Добавляет ссылку на тип, используемый в выражении.
+            </summary>
+            <param name="type">Тип.</param>
+        </member>
+        <member name="M:Terrasoft.Core.ScriptEngine.DynamicExpressoEngine.Validate(System.String,System.Type,System.String@)">
+            <summary>
+            Проверяет корректность выражения и возвращает сообщение об ошибке.
+            </summary>
+            <param name="expression">Текст выражения.</param>
+            <param name="resultType">Ожидаемый тип результата вычисления.</param>
+            <param name="result">
+            Строка с результатами проверки корректности выражения. Если выражение корректно, возвращается пустая строка.
+            </param>
+            <returns><c>true</c>, если выражение корректно; иначе - <c>false</c>.</returns>
+        </member>
+        <member name="M:Terrasoft.Core.ScriptEngine.DynamicExpressoEngine.Dispose">
+            <summary>
+            Освобождает ресурсы и выполняет завершающие действия над объектом класса.
+            </summary>
+        </member>
+    </members>
+</doc>

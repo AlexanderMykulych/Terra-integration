@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4D616B02-CB95-4283-977E-7178AE395D88}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MappingCreator</RootNamespace>
+    <AssemblyName>MappingCreator</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="ConfigManager\ConfigManager.cs" />
+    <Compile Include="ConfigManager\ConfigStructure\ConfigItem.cs" />
+    <Compile Include="ConfigManager\ConfigStructure\ConfigItemType.cs" />
+    <Compile Include="ConfigManager\ConfigStructure\MappingConfiguration.cs" />
+    <Compile Include="ConfigManager\ConfigStructure\PrepareConfig.cs" />
+    <Compile Include="ConfigManager\DynamicXmlParser.cs" />
+    <Compile Include="FileReader\ConfigFileReader.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormConnector\FormConnector.cs" />
+    <Compile Include="ObjectExtensions\ObjectExtension.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Terrasoft\GlobalConnector.cs" />
+    <Compile Include="Terrasoft\TerrasoftConnector.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Log4Net1213">
+      <HintPath>..\packages\Common.Logging.Log4Net1213.3.3.1\lib\net40\Common.Logging.Log4Net1213.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="RabbitMQ.Client">
+      <HintPath>..\QueryConsole\bin\Debug\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="SD.Tools.Algorithmia">
+      <HintPath>..\QueryConsole\bin\Debug\SD.Tools.Algorithmia.dll</HintPath>
+    </Reference>
+    <Reference Include="SD.Tools.BCLExtensions">
+      <HintPath>..\QueryConsole\bin\Debug\SD.Tools.BCLExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SD.Tools.OrmProfiler.Client.Core">
+      <HintPath>..\QueryConsole\bin\Debug\SD.Tools.OrmProfiler.Client.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SD.Tools.OrmProfiler.Interceptor">
+      <HintPath>..\QueryConsole\bin\Debug\SD.Tools.OrmProfiler.Interceptor.dll</HintPath>
+    </Reference>
+    <Reference Include="SD.Tools.OrmProfiler.Shared">
+      <HintPath>..\QueryConsole\bin\Debug\SD.Tools.OrmProfiler.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack">
+      <HintPath>..\QueryConsole\bin\Debug\ServiceStack.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Common, Version=3.9.33.0, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\QueryConsole\bin\Debug\ServiceStack.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Redis, Version=1.0.0.0, Culture=neutral, PublicKeyToken=eff946befc32edfc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\QueryConsole\bin\Debug\ServiceStack.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.ServiceInterface">
+      <HintPath>..\QueryConsole\bin\Debug\ServiceStack.ServiceInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text, Version=3.9.33.0, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\QueryConsole\bin\Debug\ServiceStack.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStackWrapper">
+      <HintPath>..\QueryConsole\bin\Debug\ServiceStackWrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpSvn, Version=1.8016.3866.130, Culture=neutral, PublicKeyToken=d729672594885a28, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SharpSvn.1.8-x64.1.8016.3866.130\lib\net40\SharpSvn.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpSvn.UI, Version=1.8016.3866.130, Culture=neutral, PublicKeyToken=33789aa53ca44aa9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SharpSvn.1.8-x64.1.8016.3866.130\lib\net40\SharpSvn.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.Common, Version=1.5.3.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\QueryConsole\bin\Debug\SuperSocket.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.SocketBase, Version=1.5.3.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\QueryConsole\bin\Debug\SuperSocket.SocketBase.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.SocketEngine, Version=1.5.3.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\QueryConsole\bin\Debug\SuperSocket.SocketEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperWebSocket">
+      <HintPath>..\QueryConsole\bin\Debug\SuperWebSocket.dll</HintPath>
+    </Reference>
+    <Reference Include="Svg">
+      <HintPath>..\QueryConsole\bin\Debug\Svg.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\QueryConsole\bin\Debug\System.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Terrasoft.Common, Version=7.7.0.2881, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Configuration">
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Core, Version=7.7.0.2881, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Core.Entities.Services">
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Core.Entities.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Core.Packages, Version=7.7.0.2881, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Core.Packages.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Core.RabbitQueue">
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Core.RabbitQueue.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Core.Scheduler, Version=7.7.0.2881, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Core.Scheduler.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Core.ScriptEngine">
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Core.ScriptEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Core.ServiceModelContract, Version=7.7.0.2881, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Core.ServiceModelContract.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.DB.MSSql, Version=7.7.0.2881, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.DB.MSSql.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.DB.Oracle, Version=7.7.0.2881, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.DB.Oracle.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.GoogleServerConnector">
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.GoogleServerConnector.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.GoogleServices">
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.GoogleServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Messaging.Common">
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Messaging.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Messaging.FlashPolicyService, Version=7.7.0.2881, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Messaging.FlashPolicyService.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Messaging.MicrosoftWSService">
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Messaging.MicrosoftWSService.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Messaging.SuperWSService">
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Messaging.SuperWSService.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Mobile, Version=7.7.0.2881, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Mobile.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Nui">
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Nui.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Nui.ServiceModel">
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Nui.ServiceModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Performance.Profiler">
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Performance.Profiler.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Redis, Version=7.7.0.2881, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Reports, Version=7.7.0.2881, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Reports.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Social">
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Social.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Store.WebAdapters, Version=7.7.0.2881, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Store.WebAdapters.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Svn">
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Svn.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Sync">
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Sync.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Tools.Common">
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Tools.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.UI.WebControls, Version=7.7.0.2881, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.UI.WebControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.Web.Common, Version=7.7.0.2881, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.Web.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.WebApp">
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.WebApp.dll</HintPath>
+    </Reference>
+    <Reference Include="Terrasoft.WebApp.Loader, Version=7.7.0.2881, Culture=neutral, PublicKeyToken=edaadfbc3b0bb879, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\QueryConsole\bin\Debug\Terrasoft.WebApp.Loader.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\QueryConsole\QueryConsole.csproj">
+      <Project>{bb4e58d7-fce2-454b-8850-7f3ff12cdb2c}</Project>
+      <Name>QueryConsole</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Designer\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

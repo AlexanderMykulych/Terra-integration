@@ -1,0 +1,39 @@
+<xliff version="1.2">
+<file original="ol_fm_controls_res.xml" datatype="x-icrm" source-language="en-US" target-language="en-US" category="CRM" product-name="CRMDesktop for Outlook" product-version="3.03.39.04">
+<header>
+</header>
+<body>
+<trans-unit id="picklist-null_label">
+<source>- Не выбрано -</source><target>- None -</target>
+</trans-unit>
+<trans-unit id="picklist-unavailable_item">
+<source>%s (элемент недоступен)</source><target>%s (unavailable item)</target>
+</trans-unit>
+<trans-unit id="shared_label">
+<source>Запись доступна для синхронизации с $remote_app_name$. Нажмите здесь, чтобы запись стала недоступна для синхронизации.</source><target>Shared with $remote_app_name$. Click here to stop sharing.</target>
+</trans-unit>
+<trans-unit id="not_shared_label">
+<source>Нажмите здесь, чтобы %s стала доступна для синхронизации с $remote_app_name$</source><target>Share %s with $remote_app_name$</target>
+</trans-unit>
+<trans-unit id="mvg-object_deleted">
+<source>Связи</source><target>Connected to</target>
+</trans-unit>
+<bin-unit id="lookup_button" mime-type="image/png; encoding=base64">
+<bin-source>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBI
+WXMAAA7EAAAOxAGVKw4bAAAAB3RJTUUH1wYHEAwkXehDgwAAAqNJREFUeNrFk11IU3EYxn/7n+Z0
+bqbmV+tDM8ssM1xIKpVU9AVdFBmRNyFGEUFdhARdBRVR3XRRREFgXwQZgQQFJtEHQiVWmkZlH6ut
+0RK33Nk8Oztn59+FCd0IXQQ9t+/7/HjhfR7431L+dlG/07L1yO6ajuKyxcmg6n4VDH6VAKRuNLZG
+brUum8yoXd052+w6dkdGfFK+vSb725o+e5cuL52YC0y1NSZcT42h7i+JBxfORM7vWgkQOrpqSvxi
+y0GlatsbZc3hTWQXQ+lmKnO0kobK3C319fUCgP6u7RcanzXJpCllRJNS/vwujZedYf+V058eDobk
+16iUCVNKMyXH1XNWdp/a0LfUW1sEIDxGyfUdQ0O8C8XQTRh1FKIsWZsT9DbP6QnYCagQ0SCR+n3z
+gkZqpmmV5R7XOgCRt/Hk47V5Ll+ucRxnGmgmmBaUzsyCeIwfcQtDQqb9N8BVyOPqGlFVFW32LqnN
+EgBKdMb1R/ctfCpIG+gWuJ0K+U4bw2GNnzqMGeNggJLKZrRZo/U5GUqtAIhOLbtR7HTT6YegavFN
+tdCkoHZRDh+/qARjMKJBwgQpYa5Szn41L61keuZqATB9/ZHBiujT3tyuc4R1CEQtPsQsRHo66aZO
+WE0ykoAMO9hGAvguHTD2PUi7++zzWLuY+GdagedaXbwTfyiJZinENMGoVKgozeZTII5qgvbkNh1H
+9/o3n+878X44uUfkZ7ywTQAGbh5y+F6/v6xbBSuMrEUFhi1/Ssg1H3e2E/G2m2qrN9XWM/i802+e
+cGcoXb29TzQA25+pq6tb6YwnpEdK5pUVZS5cnqV7PYZeIWTSdS7ovKeanDWS4Y8DAwPWhMc2WYQb
+GhrEWDRldzjE1DE96ch02MNFs4ri7e3t/7aNvwDhmTTw0+rVsgAAAABJRU5ErkJggg==</bin-source>
+</bin-unit>
+</body>
+</file>
+</xliff>

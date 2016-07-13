@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Terrasoft.UI.WebControls</name>
+    </assembly>
+    <members>
+        <member name="T:Terrasoft.UI.WebControls.ResourceHandlers.AppLevelResourceHandler">
+            <summary>Используется для получения ресурсов не требующих UserConnection</summary>
+        </member>
+        <member name="M:Terrasoft.UI.WebControls.ResourceHandlers.UserProfileResourceHandler.UpdateUserProfile(Terrasoft.Core.UserConnection,Terrasoft.UI.WebControls.ResourceHandlers.UserProfile,System.Guid)">
+            <summary>
+            Устанавливает новое значение профиля запись с таблицы профиля по идентификатору.
+            </summary>
+            <param name="userConnection">Пользовательское подключение.</param>
+            <param name="profile">Данные профиля пользователя.</param>
+            <param name="profileId">Идентификатор записи в таблице данных профиля.</param>
+        </member>
+        <member name="M:Terrasoft.UI.WebControls.ResourceHandlers.UserProfileResourceHandler.CreateUserProfile(Terrasoft.Core.UserConnection,Terrasoft.UI.WebControls.ResourceHandlers.UserProfile)">
+            <summary>
+            Создает новую запись в таблице профиля.
+            </summary>
+            <param name="userConnection">Пользовательское подключение.</param>
+            <param name="profile">Данные профиля пользователя.</param>
+        </member>
+        <member name="M:Terrasoft.UI.WebControls.ResourceHandlers.UserProfileResourceHandler.DeleteUserProfile(Terrasoft.Core.UserConnection,System.Guid)">
+            <summary>
+            Удаляет запись из таблицы профиля по идентификатору.
+            </summary>
+            <param name="userConnection">Пользовательское подключение.</param>
+            <param name="profileId">Идентификатор записи в таблице данных профиля.</param>
+        </member>
+        <member name="M:Terrasoft.UI.WebControls.ResourceHandlers.UserProfileResourceHandler.FindUserProfileId(Terrasoft.Core.UserConnection,Terrasoft.UI.WebControls.ResourceHandlers.UserProfile)">
+            <summary>
+            Возвращает идентификатор записи в таблице данных профиля.
+            </summary>
+            <param name="userConnection">Пользовательское подключение.</param>
+            <param name="profile">Профиль пользователя.</param>
+            <returns>Идентификатор записи в таблице данных профиля.</returns>
+        </member>
+        <member name="M:Terrasoft.UI.WebControls.ResourceHandlers.UserProfileResourceHandler.SaveUserProfile(Terrasoft.Core.UserConnection,Terrasoft.UI.WebControls.ResourceHandlers.UserProfile)">
+            <summary>
+            Сохраняет данные в профиль.
+            </summary>
+            <param name="userConnection">Пользовательское подключение.</param>
+            <param name="profile">Данные профиля пользователя.</param>
+            <remarks>Если данные в профиле не указаны, то профиль очищается.</remarks>
+        </member>
+        <member name="T:Terrasoft.UI.WebControls.Utilities.ProcessDataSourceFiltersConverter">
+            <summary>
+            Конвертер источников данных в элементах процессов.
+            </summary>
+        </member>
+        <member name="M:Terrasoft.UI.WebControls.Utilities.ProcessDataSourceFiltersConverter.ConvertToProcessDataSourceFilters(Terrasoft.Core.Process.ProcessActivity,System.Guid,System.String)">
+            <summary>
+            Конвертирует набор фильтров в формат процесса.
+            </summary>
+            <param name="processElement">Элемент процесса.</param>
+            <param name="entitySchemaUId">Идентификатор схемы объекта.</param>
+            <param name="dataSourceFilters">Набор фильтров.</param>
+            <returns>Набор фильтров в формате процесса.</returns>
+        </member>
+    </members>
+</doc>
